@@ -85,6 +85,11 @@ class Cv
         $this->ref = uniqid($this->title);
     }
 
+    public function __tostring()
+    {
+        return $this->ref;
+    }
+
     #[ORM\PrePersist]
     public function setCreatedAtValue()
     {

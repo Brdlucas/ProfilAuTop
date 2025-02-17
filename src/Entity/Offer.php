@@ -47,6 +47,11 @@ class Offer
         $this->ref = uniqid($this->title);
     }
 
+    public function __tostring()
+    {
+        return $this->title;
+    }
+
     #[ORM\PrePersist]
     public function setCreatedAtValue()
     {
