@@ -49,3 +49,13 @@ Profileautop est une application de création de CV basé sur une annonce d'empl
 Chemin : 
 Landing page -> inscription -> verification email 
                             -> connexion -> renseignements champs supplémentaires -> page profil -> options
+
+Controllers : 
+- UserController
+- FormationController
+- ExperienceController
+- CvController
+- OffreController
+- PageController
+- SecurityController
+- RegistrationController
