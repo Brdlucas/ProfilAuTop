@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CvRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Cv
 {
     #[ORM\Id]
@@ -81,6 +82,19 @@ class Cv
         $this->categories = new ArrayCollection();
         $this->experiences = new ArrayCollection();
         $this->formations = new ArrayCollection();
+        $this->ref = uniqid($this->title);
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue()
+    {
+        $this->created_at = new \DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    public function setUpdatedAtValue()
+    {
+        $this->updated_at = new \DateTimeImmutable;
     }
 
     public function getId(): ?int

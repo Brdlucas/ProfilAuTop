@@ -47,7 +47,7 @@ class Formation
     private ?string $level = null;
 
     #[ORM\Column]
-    private ?bool $is_graduated = null;
+    private bool $is_graduated = true;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $degree = null;
@@ -72,6 +72,7 @@ class Formation
     {
         $this->skills = new ArrayCollection();
         $this->cvs = new ArrayCollection();
+        $this->ref = uniqid($this->title);
     }
 
     public function getId(): ?int

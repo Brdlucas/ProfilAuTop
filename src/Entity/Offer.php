@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OfferRepository::class)]
+#[ORM\HasLifecycleCallbacks] 
 class Offer
 {
     #[ORM\Id]
@@ -25,7 +26,7 @@ class Offer
     private ?string $url = null;
 
     #[ORM\Column]
-    private ?bool $is_finished = null;
+    private bool $is_finished = false;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
@@ -43,6 +44,13 @@ class Offer
     public function __construct()
     {
         $this->cvs = new ArrayCollection();
+        $this->ref = uniqid($this->title);
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue()
+    {
+        $this->created_at = new \DateTimeImmutable();
     }
 
     public function getId(): ?int

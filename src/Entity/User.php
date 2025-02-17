@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[ORM\HasLifecycleCallbacks] 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -72,19 +73,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $portfolio_url = null;
 
     #[ORM\Column]
-    private ?bool $is_verified = null;
+    private bool $is_verified = false;
 
     #[ORM\Column]
-    private ?bool $is_gpdr = null;
+    private bool $is_gpdr = false;
 
     #[ORM\Column]
-    private ?bool $is_terms = null;
+    private bool $is_terms = false;
 
     #[ORM\Column]
-    private ?bool $is_major = null;
+    private bool $is_major = false;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $image = null;
+    private string $image = 'default.png';
 
     /**
      * @var Collection<int, LoginHistory>
@@ -123,6 +124,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->cvs = new ArrayCollection();
         $this->experiences = new ArrayCollection();
         $this->formations = new ArrayCollection();
+        $this->ref = uniqid($this->firstname . $this->lastname);
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue()
+    {
+        $this->created_at = new \DateTimeImmutable();
+        $this->updated_at = new \DateTimeImmutable;
+    }
+
+    #[ORM\PrePersist]
+    public function setUpdatedAtValue()
+    {
+        $this->updated_at = new \DateTimeImmutable;
     }
 
     public function getId(): ?int

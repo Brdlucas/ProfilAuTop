@@ -63,6 +63,7 @@ class Experience
     {
         $this->skills = new ArrayCollection();
         $this->cvs = new ArrayCollection();
+        $this->ref = uniqid($this->title);
     }
 
     public function getId(): ?int
