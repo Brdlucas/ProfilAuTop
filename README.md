@@ -44,3 +44,8 @@ Profileautop est une application de création de CV basé sur une annonce d'empl
   - /rgpd 
   - /cgu 
   - /mentions-legales 
+
+
+Chemin : 
+Landing page -> inscription -> verification email 
+                            -> connexion -> renseignements champs supplémentaires -> page profil -> options
