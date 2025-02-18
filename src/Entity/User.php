@@ -128,6 +128,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'client', cascade: ['persist', 'remove'])]
     private ?Subscription $subscription = null;
 
+    #[ORM\Column]
+    private ?int $strike = null;
+
     public function __construct()
     {
         $this->loginHistories = new ArrayCollection();
@@ -615,6 +618,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->subscription = $subscription;
+
+        return $this;
+    }
+
+    public function getStrike(): ?int
+    {
+        return $this->strike;
+    }
+
+    public function setStrike(int $strike): static
+    {
+        $this->strike = $strike;
 
         return $this;
     }
