@@ -20,12 +20,12 @@ class Category
     #[ORM\Column(length: 100)]
     #[Assert\Choice(
         choices: [
-            "Relationnelle",
-            "Gestion et Organisationnelle",
+            "Compétences relationnelles",
+            "Gestion et Organisation",
             "Intelligence émotionnelle",
             "Pensée critique et créativité",
             "Apprentissage et adaptabilité",
-            "Ethique et valeurs"
+            "Ethique et professionnalisme"
         ],
     )]
     private ?string $name = null;
