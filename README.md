@@ -82,3 +82,33 @@ Offres d'abonnement :
     - Intégration avec LinkedIn pour l'importation de profil
     - Suivi des candidatures
     - Support prioritaire
+
+## Création du CV :
+
+- Choix d'un template
+- Renseignement des champs :
+  - Informations personnelles =>
+    - nom : auto
+    - prénom : auto
+    - email : auto
+    - ville : select
+    - téléphone : select
+    - date de naissance : select
+    - permis : select
+    - langues : select
+  - Formation =>
+    - ajouter un diplôme existante : select
+    - creer une nouvelle expérience : select
+  - Expérience =>
+    - ajouter une expérience existante : select
+    - creer une nouvelle expérience : select
+  - Compétences =>
+    - compétences : select plusieurs propositions
+  - Savoir être =>
+    - savoir être : select plusieurs propositions
+- Génération du CV :
+  - L'IA reformule le CV pour qu'il passe les ATS
+  - Prompts pour ajouter des informations
+  - Création d'un fichier pdf
+  - Enregistrement dans la base de données
+- Téléchargement du CV
