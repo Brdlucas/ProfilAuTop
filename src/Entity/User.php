@@ -129,10 +129,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Subscription $subscription = null;
 
     #[ORM\Column]
-    private ?int $strike = null;
+    private int $strike = 0;
 
     #[ORM\Column]
-    private ?bool $is_updated = null;
+    private bool $is_updated = false;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_name_at = null;
