@@ -73,6 +73,9 @@ class Cv
     #[ORM\Column(length: 255)]
     private ?string $link = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
+
     public function __construct()
     {
         $this->cvHistories = new ArrayCollection();
@@ -322,6 +325,18 @@ class Cv
     public function setLink(string $link): static
     {
         $this->link = $link;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
 
         return $this;
     }
