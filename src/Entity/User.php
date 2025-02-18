@@ -59,6 +59,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $city = null;
 
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    private ?array $languages = null;
+
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    private ?array $pois = null;
+
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
@@ -303,6 +309,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getLanguages(): ?array
+    {
+        return $this->languages;
+    }
+
+    public function setLanguages(?array $languages): static
+    {
+        $this->languages = $languages;
+
+        return $this;
+    }
+
+    public function getPois(): ?array
+    {
+        return $this->pois;
+    }
+
+    public function setPois(?array $pois): static
+    {
+        $this->pois = $pois;
+
+        return $this;
+    }
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;
