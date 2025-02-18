@@ -119,6 +119,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isVerified = false;
 
+    #[ORM\OneToOne(mappedBy: 'client', cascade: ['persist', 'remove'])]
+    private ?Subscription $subscription = null;
+
     public function __construct()
     {
         $this->loginHistories = new ArrayCollection();
@@ -566,6 +569,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getSubscription(): ?Subscription
+    {
+        return $this->subscription;
+    }
+
+    public function setSubscription(Subscription $subscription): static
+    {
+        // set the owning side of the relation if necessary
+        if ($subscription->getClient() !== $this) {
+            $subscription->setClient($this);
+        }
+
+        $this->subscription = $subscription;
 
         return $this;
     }
