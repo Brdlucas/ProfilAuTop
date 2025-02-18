@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formation{% endblock %}
+
+{% block body %}
+    <h1>Formation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ formation.id }}</td>
+            </tr>
+            <tr>
+                <th>Ref</th>
+                <td>{{ formation.ref }}</td>
+            </tr>
+            <tr>
+                <th>Date_start</th>
+                <td>{{ formation.dateStart }}</td>
+            </tr>
+            <tr>
+                <th>Date_end</th>
+                <td>{{ formation.dateEnd }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ formation.title }}</td>
+            </tr>
+            <tr>
+                <th>Organization</th>
+                <td>{{ formation.organization }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ formation.description ? formation.description|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Postal_code</th>
+                <td>{{ formation.postalCode }}</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>{{ formation.city }}</td>
+            </tr>
+            <tr>
+                <th>Country</th>
+                <td>{{ formation.country }}</td>
+            </tr>
+            <tr>
+                <th>Level</th>
+                <td>{{ formation.level }}</td>
+            </tr>
+            <tr>
+                <th>Is_graduated</th>
+                <td>{{ formation.isGraduated ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Degree</th>
+                <td>{{ formation.degree }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_formation_index') }}">back to list</a>
+
+    <a href="{{ path('app_formation_edit', {'id': formation.id}) }}">edit</a>
+
+    {{ include('formation/_delete_form.html.twig') }}
+{% endblock %}
