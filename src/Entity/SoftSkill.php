@@ -20,6 +20,11 @@ class SoftSkill
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
+    public function __tostring()
+    {
+        return $this->name;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

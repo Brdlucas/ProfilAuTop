@@ -60,3 +60,4 @@ final class OfferController extends AbstractController{
         return $this->redirectToRoute('app_offer_index', [], Response::HTTP_SEE_OTHER);
     }
 }
+

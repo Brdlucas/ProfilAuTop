@@ -75,6 +75,11 @@ class Formation
         $this->ref = uniqid($this->title);
     }
 
+    public function __tostring()
+    {
+        return $this->title;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
