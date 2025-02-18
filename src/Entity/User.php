@@ -131,6 +131,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $strike = null;
 
+    #[ORM\Column]
+    private ?bool $is_updated = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updated_name_at = null;
+
     public function __construct()
     {
         $this->loginHistories = new ArrayCollection();
@@ -630,6 +636,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setStrike(int $strike): static
     {
         $this->strike = $strike;
+
+        return $this;
+    }
+
+    public function isUpdated(): ?bool
+    {
+        return $this->is_updated;
+    }
+
+    public function setIsUpdated(bool $is_updated): static
+    {
+        $this->is_updated = $is_updated;
+
+        return $this;
+    }
+
+    public function getUpdatedNameAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_name_at;
+    }
+
+    public function setUpdatedNameAt(\DateTimeImmutable $updated_name_at): static
+    {
+        $this->updated_name_at = $updated_name_at;
 
         return $this;
     }
