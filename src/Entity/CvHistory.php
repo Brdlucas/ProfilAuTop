@@ -18,15 +18,16 @@ class CvHistory
     #[ORM\JoinColumn(nullable: false)]
     private ?Cv $cv = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $link = null;
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $sent_at = null;
+    private ?\DateTimeInterface $date = null;
 
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -44,18 +45,6 @@ class CvHistory
         return $this;
     }
 
-    public function getLink(): ?string
-    {
-        return $this->link;
-    }
-
-    public function setLink(string $link): static
-    {
-        $this->link = $link;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -68,14 +57,14 @@ class CvHistory
         return $this;
     }
 
-    public function getSentAt(): ?\DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->sent_at;
+        return $this->date;
     }
 
-    public function setSentAt(\DateTimeInterface $sent_at): static
+    public function setDate(\DateTimeInterface $date): static
     {
-        $this->sent_at = $sent_at;
+        $this->date = $date;
 
         return $this;
     }

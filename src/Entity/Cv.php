@@ -30,12 +30,6 @@ class Cv
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $introduction = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private ?array $languages = null;
-
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private ?array $pois = null;
-
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $date_start = null;
 
@@ -75,6 +69,9 @@ class Cv
     #[ORM\ManyToOne(inversedBy: 'cvs')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $creator = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $link = null;
 
     public function __construct()
     {
@@ -151,30 +148,6 @@ class Cv
     public function setIntroduction(?string $introduction): static
     {
         $this->introduction = $introduction;
-
-        return $this;
-    }
-
-    public function getLanguages(): ?array
-    {
-        return $this->languages;
-    }
-
-    public function setLanguages(?array $languages): static
-    {
-        $this->languages = $languages;
-
-        return $this;
-    }
-
-    public function getPois(): ?array
-    {
-        return $this->pois;
-    }
-
-    public function setPois(?array $pois): static
-    {
-        $this->pois = $pois;
 
         return $this;
     }
@@ -337,6 +310,18 @@ class Cv
     public function setCreator(?User $creator): static
     {
         $this->creator = $creator;
+
+        return $this;
+    }
+
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    public function setLink(string $link): static
+    {
+        $this->link = $link;
 
         return $this;
     }

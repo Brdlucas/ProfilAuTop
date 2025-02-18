@@ -7,13 +7,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[ORM\HasLifecycleCallbacks] 
+#[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -57,6 +59,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $city = null;
 
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    private ?array $languages = null;
+
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    private ?array $pois = null;
+
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
@@ -71,9 +79,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $portfolio_url = null;
-
-    #[ORM\Column]
-    private bool $is_verified = false;
 
     #[ORM\Column]
     private bool $is_gpdr = false;
@@ -116,6 +121,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Formation::class, mappedBy: 'student', orphanRemoval: true)]
     private Collection $formations;
+
+    #[ORM\Column]
+    private bool $isVerified = false;
+
+    #[ORM\OneToOne(mappedBy: 'client', cascade: ['persist', 'remove'])]
+    private ?Subscription $subscription = null;
+
+    #[ORM\Column]
+    private ?int $strike = null;
+
+    #[ORM\Column]
+    private ?bool $is_updated = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updated_name_at = null;
 
     public function __construct()
     {
@@ -298,6 +318,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getLanguages(): ?array
+    {
+        return $this->languages;
+    }
+
+    public function setLanguages(?array $languages): static
+    {
+        $this->languages = $languages;
+
+        return $this;
+    }
+
+    public function getPois(): ?array
+    {
+        return $this->pois;
+    }
+
+    public function setPois(?array $pois): static
+    {
+        $this->pois = $pois;
+
+        return $this;
+    }
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;
@@ -354,18 +397,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPortfolioUrl(?string $portfolio_url): static
     {
         $this->portfolio_url = $portfolio_url;
-
-        return $this;
-    }
-
-    public function isVerified(): ?bool
-    {
-        return $this->is_verified;
-    }
-
-    public function setIsVerified(bool $is_verified): static
-    {
-        $this->is_verified = $is_verified;
 
         return $this;
     }
@@ -564,6 +595,71 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $formation->setStudent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getSubscription(): ?Subscription
+    {
+        return $this->subscription;
+    }
+
+    public function setSubscription(Subscription $subscription): static
+    {
+        // set the owning side of the relation if necessary
+        if ($subscription->getClient() !== $this) {
+            $subscription->setClient($this);
+        }
+
+        $this->subscription = $subscription;
+
+        return $this;
+    }
+
+    public function getStrike(): ?int
+    {
+        return $this->strike;
+    }
+
+    public function setStrike(int $strike): static
+    {
+        $this->strike = $strike;
+
+        return $this;
+    }
+
+    public function isUpdated(): ?bool
+    {
+        return $this->is_updated;
+    }
+
+    public function setIsUpdated(bool $is_updated): static
+    {
+        $this->is_updated = $is_updated;
+
+        return $this;
+    }
+
+    public function getUpdatedNameAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_name_at;
+    }
+
+    public function setUpdatedNameAt(\DateTimeImmutable $updated_name_at): static
+    {
+        $this->updated_name_at = $updated_name_at;
 
         return $this;
     }
