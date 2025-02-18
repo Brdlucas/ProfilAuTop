@@ -70,6 +70,9 @@ class Cv
     #[ORM\JoinColumn(nullable: false)]
     private ?User $creator = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $link = null;
+
     public function __construct()
     {
         $this->cvHistories = new ArrayCollection();
@@ -302,6 +305,18 @@ class Cv
     public function setCreator(?User $creator): static
     {
         $this->creator = $creator;
+
+        return $this;
+    }
+
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    public function setLink(string $link): static
+    {
+        $this->link = $link;
 
         return $this;
     }

@@ -18,9 +18,6 @@ class CvHistory
     #[ORM\JoinColumn(nullable: false)]
     private ?Cv $cv = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $link = null;
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
@@ -44,18 +41,6 @@ class CvHistory
     public function setCv(?Cv $cv): static
     {
         $this->cv = $cv;
-
-        return $this;
-    }
-
-    public function getLink(): ?string
-    {
-        return $this->link;
-    }
-
-    public function setLink(string $link): static
-    {
-        $this->link = $link;
 
         return $this;
     }
