@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\SoftSkill;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
@@ -16,6 +18,16 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\Choice(
+        choices: [
+            "Relationnelle",
+            "Gestion et Organisationnelle",
+            "Intelligence émotionnelle",
+            "Pensée critique et créativité",
+            "Apprentissage et adaptabilité",
+            "Ethique et valeurs"
+        ],
+    )]
     private ?string $name = null;
 
     /**
