@@ -59,3 +59,26 @@ Controllers :
 - PageController
 - SecurityController
 - RegistrationController
+
+Offres d'abonnement : 
+- Offre Gratuite "Essentiel" :
+    - Génération de CV basique avec IA
+    - 1 modèle de CV compatible ATS
+    - Stockage limité à 1 CV
+    - Conseils de base pour l'optimisation ATS
+  
+- Offre "Pro" (9,99€/mois) :
+    - Génération de CV avancée avec IA
+    - 5 modèles de CV compatibles ATS
+    - Stockage illimité de CV
+    - Analyse ATS approfondie
+    - Suggestions personnalisées pour l'optimisation
+    - Support par e-mail
+
+- Offre "Expert" (19,99€/mois) :
+    - Toutes les fonctionnalités de l'offre Pro
+    - Modèles de CV illimités et personnalisables
+    - Analyse ATS en temps réel
+    - Intégration avec LinkedIn pour l'importation de profil
+    - Suivi des candidatures
+    - Support prioritaire
