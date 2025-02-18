@@ -4,8 +4,12 @@ namespace App\DataFixtures;
 
 use Faker\Factory;
 use App\Entity\User;
+use App\Entity\Offer;
+use App\Entity\Skill;
 use App\Entity\Category;
+use App\Entity\Formation;
 use App\Entity\SoftSkill;
+use App\Entity\Experience;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -158,7 +162,6 @@ class AppFixtures extends Fixture
          $admin->setIsGpdr(true);
          $admin->setIsTerms(true);
          $admin->setIsMajor(true);
-         $admin->setImage('default.png');
          $admin->setIsVerified(true);
          $manager->persist($admin);
  
@@ -193,7 +196,6 @@ class AppFixtures extends Fixture
         $user1->setIsGpdr($faker->boolean());
         $user1->setIsTerms(true);
         $user1->setIsMajor(true);
-        $user1->setImage('default.png');
         $user1->setIsVerified(false);
         $manager->persist($user1);
 
@@ -226,7 +228,6 @@ class AppFixtures extends Fixture
         $user2->setIsGpdr($faker->boolean());
         $user2->setIsTerms(true);
         $user2->setIsMajor(true);
-        $user2->setImage('default.png');
         $user2->setIsVerified(true);
         $manager->persist($user2);
 
@@ -260,11 +261,173 @@ class AppFixtures extends Fixture
         $user3->setIsGpdr($faker->boolean());
         $user3->setIsTerms(true);
         $user3->setIsMajor(true);
-        $user3->setImage('default.png');
         $user3->setIsVerified(true);
         $manager->persist($user3);
 
+
+        $createdUsers = [$admin, $user1, $user2, $user3];
+
+        //Créer 3 offres d'emploi pour chaque user
+        $createdOffers = [];
+        foreach ($createdUsers as $user) {
+            for ($i = 0; $i < 3; $i++) {
+                $offer = new Offer();
+                $offer->setTitle($faker->jobTitle(),);
+                $offer->setRef(uniqid('offer-' . $offer->getTitle()));
+                $offer->setUrl($faker->url());
+                $offer->setApplicant($user);
+                $offer->setContent($faker->realText(200));
+                $manager->persist($offer);
+                $createdOffers[] = $offer;
+            }
+        }
+
+        // Créer 3 formations par user
+        $createdFormations = [];
+
+        $formationTitles = [
+            'Licence Informatique',
+            'Master Droit',
+            'BTS Commerce International',
+            'DUT Génie Civil'
+        ];
         
+        foreach ($createdUsers as $user) {
+            for ($i = 0; $i < 3; $i++) { 
+                $formation = new Formation();
+                $formation->setTitle($formationTitles[$i % count($formationTitles)]);
+                // $formation->setRef(uniqid($formation->getTitle()));
+                $formation->setDateStart($faker->date('Y-m'));
+                $formation->setDateEnd($faker->boolean(80) ? $faker->date('Y-m') : null);
+                $formation->setOrganization($faker->company());
+                $formation->setDescription([$faker->sentence(6), $faker->sentence(8)]);
+                $formation->setPostalCode($faker->postcode());
+                $formation->setCity($faker->city());
+                $formation->setCountry($faker->country());
+                $formation->setLevel($faker->randomElement(['Bac+2', 'Bac+3', 'Bac+5']));
+                $formation->setIsGraduated(true);
+                $formation->setDegree('default.png'); 
+                $formation->setStudent($user);
+                $formation->setIsAi($faker->boolean(50));
+                $createdFormations[] = $formation;
+            }
+        }
+
+        // Créer 3 expériences par user
+        $createdExperiences = [];
+
+        $experienceTitles = [
+            'Développeur Web',
+            'Assistant Marketing',
+            'Comptable',
+            'Ingénieur Logiciel'
+        ];
+
+        foreach ($createdUsers as $user) {
+            for ($i = 0; $i < 2; $i++) { 
+                $experience = new Experience();
+                $experience->setTitle($experienceTitles[$i % count($experienceTitles)]);
+                $experience->setDateStart($faker->date('Y-m'));
+                $experience->setDateEnd($faker->boolean(80) ? $faker->date('Y-m') : null); 
+                $experience->setOrganization($faker->company());
+                $experience->setDescription([$faker->sentence(6), $faker->sentence(8)]);
+                $experience->setPostalCode($faker->postcode());
+                $experience->setCity($faker->city());
+                $experience->setCountry($faker->country());
+                $experience->setEmployee($user);
+                $experience->setIsAi($faker->boolean(20));
+                $createdExperiences[] = $experience;
+            }
+        }
+
+        // Créer les skills 
+        $skills = [
+            'PHP',
+            'Symfony',
+            'JavaScript',
+            'React',
+            'Angular',
+            'Vue.js',
+            'Docker',
+            'MySQL',
+            'PostgreSQL',
+            'Git',
+            'HTML',
+            'CSS',
+            'SQL',
+            'Agile',
+            'Scrum',
+        ];
+
+        $createdSkills = [];
+
+        foreach ($skills as $skillName) {
+            $skill = new Skill();
+            $skill->setName($skillName);
+            $manager->persist($skill);
+            $createdSkills[] = $skill;
+        }
+        
+         // Assurer au moins 1 skill par formation
+        foreach ($createdFormations as $formation) {
+            $skillKey = array_rand($createdSkills);
+            $skill = $createdSkills[$skillKey];
+            $formation->addSkill($skill);
+            $skill->addFormation($formation);
+            $manager->persist($skill);
+            $manager->persist($formation);
+        }
+
+        // Assurer au moins 1 skill par expérience
+        foreach ($createdExperiences as $experience) {
+            $skillKey = array_rand($createdSkills);
+            $skill = $createdSkills[$skillKey];
+            $experience->addSkill($skill);
+            $skill->addExperience($experience);
+            $manager->persist($skill);
+            $manager->persist($experience);
+        }
+
+        foreach ($createdSkills as $skill) {
+            $rand = rand(1, 4); // Random number between 1 and 4
+
+            switch ($rand) {
+                case 1: // 25% chance: Add only Formation
+                    if (!empty($createdFormations)) {
+                        $formation = $createdFormations[array_rand($createdFormations)];
+                        $skill->addFormation($formation);
+                        $formation->addSkill($skill);
+                        $manager->persist($formation);
+                    }
+                    break;
+                case 2: // 25% chance: Add only Experience
+                    if (!empty($createdExperiences)) {
+                        $experience = $createdExperiences[array_rand($createdExperiences)];
+                        $skill->addExperience($experience);
+                        $experience->addSkill($skill);
+                        $manager->persist($experience);
+                    }
+                    break;
+                default: // 50% chance: Add both Formation and Experience
+                    if (!empty($createdFormations)) {
+                        $formation = $createdFormations[array_rand($createdFormations)];
+                        $skill->addFormation($formation);
+                        $formation->addSkill($skill);
+                        $manager->persist($formation);
+                    }
+                    if (!empty($createdExperiences)) {
+                        $experience = $createdExperiences[array_rand($createdExperiences)];
+                        $skill->addExperience($experience);
+                        $experience->addSkill($skill);
+                        $manager->persist($experience);
+                    }
+                    break;
+            }
+
+            $manager->persist($skill);
+        }
+
+
         $manager->flush();
     }
 }
