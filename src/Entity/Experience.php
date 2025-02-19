@@ -31,7 +31,7 @@ class Experience
     #[ORM\Column(length: 255)]
     private ?string $organization = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     private array $description = [];
 
     #[ORM\Column(length: 20, nullable: true)]
@@ -73,7 +73,7 @@ class Experience
     {
         return $this->title;
     }
-    
+
     public function getId(): ?int
     {
         return $this->id;
