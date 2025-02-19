@@ -8,10 +8,45 @@
         {% endblock %}
 
         {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
+            {% block importmap %}{{ importmap('app') }}
+            {% endblock %}
+            <script>
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Sélectionner tous les boutons de fermeture des toasts
+                    const closeButtons = document.querySelectorAll('[aria-label="Close"]');
+                    
+                    closeButtons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            // Trouver le parent le plus proche qui est le toast
+                            const toast = this.closest('[role="alert"]');
+                            if (toast) {
+                                // Ajouter une classe pour l'animation de fermeture
+                                toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+                                // Supprimer le toast après l'animation
+                                setTimeout(() => {
+                                    toast.remove();
+                                }, 300);
+                            }
+                        });
+                    });
+                    
+                    // Optionnel : Fermeture automatique après un certain temps
+                    setTimeout(() => {
+                        const toasts = document.querySelectorAll('[role="alert"]');
+                        toasts.forEach(toast => {
+                            toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+                            setTimeout(() => {
+                                toast.remove();
+                            }, 300);
+                        });
+                    }, 5000); // Ferme automatiquement après 5 secondes
+                });
+                
+            </script>
+            {% endblock %}
+        </head>
+        <body>
         {% for label, messages in app.flashes %}
             {% for message in messages %}
                 {{ include('components/_partials/toast.html.twig', {
