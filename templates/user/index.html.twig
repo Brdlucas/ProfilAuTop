@@ -1,8 +1,206 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Page profil : {% endblock %}
+{% block title %}Mon profil - Réglages {% endblock %}
 
 {% block body %}
-  
+    <div class="min-h-screen bg-gray-100 py-8">
 
+        <div class="w-full max-w-1/2 mx-auto px-4 ">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 min-h-screen">
+
+                <div class="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center justify-around">
+                    <div class="w-full flex flex-col items-center gap-10">
+
+                        <header class="flex flex-col items-center text-center">
+                            <img class="inline-flex object-cover border-4 border-sky-500 rounded-full shadow-[5px_5px_0_0_rgba(0,0,0,1)] shadow-sky-500/100 bg-indigo-50 text-sky-600 h-24 w-24 !h-48 !w-48" src="" alt="Profile Image">
+                            <h1 class="text-2xl text-gray-800 font-bold mt-4">Nom Prénom</h1>
+                            <h2 class="text-base text-gray-600 font-semibold mt-1">Titre</h2>
+                        </header>
+
+                        <div class="mt-6 w-full">
+                            <ul class="flex flex-col gap-4 pl-2 mt-4">
+                                <li class="flex items-center gap-2">
+                                    <div class="text-lg cursor-pointer relative before:absolute before:bg-sky-200 before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500">
+                                        <a href="http://127.0.0.1:8000/user/" class="flex items-center gap-2 p-1 relative">
+                                            {{ ux_icon('tabler:file-cv', { class: 'h-8 w-8' }) }}
+                                            <span>Mes CV</span>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <div class="text-lg cursor-pointer relative before:absolute before:bg-sky-200 before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500">
+                                        <a href="http://127.0.0.1:8000/user/" class="flex items-center gap-2 p-1 relative">
+                                            {{ ux_icon('tabler:brand-pagekit', { class: 'h-8 w-8' }) }}
+                                            Mes Offres
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <div class="text-lg cursor-pointer relative before:absolute before:bg-sky-200 before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500">
+                                        <a href="http://127.0.0.1:8000/user/" class="flex items-center gap-2 p-1 relative">
+                                            {{ ux_icon('tabler:user-search', { class: 'h-8 w-8' }) }}
+                                            Mes Expériences
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <div class="text-lg cursor-pointer relative before:absolute before:bg-sky-200 before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500">
+                                        <a href="http://127.0.0.1:8000/user/" class="flex items-center gap-2 p-1 relative">
+                                            {{ ux_icon('tabler:user-star', { class: 'h-8 w-8' }) }}
+                                            Mes Formations
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mt-6 text-gray-600 text-sm">
+                            <p class="text-center">Compte créé il y a : <strong>XX mois</strong></p>
+                            <p class="text-center">Dernière modification il y a : <strong>XX jours</strong></p>
+                        </div>
+                        {{ include('/_delete_form.html.twig') }}
+                    </div>
+                </div>
+
+                <div class="col-span-2 space-y-8">
+                    <div class="bg-white shadow-lg rounded-lg p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">À propos de moi</h2>
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-gray-700 mb-2">Informations personnelles</h3>
+                            <form action="#" method="POST">
+                                <div class="-mx-3 md:flex mb-6">
+                                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
+                                            Nom
+                                        </label>
+                                        <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" placeholder="Jane">
+                                        <p class="text-red text-xs italic">Alert</p>
+                                    </div>
+                                    <div class="md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
+                                            Prénom
+                                        </label>
+                                        <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" placeholder="Doe">
+                                    </div>
+                                </div>
+                                <div class="-mx-3 md:flex mb-6">
+                                    <div class="md:w-full px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-password">
+                                            Password
+                                        </label>
+                                        <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3" id="grid-password" type="password" placeholder="******************">
+                                        <p class="text-grey-dark text-xs italic">Alert</p>
+                                    </div>
+                                </div>
+                                <div class="-mx-3 md:flex mb-2">
+                                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-city">
+                                            Ville
+                                        </label>
+                                        <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-city" type="text" placeholder="Albuquerque">
+                                    </div>
+                                    <div class="md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
+                                            Département
+                                        </label>
+                                        <div class="relative">
+                                            <select class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded" id="grid-state">
+                                                <option>New Mexico</option>
+                                                <option>Missouri</option>
+                                                <option>Texas</option>
+                                            </select>
+                                            <div class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
+                                                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path></svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-zip">
+                                            Code postal
+                                        </label>
+                                        <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-zip" type="text" placeholder="90210">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="max-w-lg mx-auto rounded-lg overflow-hidden lg:max-w-none lg:flex my-10 shadow-sky border-4 border-sky-400">
+                        <div class="bg-white px-6 py-8 lg:flex-shrink-1 lg:p-12">
+                            <h3 class="text-2xl text-left leading-8 font-extrabold text-gray-900 sm:text-3xl sm:leading-9">
+                                Abonnement
+                            </h3>
+                            <p class="mt-6 text-left font-ttnorms leading-8 text-gray-500 text-lg">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet lacus enim.
+                            </p>
+                            <div class="mt-8">
+                                <div class="flex items-center">
+                                    <h4 class="flex-shrink-0 pr-4 bg-white text-sm leading-5 tracking-wider font-semibold uppercase text-sky-500">
+                                        What's included
+                                    </h4>
+                                    <div class="flex-1 border-t-2 border-gray-200"></div>
+                                </div>
+                                <ul class="pl-0 mt-8 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:gap-y-5 space-y-5 lg:space-y-0">
+                                    <li class="flex items-start lg:col-span-1">
+                                        <div class="flex-shrink-0"><svg class="h-5 w-5 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                        <p class="ml-3 text-lg leading-5 text-gray-700 font-ttnorms text-left">
+                                            Access to premium content and exclusive articles
+                                        </p>
+                                    </li>
+                                    <li class="flex items-start lg:col-span-1">
+                                        <div class="flex-shrink-0"><svg class="h-5 w-5 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                        <p class="ml-3 text-lg leading-5 text-gray-700 font-ttnorms text-left">
+                                            Free Shipping on select products
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="py-8 px-6 text-center bg-gray-50 lg:flex-shrink-0 lg:flex lg:flex-col lg:justify-center lg:p-12">
+                            <p class="text-xl leading-6 font-medium text-gray-900 lg:max-w-xs lg:mx-auto mb-0 lg:mb-6">
+                                A single
+                                payment for your entire team
+                            </p>
+                            <div class="my-10 lg:my-6 flex items-baseline justify-center text-5xl leading-none font-extrabold text-gray-900">
+                                <span class="font-brown">$19</span><span class="text-xl leading-7 font-medium text-gray-500 font-ttnorms">/month</span>
+                            </div>
+                            <div class="lg:mt-6">
+                                <div class="rounded-md shadow">
+                                    <a href="#" class="flex items-center justify-center px-5 py-3 leading-6 font-medium rounded-md focus:outline-none focus:ring transition duration-200 ease-in-out shadow-sky border-2 border-sky-400 bg-white hover:bg-sky-400 hover:shadow-sky-hover text-sky-400 hover:text-white text-lg relative z-20 dark:bg-sky-400 dark:text-white dark:hover:bg-sky-500 dark:hover:text-white">
+                                        Start your 7-day trial
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white shadow-lg rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Dernière offre postulée</h3>
+                    <div class="group relative cursor-pointer overflow-hidden bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:mx-auto sm:max-w-sm sm:rounded-lg sm:px-10">
+                        <span class="absolute top-10 z-0 h-20 w-20 rounded-full bg-sky-500 transition-all duration-300 group-hover:scale-[10]"></span>
+                        <div class="relative z-10 mx-auto max-w-md">
+                            <span class="grid h-20 w-20 place-items-center rounded-full bg-sky-500 transition-all duration-300 group-hover:bg-sky-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-10 w-10 text-white transition-all">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"></path>
+                                </svg>
+                            </span>
+                            <div class="space-y-6 pt-5 text-base leading-7 text-gray-600 transition-all duration-300 group-hover:text-white/90">
+                                <p>Vous avez postulé pour l'offre de <strong>Développeur Front-End</strong> le 15 janvier 2025.</p>
+                            </div>
+                            <div class="pt-5 text-base font-semibold leading-7">
+                                <a href="#" class="text-sky-500 transition-all duration-300 group-hover:text-white">Voir</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

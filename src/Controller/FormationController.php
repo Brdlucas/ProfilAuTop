@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/formation')]
+#[Route('/profil/formation')]
 final class FormationController extends AbstractController{
     #[Route(name: 'app_formation_index', methods: ['GET'])]
     public function index(FormationRepository $formationRepository): Response
