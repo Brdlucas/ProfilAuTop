@@ -109,7 +109,7 @@ final class UserController extends AbstractController
             $this->addFlash('error', 'Vous devez remplir tous les champs');
         }
 
-        return $this->redirectToRoute('app_user_complete_competences_passions');
+        return $this->redirectToRoute('app_homepage');
     }
 
     #[Route('/completer/competences_passions', name: 'complete_competences_passions', methods: ['GET', 'POST'])]
