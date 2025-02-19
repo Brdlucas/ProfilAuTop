@@ -89,7 +89,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $is_major = false;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private string $image = 'default.png';
 
     /**
@@ -129,7 +129,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Subscription $subscription = null;
 
     #[ORM\Column]
-    private ?int $strike = 0;
+    private int $strike = 0;
 
     #[ORM\Column]
     private bool $is_updated = false;
@@ -144,7 +144,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->cvs = new ArrayCollection();
         $this->experiences = new ArrayCollection();
         $this->formations = new ArrayCollection();
-        $this->ref = uniqid($this->firstname . $this->lastname);
+        $this->ref = uniqid($this->firstname . '-' .$this->lastname);
     }
 
     #[ORM\PrePersist]

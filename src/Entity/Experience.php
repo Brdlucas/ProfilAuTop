@@ -59,6 +59,9 @@ class Experience
     #[ORM\JoinColumn(nullable: false)]
     private ?User $employee = null;
 
+    #[ORM\Column]
+    private bool $is_ai = false;
+
     public function __construct()
     {
         $this->skills = new ArrayCollection();
@@ -243,6 +246,18 @@ class Experience
     public function setEmployee(?User $employee): static
     {
         $this->employee = $employee;
+
+        return $this;
+    }
+
+    public function isAi(): ?bool
+    {
+        return $this->is_ai;
+    }
+
+    public function setIsAi(bool $is_ai): static
+    {
+        $this->is_ai = $is_ai;
 
         return $this;
     }
