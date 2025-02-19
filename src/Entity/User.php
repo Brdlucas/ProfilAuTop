@@ -59,10 +59,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $city = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $languages = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $pois = null;
 
     #[ORM\Column]
@@ -71,7 +71,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $licences = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -158,6 +158,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedAtValue()
     {
         $this->updated_at = new \DateTimeImmutable;
+    }
+
+    public function isComplete(): bool
+    {
+        if (!empty($this->firstname) && !empty($this->lastname) && !empty($this->born) && !empty($this->phone) && !empty($this->city) && !empty($this->postal_code)) {
+            return true;
+        }
+
+        return false;
+    }
+    public function isComplete2(): bool
+    {
+        if (!empty($licences) && !empty($languages) && !empty($pois) && !empty($linkedin) && !empty($portfolio_url)) {
+            return true;
+        }
+
+        return false;
     }
 
     public function getId(): ?int
@@ -275,9 +292,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->born;
     }
 
-    public function setBorn(\DateTimeInterface $born): static
+    public function setBorn(?string $born): self
     {
-        $this->born = $born;
+        $this->born = $born ? new \DateTime($born) : null;
 
         return $this;
     }
