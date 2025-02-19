@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Service\LoginHistoryService;
+use App\Form\UserCompleteBeingFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -15,7 +16,7 @@ final class PageController extends AbstractController
     public function index(Request $request, LoginHistoryService $lHS): Response
     {
         if (!$this->getUser()) {
-            return $this->render('page/lp.html.twig');
+            return $this->render('page/homepage.html.twig');
         } else {
             $requestArray = [
                 "fromLogin" => $this->getParameter('APP_URL') . $this->generateUrl('app_login'),
@@ -33,7 +34,10 @@ final class PageController extends AbstractController
                 return $this->render('user/complete_identity.html.twig');
             }
             if ($this->getUser()->isComplete() === true  && $this->getUser()->isComplete2() === false) {
-                return $this->render('user/complete_competences.html.twig');
+                $UserCompleteBeingFormType = $this->createForm(UserCompleteBeingFormType::class, $this->getUser());
+                return $this->render('user/complete_competences.html.twig', [
+                    'form' => $UserCompleteBeingFormType,
+                ]);
             }
 
             return $this->redirectToRoute('app_user_profil');
