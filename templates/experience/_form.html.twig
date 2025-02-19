@@ -1,4 +1,45 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col w-2/5 mt-10 m-auto gap-5'}}) }}
+{% for field in form %}
+	{% if field.vars.name == 'skills' %}
+		<div class="columns-3">
+			{{ form_label(field) }}
+			{% for skill in field %}
+				<br>
+				<div class="p-3">
+					{{ form_widget(skill) }}
+					{{ form_label(skill) }}
+				</div>
+			{% endfor %}
+		</div>
+	{% else %}
+		{{ form_row(field) }}
+	{% endif %}
+{% endfor %}
+<div id="description-fields" class="flex flex-col gap-5">
+	{% if experience.description is empty %}
+		<input type="text" name="description[]" placeholder="Description" value="" class="w-full p-3 rounded border border-gray-300">
+	{% else %}
+		{% for description in experience.description %}
+			<input type="text" class="w-full p-3 rounded border border-gray-300" name="description[]" placeholder="Description" value="{{ description }}">
+		{% endfor %}
+	{% endif %}
+</div>
+<button type="button" id="add-description" class="p-5 bg-blue-500 m-auto text-white">Ajouter une description</button>
+
+
+<script>
+	document.getElementById('add-description').addEventListener('click', function () {
+var container = document.getElementById('description-fields');
+var input = document.createElement('input');
+input.type = 'text';
+input.name = 'description[]';
+input.placeholder = 'Description';
+input.className = 'w-full p-3 rounded border border-gray-300 mb-2';
+container.appendChild(input);
+container.appendChild(input);
+});
+</script>
+<button class="btn">{{ button_label|default('Save') }}</button>
+
+
 {{ form_end(form) }}
