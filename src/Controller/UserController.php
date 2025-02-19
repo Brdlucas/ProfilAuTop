@@ -21,7 +21,7 @@ final class UserController extends AbstractController
     #[Route(name: 'profil', methods: ['GET', 'POST'])]
     public function index(
         Request $request,
-        // UploaderService $us, 
+        UploaderService $us, 
         UserPasswordHasherInterface $uphi
     ): Response {
 
