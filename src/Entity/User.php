@@ -144,7 +144,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->cvs = new ArrayCollection();
         $this->experiences = new ArrayCollection();
         $this->formations = new ArrayCollection();
-        $this->ref = uniqid($this->firstname . '-' .$this->lastname);
+        $this->ref = uniqid();
     }
 
     #[ORM\PrePersist]
@@ -154,7 +154,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updated_at = new \DateTimeImmutable;
     }
 
-    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function setUpdatedAtValue()
     {
         $this->updated_at = new \DateTimeImmutable;
