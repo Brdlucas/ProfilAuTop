@@ -274,13 +274,16 @@ L'utilisateur peut lier son profil à ses formations et expériences existantes 
   - L'utilisateur peut choisir parmi ses expériences professionnelles déjà ajoutées ou en ajouter de nouvelles.
 
 ### 5. **Ajout des compétences et des savoir-être dans le CV**
-L'utilisateur peut ajouter ses compétences et savoir-être au CV.
+L'utilisateur peut ajouter ses compétences et savoir-être au CV et l'IA peut proposer les plus cohérents entre les expériences et formations avec la description de l'offre.
 
 - **Compétences (Skills)** : L'utilisateur peut choisir parmi les compétences existantes ou en ajouter de nouvelles.
 - **Savoir-être (SoftSkills)** : L'utilisateur peut sélectionner parmi une liste de qualités humaines ou en ajouter de nouvelles.
 
 ### 6. **Optimisation du CV avec l'intelligence artificielle**
 L'IA analyse toutes les informations fournies par l'utilisateur, y compris les compétences, les formations, les expériences et le contenu de l'offre d'emploi.
+- Analyser le champ du CV : L'IA doit analyser chaque champ et donner un feedback, vérifier si le champ est bien rédigé pour un ATS, et suggérer des améliorations.
+- Suggérer des modifications : Pour chaque champ, l'IA proposera des modifications adaptées aux exigences des ATS (par exemple, reformuler des phrases, ajouter des mots-clés pertinents, etc.).
+- Offrir des options de validation : L'utilisateur pourra choisir soit de conserver sa version originale, soit d'adopter la version suggérée par l'IA, ou encore de modifier lui-même les suggestions.
 
 - **Analyse :**
   - L'IA analyse les informations pour vérifier la compatibilité avec les exigences de l'offre d'emploi.
