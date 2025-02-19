@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/skill')]
+#[Route('/profil/skill')]
 final class SkillController extends AbstractController{
     #[Route(name: 'app_skill_index', methods: ['GET'])]
     public function index(SkillRepository $skillRepository): Response
