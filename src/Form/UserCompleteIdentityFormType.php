@@ -21,13 +21,8 @@ class UserCompleteIdentityFormType extends AbstractType
                 'widget' => 'single_text'
             ])
             ->add('phone')
-            ->add('city')
             ->add('postal_code')
-            // ->add('licences')
-            // ->add('languages')
-            // ->add('pois')
-            // ->add('linkedin')
-            // ->add('portfolio_url')
+            ->add('city')
         ;
     }
 
