@@ -13,118 +13,6 @@ class CvController extends AbstractController
     #[Route('/optimize', name: 'app_cv_optimize_test', methods: ['GET'])]
     public function optimizeCv(CvService $cvService): JsonResponse
     {
-        // Données de test : plusieurs formations et expériences
-
-        // Formations
-        $formations = [
-            [
-                'title' => 'Master en Informatique',
-                'organization' => 'Université de Paris',
-                'description' => 'Formation approfondie en développement logiciel et architecture des systèmes.',
-                'city' => 'Paris',
-                'postal_code' => '75000',
-                'country' => 'France',
-                'date_start' => '2015-09-01',
-                'date_end' => '2017-06-30',
-                'is_graduated' => true,
-                'level' => 'Master',
-            ],
-            [
-                'title' => 'Licence en Génie Logiciel',
-                'organization' => 'Université de Lyon',
-                'description' => 'Formation axée sur la programmation, les bases de données et l’algorithmique.',
-                'city' => 'Lyon',
-                'postal_code' => '69000',
-                'country' => 'France',
-                'date_start' => '2012-09-01',
-                'date_end' => '2015-06-30',
-                'is_graduated' => true,
-                'level' => 'Licence',
-            ],
-            [
-                'title' => 'Formation DevOps',
-                'organization' => 'OpenClassrooms',
-                'description' => 'Formation pour apprendre à gérer l’intégration continue et l’automatisation des déploiements.',
-                'city' => 'Paris',
-                'postal_code' => '75000',
-                'country' => 'France',
-                'date_start' => '2018-03-01',
-                'date_end' => '2018-09-30',
-                'is_graduated' => true,
-                'level' => 'Certificat',
-            ],
-        ];
-
-        // Expériences professionnelles
-        $experiences = [
-            [
-                'title' => 'Ingénieur DevOps',
-                'organization' => 'Médiane Système',
-                'description' => 'Mise en place de pipelines CI/CD sous GitLab, optimisation des processus de déploiement et gestion des environnements de développement.',
-                'city' => 'Paris',
-                'postal_code' => '75000',
-                'country' => 'France',
-                'date_start' => '2019-01-01',
-                'date_end' => '2022-06-30',
-            ],
-            [
-                'title' => 'Développeur Full Stack',
-                'organization' => 'Sopra Steria',
-                'description' => 'Développement d’applications web en utilisant des technologies telles que React, Node.js et MongoDB.',
-                'city' => 'Lyon',
-                'postal_code' => '69000',
-                'country' => 'France',
-                'date_start' => '2017-03-01',
-                'date_end' => '2019-01-01',
-            ],
-            [
-                'title' => 'Stagiaire Développeur Web',
-                'organization' => 'WebSolution',
-                'description' => 'Assistance dans le développement d’applications web, maintenance et optimisation de sites existants.',
-                'city' => 'Marseille',
-                'postal_code' => '13000',
-                'country' => 'France',
-                'date_start' => '2016-06-01',
-                'date_end' => '2016-12-31',
-            ],
-        ];
-
-        // Exemple de compétences à optimiser
-        $skills = [
-            'skills' => [
-                'CI/CD',
-                'GitLab',
-                'Docker',
-                'Kubernetes',
-                'Python',
-                'C#',
-                'Linux',
-                'Automatisation des tests',
-                'Cloud Computing'
-            ]
-        ];
-
-        // Exemple de savoir-être (Soft skills) à optimiser
-        $softskills = [
-            'softskills' => [
-                'Travail en équipe',
-                'Leadership',
-                'Résolution de problèmes',
-                'Adaptabilité',
-                'Communication efficace'
-            ]
-        ];
-
-        // Exemple de titre du CV à optimiser
-        $title = [
-            'title' => 'Ingénieur DevOps avec expertise en CI/CD et Cloud Computing'
-        ];
-
-        // Exemple d'introduction à optimiser (facultatif)
-        $introduction = [
-            'introduction' => 'Ingénieur DevOps passionné par l’automatisation des processus et la gestion des infrastructures. Expérience confirmée en mise en place de pipelines CI/CD, gestion d’environnement cloud et automatisation des tests.'
-        ];
-
         $jobTitle = 'Ingénieur DevOps H/F';
         $jobDescription = '
             Lieu
@@ -189,22 +77,120 @@ class CvController extends AbstractController
             Lieu du poste : En présentiel';
 
 
-        $resultExperience = $cvService->optimizeCVFieldForATS('experience', $experiences, $jobTitle, $jobDescription);
-        $resultFormation = $cvService->optimizeCVFieldForATS('formation', $formations, $jobTitle, $jobDescription);
-        $resultSkills = $cvService->optimizeCVFieldForATS('skills', $skills, $jobTitle, $jobDescription);
-        $resultSoftSkills = $cvService->optimizeCVFieldForATS('softskills', $softskills, $jobTitle, $jobDescription);
+        $title = [
+            'title' => ''
+        ];
+
+        $introduction = [
+            'introduction' => 'Ingénieur DevOps passionné par l’automatisation des processus et la gestion des infrastructures. Expérience confirmée en mise en place de pipelines CI/CD, gestion d’environnement cloud et automatisation des tests.'
+        ];
+
+        $experiences = [
+            [
+                'title' => 'Ingénieur DevOps',
+                'organization' => 'Médiane Système',
+                'description' => 'Mise en place de pipelines CI/CD sous GitLab, optimisation des processus de déploiement et gestion des environnements de développement.',
+                'city' => 'Paris',
+                'postal_code' => '75000',
+                'country' => 'France',
+                'date_start' => '2019-01-01',
+                'date_end' => '2022-06-30',
+            ],
+            [
+                'title' => 'Développeur Full Stack',
+                'organization' => 'Sopra Steria',
+                'description' => 'Développement d’applications web en utilisant des technologies telles que React, Node.js et MongoDB.',
+                'city' => 'Lyon',
+                'postal_code' => '69000',
+                'country' => 'France',
+                'date_start' => '2017-03-01',
+                'date_end' => '2019-01-01',
+            ],
+            [
+                'title' => 'Stagiaire Développeur Web',
+                'organization' => 'WebSolution',
+                'description' => 'Assistance dans le développement d’applications web, maintenance et optimisation de sites existants.',
+                'city' => 'Marseille',
+                'postal_code' => '13000',
+                'country' => 'France',
+                'date_start' => '2016-06-01',
+                'date_end' => '2016-12-31',
+            ],
+        ];
+
+        $formations = [
+            [
+                'title' => 'Master en Informatique',
+                'organization' => 'Université de Paris',
+                'description' => 'Formation approfondie en développement logiciel et architecture des systèmes.',
+                'city' => 'Paris',
+                'postal_code' => '75000',
+                'country' => 'France',
+                'date_start' => '2015-09-01',
+                'date_end' => '2017-06-30',
+                'is_graduated' => true,
+                'level' => 'Master',
+            ],
+            [
+                'title' => 'Licence en Génie Logiciel',
+                'organization' => 'Université de Lyon',
+                'description' => 'Formation axée sur la programmation, les bases de données et l’algorithmique.',
+                'city' => 'Lyon',
+                'postal_code' => '69000',
+                'country' => 'France',
+                'date_start' => '2012-09-01',
+                'date_end' => '2015-06-30',
+                'is_graduated' => true,
+                'level' => 'Licence',
+            ],
+            [
+                'title' => 'Formation DevOps',
+                'organization' => 'OpenClassrooms',
+                'description' => 'Formation pour apprendre à gérer l’intégration continue et l’automatisation des déploiements.',
+                'city' => 'Paris',
+                'postal_code' => '75000',
+                'country' => 'France',
+                'date_start' => '2018-03-01',
+                'date_end' => '2018-09-30',
+                'is_graduated' => true,
+                'level' => 'Certificat',
+            ],
+        ];
+
+        $skills = [
+            'skills' => [
+                'CI/CD',
+                'GitLab',
+                'Docker',
+                'Kubernetes',
+            ]
+        ];
+
+        $softskills = [
+            'softskills' => [
+                'Travail en équipe',
+                'Leadership',
+                'Communication efficace'
+            ]
+        ];
+
+
         $resultTitle = $cvService->optimizeCVFieldForATS('title', $title, $jobTitle, $jobDescription);
         $resultIntroduction = $cvService->optimizeCVFieldForATS('introduction', $introduction, $jobTitle, $jobDescription);
+        $resultFormation = $cvService->optimizeCVFieldForATS('formation', $formations, $jobTitle, $jobDescription);
+        $resultExperience = $cvService->optimizeCVFieldForATS('experience', $experiences, $jobTitle, $jobDescription);
+        $resultSkills = $cvService->optimizeCVFieldForATS('skills', $skills, $jobTitle, $jobDescription);
+        $resultSoftSkills = $cvService->optimizeCVFieldForATS('softskills', $softskills, $jobTitle, $jobDescription);
 
 
         // Retourner la réponse JSON avec les résultats des optimisations pour chaque champ
         return new JsonResponse([
-            'experience' => $resultExperience,
-            'formation' => $resultFormation,
-            'skills' => $resultSkills,
-            'softskills' => $resultSoftSkills,
             'title' => $resultTitle,
             'introduction' => $resultIntroduction,
+            'formation' => $resultFormation,
+            'experience' => $resultExperience,
+            'skills' => $resultSkills,
+            'softskills' => $resultSoftSkills,
         ]);
     }
 }
