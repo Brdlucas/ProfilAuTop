@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="text-2xl font-bold mb-6">Compléter votre profil</h1>
+
+    {{ form_start(form) }}
+
+    <!-- Permis -->
+    <div class="mb-4">
+        {{ form_label(form.licences) }}
+        {{ form_widget(form.licences, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded-md'}}) }}
+        {{ form_errors(form.licences) }}
+    </div>
+
+    <!-- Langues -->
+    <div class="mb-4" id="languages-container">
+        <label class="block text-sm font-medium text-gray-700">Langues</label>
+        <div id="languages" class="dynamic-container" data-prototype="{{ form_widget(form.languages.vars.prototype)|e('html_attr') }}">
+            <!-- Pas de champ par défaut, juste un conteneur vide -->
+        </div>
+        <button type="button" id="add-language" class="btn-add">Ajouter une langue</button>
+    </div>
+
+    <!-- POIs -->
+    <div class="mb-4" id="pois-container">
+        <label class="block text-sm font-medium text-gray-700">Points d'intérêt</label>
+        <div id="pois" class="dynamic-container" data-prototype="{{ form_widget(form.pois.vars.prototype)|e('html_attr') }}">
+            <!-- Pas de champ par défaut, juste un conteneur vide -->
+        </div>
+        <button type="button" id="add-poi" class="btn-add">Ajouter un POI</button>
+    </div>
+
+    <!-- LinkedIn & Portfolio -->
+    <div class="mb-4">
+        {{ form_row(form.linkedin) }}
+    </div>
+
+    <div class="mb-4">
+        {{ form_row(form.portfolio_url) }}
+    </div>
+
+    <!-- Bouton de soumission -->
+    <div class="mt-4">
+        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition">
+            {{ form_widget(form.save) }}
+        </button>
+    </div>
+
+    {{ form_end(form) }}
+
+    <!-- JavaScript pour masquer les divs et ajouter des éléments dynamiques -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Masquer les divs des langues et POIs
+            const divsToHide = document.querySelectorAll('div:has(label.required)');
+            const secondAndThirdDivs = [divsToHide[1], divsToHide[2]];
+            secondAndThirdDivs.forEach(function(div) {
+                div.style.display = 'none';
+            });
+
+            function addFormItem(containerId, addButtonId) {
+                let container = document.getElementById(containerId);
+                let addButton = document.getElementById(addButtonId);
+                let index = container.children.length;
+
+                addButton.addEventListener("click", function () {
+                    let prototype = container.dataset.prototype.replace(/__name__/g, index);
+                    let newItem = document.createElement("div");
+                    newItem.classList.add("new-item");
+                    newItem.innerHTML = prototype + '<span class="remove-item">Supprimer</span>';
+                    container.appendChild(newItem);
+                    index++;
+
+                    // Ajouter event listener pour suppression
+                    newItem.querySelector(".remove-item").addEventListener("click", function () {
+                        newItem.remove();
+                    });
+                });
+            }
+
+            addFormItem("languages", "add-language");
+            addFormItem("pois", "add-poi");
+
+            // Activer la suppression sur les champs déjà présents
+            document.querySelectorAll(".remove-item").forEach(item => {
+                item.addEventListener("click", function () {
+                    this.parentElement.remove();
+                });
+            });
+        });
+    </script>
+{% endblock %}
