@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/abonnement')]
+#[Route('/profil/abonnement')]
 final class SubscriptionController extends AbstractController{
     #[Route(name: 'app_subscription_index', methods: ['GET'])]
     public function index(SubscriptionRepository $subscriptionRepository): Response
