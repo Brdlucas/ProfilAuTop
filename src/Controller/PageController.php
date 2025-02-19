@@ -33,8 +33,10 @@ final class PageController extends AbstractController
             if ($this->getUser()->isComplete() === false) {
                 return $this->render('user/complete_identity.html.twig');
             }
+
             if ($this->getUser()->isComplete() === true  && $this->getUser()->isComplete2() === false) {
                 $UserCompleteBeingFormType = $this->createForm(UserCompleteBeingFormType::class, $this->getUser());
+                $UserCompleteBeingFormType->handleRequest($request);
                 return $this->render('user/complete_competences.html.twig', [
                     'form' => $UserCompleteBeingFormType,
                 ]);

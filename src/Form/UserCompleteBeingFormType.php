@@ -18,6 +18,7 @@ class UserCompleteBeingFormType extends AbstractType
         $builder
         ->add('licences', ChoiceType::class, [
             'choices' => [
+                'Pas de permis' => 'none',
                 'Permis AM (cyclomoteur)' => 'AM',
                 'Permis A1 (moto légère)' => 'A1',
                 'Permis A2 (moto intermédiaire)' => 'A2',

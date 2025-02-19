@@ -170,7 +170,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
     public function isComplete2(): bool
     {
-        if (!empty($licences) && !empty($languages) && !empty($pois) && !empty($linkedin) && !empty($portfolio_url)) {
+        if (!empty($this->licences) && !empty($this->languages)) {
             return true;
         }
 

@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Service\UploaderService;
 use App\Repository\UserRepository;
+use App\Form\UserCompleteBeingFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -112,22 +113,21 @@ final class UserController extends AbstractController
         return $this->redirectToRoute('app_homepage');
     }
 
-    #[Route('/completer/competences_passions', name: 'complete_competences_passions', methods: ['GET', 'POST'])]
+    #[Route('/completer/competences_passions', name: 'complete_competences', methods: ['GET', 'POST'])]
     public function completeBeing(Request $request): Response
     {
-        $licences = $request->getPayload()->get('licences');
-        $languages = $request->getPayload()->get('languages');
-        $pois = $request->getPayload()->get('pois');
-        $linkedin = $request->getPayload()->get('linkedin');
-        $portfolio_url = $request->getPayload()->get('portfolio_url');
 
-        if (!empty($licences) && !empty($languages) && !empty($pois) && !empty($linkedin) && !empty($portfolio_url)) {
+        $form = $this->createForm(UserCompleteBeingFormType::class, $this->getUser());
+        $form->handleRequest($request);
+        $licences = $form->get('licences')->getData();
+        $languages = $form->get('languages')->getData();
+
+        // dd($licences, $languages);
+
+        if (!empty($licences) && !empty($languages)) {
             $user = $this->getUser();
             $user->setLicences($licences)
                 ->setLanguages($languages)
-                ->setPois($pois)
-                ->setLinkedin($linkedin)
-                ->setPortfolioUrl($portfolio_url)
                 ;
             $this->em->persist($user);
             $this->em->flush();
@@ -141,7 +141,7 @@ final class UserController extends AbstractController
             $this->addFlash('error', 'Vous devez remplir tous les champs');
         }
 
-        return $this->redirectToRoute('app_user_profile');
+        return $this->redirectToRoute('app_user_profil');
     }
 
     #[Route('/{ref}', name: 'delete', methods: ['POST'])]
