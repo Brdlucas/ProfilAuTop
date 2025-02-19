@@ -2,128 +2,150 @@
 
 namespace App\Service;
 
-use App\Entity\Cv;
-use App\Entity\Offer;
-use App\Repository\CvRepository;
-use App\Repository\ExperienceRepository;
-use App\Repository\FormationRepository;
-use App\Repository\SkillRepository;
-use App\Repository\SoftSkillRepository;
-use Symfony\Component\HttpFoundation\Request;
+use OpenAI;
 
 class CvService
 {
-    private $cvRepository;
-    private $formationRepository;
-    private $experienceRepository;
-    private $skillRepository;
-    private $softSkillRepository;
-    private $aiService;
-    private $pdfGenerationService;
+    private $client;
 
-// Injecter les dépendances via le constructeur
-    public function __construct(
-        CvRepository         $cvRepository,
-        FormationRepository  $formationRepository,
-        ExperienceRepository $experienceRepository,
-        SkillRepository      $skillRepository,
-        SoftSkillRepository  $softSkillRepository,
-        AIService            $aiService,
-        PdfGenerationService $pdfGenerationService,
-    )
+    public function __construct(string $apiKey)
     {
-        $this->cvRepository = $cvRepository;
-        $this->formationRepository = $formationRepository;
-        $this->experienceRepository = $experienceRepository;
-        $this->skillRepository = $skillRepository;
-        $this->softSkillRepository = $softSkillRepository;
-        $this->aiService = $aiService;
-        $this->pdfGenerationService = $pdfGenerationService;
+        $this->client = OpenAI::client($apiKey);
     }
 
-// Créer un CV pour l'utilisateur
-    public function createCv(Cv $cv, Request $request)
+    // Méthode pour analyser un champ du CV et proposer des optimisations pour les ATS
+    public function optimizeCVFieldForATS(string $fieldType, array $fieldContent, string $jobTitle, string $jobDescription): array
     {
-        $user = $this->getUser();
-        $cv->setUser($user);
-        $cv->setEmail($user->getEmail());
+        set_time_limit(120);
 
-        $formations = $this->formationRepository->findByUser($user);
-        $experiences = $this->experienceRepository->findByUser($user);
-        $skills = $this->skillRepository->findByUser($user);
-        $softSkills = $this->softSkillRepository->findByUser($user);
+        $prompt = $this->generatePrompt($fieldType, $fieldContent, $jobTitle, $jobDescription);
 
-        foreach ($formations as $formation) {
-            $cv->addFormation($formation);
-        }
+        $response = $this->client->chat()->create([
+            'model' => 'gpt-4',  // Utilisation du modèle GPT-4
+            'messages' => [
+                ['role' => 'system', 'content' =>
+                    'Tu es un assistant IA qui aide à optimiser les CV des utilisateurs pour les ATS. 
+                    Donne des suggestions concrètes de remplacement pour chaque champ. 
+                    Ne génère que les suggestions, sans explication. 
+                    Ne génère que les suggestions en une seule ligne pour chaque champ, sans explication ni détail supplémentaire.'],
+                ['role' => 'user', 'content' => $prompt],
+            ],
+            'max_tokens' => 500,  // Limite du nombre de tokens pour la réponse
+        ]);
 
-        foreach ($experiences as $experience) {
-            $cv->addExperience($experience);
-        }
+        // Suggestions d'améliorations pour ce champ
+        $suggestions = $response['choices'][0]['message']['content'];
 
-        foreach ($skills as $skill) {
-            $cv->addSkill($skill);
-        }
-
-        foreach ($softSkills as $softSkill) {
-            $cv->addSoftSkill($softSkill);
-        }
-
-        $offer = $this->getOfferFromRequest($request);
-        if ($offer) {
-            $cv->setOffer($offer);
-        }
-
-        $this->cvRepository->save($cv);
-
-        $aiResult = $this->aiService->generateCV($cv);
-        $cv->setOptimizedContent($aiResult->getOptimizedContent());
-
-        $this->cvRepository->save($cv);
-
-        return $cv;
+        return [
+            'original' => $fieldContent, // Contenu original du champ
+            'suggestions' => $suggestions // Suggestions d'améliorations proposées par l'IA
+        ];
     }
 
-    private function getOfferFromRequest(Request $request): ?Offer
+    // Générer le prompt pour analyser le champ en fonction du type (compétence, expérience, etc.)
+    private function generatePrompt(string $fieldType, array $fieldContent, string $jobTitle, string $jobDescription): string
     {
-        $offerUrl = $request->get('offer_url');
-        if ($offerUrl) {
-            return new Offer([
-                'url' => $offerUrl,
-                'title' => $request->get('offer_title'),
-                'content' => $request->get('offer_content'),
-            ]);
+        // Partie générale : l'IA doit toujours être informée du titre et du contenu de l'offre d'emploi
+        $generalPrompt =
+            "L'offre d'emploi suivante est à optimiser pour les ATS :
+            Titre de l'offre d'emploi : $jobTitle
+            Description de l'offre d'emploi : $jobDescription
+        
+            Maintenant, optimise les informations suivantes pour le champ : $fieldType.
+            ";
+
+        // Ajout des sections spécifiques selon le type de champ (formation, expérience, etc.)
+        switch ($fieldType) {
+            case 'experience': // Expériences professionnelles
+                $experiencesText = '';
+                foreach ($fieldContent as $experience) {
+                    $title = $experience['title'] ?? ''; // Gérer la possibilité que 'title' soit manquant
+                    $organization = $experience['organization'] ?? '';
+                    $description = $experience['description'] ?? '';
+                    $city = $experience['city'] ?? '';
+                    $postalCode = $experience['postal_code'] ?? '';
+                    $country = $experience['country'] ?? '';
+                    $dateStart = $experience['date_start'] ?? '';
+                    $dateEnd = $experience['date_end'] ?? '';
+
+                    $experiencesText .= "
+                    Expérience professionnelle actuelle :
+                    - Nom du poste : $title
+                    - Organisation : $organization
+                    - Description : $description
+                    - Ville : $city
+                    - Code postal : $postalCode
+                    - Pays : $country
+                    - Date de début : $dateStart
+                    - Date de fin : $dateEnd
+
+                    ";
+                }
+                return $generalPrompt . $experiencesText . "
+                Reformule et réarrange ces expériences si nécessaire, en les rendant plus pertinentes pour l'offre d'emploi et les ATS.
+                ";
+
+            case 'title': // Titre du CV
+                return $generalPrompt .
+                    "Le titre du CV actuel est : {$fieldContent['title']}.
+                    Propose un titre optimisé pour ce CV en lien avec l'offre d'emploi.
+                    ";
+
+            case 'introduction': // Introduction / Phrase d'accroche
+                return $generalPrompt .
+                    "Introduction actuelle (facultative) : {$fieldContent['introduction']}.
+                    Si l'utilisateur n'a pas fourni d'introduction, propose une phrase d'accroche pertinente en fonction de l'offre d'emploi.
+                    ";
+
+            case 'formation': // Formations
+                $formationsText = '';
+                foreach ($fieldContent as $formation) {
+                    $title = $formation['title'] ?? '';
+                    $organization = $formation['organization'] ?? '';
+                    $description = $formation['description'] ?? '';
+                    $city = $formation['city'] ?? '';
+                    $postalCode = $formation['postal_code'] ?? '';
+                    $country = $formation['country'] ?? '';
+                    $isGraduated = $formation['is_graduated'] ? 'Oui' : 'Non';
+                    $level = $formation['level'] ?? '';
+                    $dateStart = $formation['date_start'] ?? '';
+                    $dateEnd = $formation['date_end'] ?? '';
+
+                    $formationsText .= "
+                    Formation actuelle :
+                    - Nom : $title
+                    - Organisation : $organization
+                    - Description : $description
+                    - Ville : $city
+                    - Code postal : $postalCode
+                    - Pays : $country
+                    - Diplômé : $isGraduated
+                    - Niveau : $level
+                    - Date de début : $dateStart
+                    - Date de fin : $dateEnd
+
+                    ";
+                }
+                return $generalPrompt . $formationsText . "
+                Reformule et réarrange ces formations si nécessaire, en les rendant plus pertinentes pour l'offre d'emploi et les ATS.
+                ";
+
+            case 'skills': // Compétences (Skills)
+                $skills = implode(", ", $fieldContent['skills']); // Liste des compétences
+                return $generalPrompt .
+                    "Compétences actuelles : $skills.
+                    En fonction de l'offre d'emploi, propose des compétences supplémentaires ou reformule celles existantes pour optimiser le CV pour les ATS.
+                    ";
+
+            case 'softskills': // Savoir-être (Soft Skills)
+                $softSkills = implode(", ", $fieldContent['softskills']); // Liste des savoir-être
+                return $generalPrompt .
+                    "Savoir-être actuel : $softSkills.
+                    Propose des savoir-être supplémentaires ou reformule ceux existants en fonction des exigences de l'offre d'emploi et pour qu'ils soient optimisés pour les ATS.
+                    ";
+
+            default:
+                return $generalPrompt . "Optimise ce champ pour les ATS en prenant en compte l'offre d'emploi. Contenu : {$fieldContent['content']}.";
         }
-        return null;
-    }
-
-
-
-
-// Générer le PDF du CV
-    public function generatePdf(Cv $cv): string
-    {
-        return $this->pdfGenerationService->generatePdf($cv);
-    }
-
-// Mettre à jour un CV existant
-    public function updateCv(Cv $cv, Request $request)
-    {
-// Mettre à jour les informations du CV
-// Cela pourrait être une méthode d'update du cv dans la base de données.
-// Après les modifications, vous pouvez aussi repasser par l'optimisation de l'IA si nécessaire.
-        $aiResult = $this->aiService->generateCV($cv);
-        $cv->setOptimizedContent($aiResult->getOptimizedContent());
-
-// Enregistrer les changements
-        $this->cvRepository->save($cv);
-
-        return $cv;
-    }
-
-// Récupérer les CV d'un utilisateur
-    public function getUserCvs($user)
-    {
-        return $this->cvRepository->findBy(['user' => $user]);
     }
 }
