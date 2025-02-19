@@ -1,92 +1,143 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1 class="text-2xl font-bold mb-6">Compléter votre profil</h1>
+{% block title %}Complétez votre profil{% endblock %}
 
-    {{ form_start(form) }}
-
-    <!-- Permis -->
-    <div class="mb-4">
-        {{ form_label(form.licences) }}
-        {{ form_widget(form.licences, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded-md'}}) }}
-        {{ form_errors(form.licences) }}
-    </div>
-
-    <!-- Langues -->
-    <div class="mb-4" id="languages-container">
-        <label class="block text-sm font-medium text-gray-700">Langues</label>
-        <div id="languages" class="dynamic-container" data-prototype="{{ form_widget(form.languages.vars.prototype)|e('html_attr') }}">
-            <!-- Pas de champ par défaut, juste un conteneur vide -->
-        </div>
-        <button type="button" id="add-language" class="btn-add">Ajouter une langue</button>
-    </div>
-
-    <!-- POIs -->
-    <div class="mb-4" id="pois-container">
-        <label class="block text-sm font-medium text-gray-700">Points d'intérêt</label>
-        <div id="pois" class="dynamic-container" data-prototype="{{ form_widget(form.pois.vars.prototype)|e('html_attr') }}">
-            <!-- Pas de champ par défaut, juste un conteneur vide -->
-        </div>
-        <button type="button" id="add-poi" class="btn-add">Ajouter un POI</button>
-    </div>
-
-    <!-- LinkedIn & Portfolio -->
-    <div class="mb-4">
-        {{ form_row(form.linkedin) }}
-    </div>
-
-    <div class="mb-4">
-        {{ form_row(form.portfolio_url) }}
-    </div>
-
-    <!-- Bouton de soumission -->
-    <div class="mt-4">
-        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition">
-            {{ form_widget(form.save) }}
-        </button>
-    </div>
-
-    {{ form_end(form) }}
-
-    <!-- JavaScript pour masquer les divs et ajouter des éléments dynamiques -->
+{% block javascripts %}
+    {{ parent() }}
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // Masquer les divs des langues et POIs
             const divsToHide = document.querySelectorAll('div:has(label.required)');
-            const secondAndThirdDivs = [divsToHide[1], divsToHide[2]];
-            secondAndThirdDivs.forEach(function(div) {
-                div.style.display = 'none';
+            divsToHide[1].style.display = 'none';
+            
+            // Gestion de la collection de langues
+            const languageCollectionHolder = document.querySelector('#languages-collection');
+            const addLanguageButton = document.querySelector('#add-language');
+            let languageIndex = languageCollectionHolder.querySelectorAll('.language-form').length;
+        
+            addLanguageButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                const prototype = languageCollectionHolder.dataset.prototype;
+                // Créer le nouvel élément de formulaire à partir du prototype
+                const newForm = prototype.replace(/__name__/g, languageIndex);
+                
+                // Ajouter le bouton de suppression au nouveau formulaire
+                const newFormHtml = `
+                    <div class="language-form collection-item bg-gray-50 p-4 rounded-md relative">
+                        <button type="button" class="remove-button absolute top-2 right-2 text-red-500 hover:text-red-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        ${newForm}
+                    </div>
+                `;
+                
+                languageCollectionHolder.insertAdjacentHTML('beforeend', newFormHtml);
+                languageIndex++;
+                addRemoveListeners();
             });
-
-            function addFormItem(containerId, addButtonId) {
-                let container = document.getElementById(containerId);
-                let addButton = document.getElementById(addButtonId);
-                let index = container.children.length;
-
-                addButton.addEventListener("click", function () {
-                    let prototype = container.dataset.prototype.replace(/__name__/g, index);
-                    let newItem = document.createElement("div");
-                    newItem.classList.add("new-item");
-                    newItem.innerHTML = prototype + '<span class="remove-item">Supprimer</span>';
-                    container.appendChild(newItem);
-                    index++;
-
-                    // Ajouter event listener pour suppression
-                    newItem.querySelector(".remove-item").addEventListener("click", function () {
-                        newItem.remove();
+        
+            // Gestion des boutons de suppression pour tous les éléments de collection
+            function addRemoveListeners() {
+                document.querySelectorAll('.remove-button').forEach(function(button) {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        this.closest('.collection-item').remove();
                     });
                 });
             }
-
-            addFormItem("languages", "add-language");
-            addFormItem("pois", "add-poi");
-
-            // Activer la suppression sur les champs déjà présents
-            document.querySelectorAll(".remove-item").forEach(item => {
-                item.addEventListener("click", function () {
-                    this.parentElement.remove();
+        
+            // Configuration initiale des boutons de suppression
+            addRemoveListeners();
+            
+            // Ajustement du style des checkboxes pour les permis
+            styleCheckboxes();
+            
+            function styleCheckboxes() {
+                document.querySelectorAll('.license-checkbox').forEach(function(container) {
+                    const checkbox = container.querySelector('input[type="checkbox"]');
+                    const label = container.querySelector('label');
+                    
+                    if (checkbox && label) {
+                        // Ajouter l'écouteur d'événement pour mise à jour de la classe
+                        checkbox.addEventListener('change', function() {
+                            if (this.checked) {
+                                container.classList.add('bg-blue-50');
+                            } else {
+                                container.classList.remove('bg-blue-50');
+                            }
+                        });
+                        
+                        // État initial
+                        if (checkbox.checked) {
+                            container.classList.add('bg-blue-50');
+                        }
+                    }
                 });
-            });
+            }
         });
     </script>
+{% endblock %}
+
+{% block body %}
+<div class="max-w-4xl mx-auto py-8 px-4">
+    <h1 class="text-2xl font-bold mb-6 text-gray-800">Complétez votre profil</h1>
+    
+    {{ form_start(form, {'attr': {'class': 'space-y-8'}}) }}
+    
+    {# Section Permis - avec style ajusté #}
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4 text-gray-700">Permis de conduire</h2>
+        
+        {# Style personnalisé pour les checkboxes de permis #}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {% for child in form.licences %}
+                <div class="license-checkbox flex items-center space-x-2 p-2 border rounded-md transition-colors hover:bg-gray-50">
+                    {{ form_widget(child, {'attr': {'class': 'h-5 w-5 text-blue-600 rounded'}}) }}
+                    {{ form_label(child, null, {'label_attr': {'class': 'ml-2 text-sm text-gray-700 cursor-pointer flex-1'}}) }}
+                </div>
+            {% endfor %}
+        </div>
+        {{ form_errors(form.licences) }}
+    </div>
+    
+    {# Section Langues #}
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4 text-gray-700">Langues</h2>
+        
+        <div id="languages-collection" 
+             data-prototype="{{ form_widget(form.languages.vars.prototype)|e('html_attr') }}"
+             class="space-y-4">
+            {% for languageField in form.languages %}
+                <div class="language-form collection-item bg-gray-50 p-4 rounded-md relative">
+                    <button type="button" class="remove-button absolute top-2 right-2 text-red-500 hover:text-red-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    {{ form_row(languageField.language, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded-md'}}) }}
+                    {{ form_row(languageField.level, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded-md mt-2'}}) }}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <button type="button" id="add-language" class="mt-4 inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+            Ajouter une langue
+        </button>
+    </div>
+    
+    {# Bouton de soumission #}
+    <div class="flex justify-end">
+        {{ form_widget(form.save, {
+            'attr': {'class': 'px-6 py-3 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 transition'},
+            'label': 'Enregistrer mon profil'
+        }) }}
+    </div>
+    
+    {{ form_end(form) }}
+</div>
 {% endblock %}

@@ -44,15 +44,6 @@ class UserCompleteBeingFormType extends AbstractType
             'by_reference' => false, // Important pour CollectionType
             'prototype' => true, // Permet l'ajout dynamique de champs avec JS
         ])
-        ->add('pois', CollectionType::class, [
-            'entry_type' => PoiType::class,
-            'allow_add' => true,
-            'allow_delete' => true,
-            'by_reference' => false,
-            'prototype' => true, // Pour JS
-        ])
-        ->add('linkedin')
-        ->add('portfolio_url')
         ->add('save', SubmitType::class)
         ;
     }
