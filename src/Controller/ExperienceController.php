@@ -12,7 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/experience')]
-final class ExperienceController extends AbstractController{
+final class ExperienceController extends AbstractController
+{
     #[Route(name: 'app_experience_index', methods: ['GET'])]
     public function index(ExperienceRepository $experienceRepository): Response
     {
@@ -24,11 +25,17 @@ final class ExperienceController extends AbstractController{
     #[Route('/new', name: 'app_experience_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
         $experience = new Experience();
+        $experience->setEmployee($user);
         $form = $this->createForm(ExperienceType::class, $experience);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $descriptions = $request->request->all()['description'] ?? [];
+            $experience->setDescription($descriptions);
+
+
             $entityManager->persist($experience);
             $entityManager->flush();
 
@@ -70,7 +77,7 @@ final class ExperienceController extends AbstractController{
     #[Route('/{id}', name: 'app_experience_delete', methods: ['POST'])]
     public function delete(Request $request, Experience $experience, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$experience->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $experience->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($experience);
             $entityManager->flush();
         }
