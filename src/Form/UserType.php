@@ -7,8 +7,8 @@ use App\Entity\Subscription;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class UserType extends AbstractType
 {
@@ -19,7 +19,7 @@ class UserType extends AbstractType
             ->add('password')
             ->add('firstname')
             ->add('lastname')
-            ->add('born', Date::class, [
+            ->add('born', DateType::class, [
                 'widget' => 'single_text'
             ])
             ->add('phone')
