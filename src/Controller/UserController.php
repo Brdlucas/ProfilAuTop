@@ -31,7 +31,7 @@ final class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $pwd = $uphi->isPasswordValid($user, $form->get('password')->getData());;
+            $pwd = $uphi->isPasswordValid($user, $form->get('password')->getData());
             if ($pwd) {
                 $image = $form->get('image')->getData();
                 if ($image != null) {
@@ -79,6 +79,7 @@ final class UserController extends AbstractController
 
         return $this->render('user/index.html.twig', [
             'userForm' => $form,
+            'user' => $user
         ]);
     }
 
@@ -144,13 +145,14 @@ final class UserController extends AbstractController
     }
 
     #[Route('/{ref}', name: 'delete', methods: ['POST'])]
-    public function delete(Request $request, User $user): Response
+    public function delete(Request $request): Response
     {
+        $user = $this->getUser();
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->getPayload()->getString('_token'))) {
             $this->em->remove($user);
             $this->em->flush();
         }
 
-        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_user_profil', [], Response::HTTP_SEE_OTHER);
     }
 }
