@@ -87,3 +87,7 @@ label {
     right: 2rem;
     left: unset;
 }
+
+#user.grid.grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
