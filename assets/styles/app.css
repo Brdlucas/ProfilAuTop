@@ -60,3 +60,22 @@ label {
     display: inline-block;
     margin-left: 8px;
 }
+
+.green-200 { color: #75c95c; }
+.grey-200 { color: #dbdada; }
+
+.bg-green-200 { background-color: #75c95c; }
+.bg-grey-200 { background-color: #dbdada; }
+
+.border-success { outline: 2px solid var(--bs-success); }
+.border-warning { outline: 2px solid var(--bs-warning); }
+.border-error { outline: 2px solid var(--bs-danger); }
+
+
+.top-2 {
+    top: 2rem;;
+} 
+.right-2 {
+    right: 2rem;
+    left: unset;
+}
