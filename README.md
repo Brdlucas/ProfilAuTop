@@ -284,7 +284,11 @@ L'IA analyse toutes les informations fournies par l'utilisateur, y compris les c
 
 - **Analyse :**
   - L'IA analyse les informations pour vérifier la compatibilité avec les exigences de l'offre d'emploi.
+    - Amélioration de la rédaction avec des outils de correction grammaticale et stylistique.
+    - Génération de contenu et suggestions pour les CV.
+    - Analyse des offres d'emploi et personnalisation des CV en conséquence.
   - Elle peut aussi suggérer des ajustements ou des optimisations pour que le CV soit mieux adapté aux critères des systèmes de gestion des candidatures (ATS).
+    -  Optimisation des documents pour les ATS et le SEO.
 
 - **Retour de l'IA :**
   - Le CV est réorganisé et réoptimisé pour qu'il soit compatible avec les ATS.
