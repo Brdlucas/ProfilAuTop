@@ -193,7 +193,7 @@ class AppFixtures extends Fixture
         $user1->setLicences(['A']);
         $user1->setLinkedin('https://www.linkedin.com/in/' . $faker->userName());
         $user1->setPortfolioUrl($faker->url());
-        $user1->setIsGpdr($faker->boolean());
+        $user1->setIsGpdr(true);
         $user1->setIsTerms(true);
         $user1->setIsMajor(true);
         $user1->setIsVerified(false);
@@ -225,7 +225,7 @@ class AppFixtures extends Fixture
         $user2->setLicences([]);
         $user2->setLinkedin('https://www.linkedin.com/in/' . $faker->userName());
         $user2->setPortfolioUrl($faker->url());
-        $user2->setIsGpdr($faker->boolean());
+        $user2->setIsGpdr(true);
         $user2->setIsTerms(true);
         $user2->setIsMajor(true);
         $user2->setIsVerified(true);
@@ -258,7 +258,7 @@ class AppFixtures extends Fixture
         $user3->setLicences(['B', 'C']);
         $user3->setLinkedin('https://www.linkedin.com/in/' . $faker->userName());
         $user3->setPortfolioUrl($faker->url());
-        $user3->setIsGpdr($faker->boolean());
+        $user3->setIsGpdr(true);
         $user3->setIsTerms(true);
         $user3->setIsMajor(true);
         $user3->setIsVerified(true);
