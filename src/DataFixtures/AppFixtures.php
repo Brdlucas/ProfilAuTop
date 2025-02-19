@@ -150,7 +150,7 @@ class AppFixtures extends Fixture
          $admin->setPassword($this->passwordHasher->hashPassword($admin, 'admin123'));
          $admin->setFirstname('Drizzt');
          $admin->setLastname("Do'Urden");
-         $admin->setBorn(born: $faker->dateTimeBetween('-60 years', '-18 years'));
+         $admin->setBorn(born: "2005-02-18");
          $admin->setPhone($faker->phoneNumber());
          $admin->setPostalCode($faker->postcode());
          $admin->setCity($faker->city());
@@ -172,7 +172,7 @@ class AppFixtures extends Fixture
         $user1->setPassword($this->passwordHasher->hashPassword($user1, 'password'));
         $user1->setFirstname($faker->firstName());
         $user1->setLastname($faker->lastName());
-        $user1->setBorn($faker->dateTimeBetween('-60 years', '-18 years'));
+        $user1->setBorn("2005-02-18");
         $user1->setPhone($faker->phoneNumber());
         $user1->setPostalCode($faker->postcode());
         $user1->setCity($faker->city());
@@ -205,7 +205,7 @@ class AppFixtures extends Fixture
         $user2->setPassword($this->passwordHasher->hashPassword($user2, 'password'));
         $user2->setFirstname($faker->firstName());
         $user2->setLastname($faker->lastName());
-        $user2->setBorn($faker->dateTimeBetween('-60 years', '-18 years'));
+        $user2->setBorn("2005-02-18");
         $user2->setPhone($faker->phoneNumber());
         $user2->setPostalCode($faker->postcode());
         $user2->setCity($faker->city());
@@ -237,7 +237,7 @@ class AppFixtures extends Fixture
         $user3->setPassword($this->passwordHasher->hashPassword($user3, 'password'));
         $user3->setFirstname($faker->firstName());
         $user3->setLastname($faker->lastName());
-        $user3->setBorn($faker->dateTimeBetween('-60 years', '-18 years'));
+        $user3->setBorn("2005-02-18");
         $user3->setPhone($faker->phoneNumber());
         $user3->setPostalCode($faker->postcode());
         $user3->setCity($faker->city());
