@@ -1,6 +1,5 @@
 {{ form_start(form, {'attr': {'class': 'p-2 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col w-4/5 mt-10 m-auto gap-5'}}) }}
 <div class="max-w-7xl mx-auto space-y-6">
-	{{ dump(form) }}
 	{% for field in form %}
 		{% if field.vars.name in ['categories', 'experiences', 'formations'] %}
 			<div class="form-section">
@@ -28,7 +27,13 @@
 				</div>
 			</div>
 		{% else %}
-			<div class="bg-white rounded-lg border border-gray-200">
+			<div class="">
+				{{ form_label(field, null, {
+					'label_attr': {
+						'class': 'text-xl'
+					}
+				}) }}
+
 				{{ form_widget(field, {
                         'attr': {
                             'class': 'block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'
@@ -38,4 +43,4 @@
 		</div>
 	{% endif %}
 {% endfor %}</div><button class="mt-6 m-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-{{ button_label|default('Créer un nouveau CV') }}</button>{{ form_end(form) }}
+{{ button_label|default('Créer un nouveau CV') }}</button>{{ form_widget(form._token) }}{{ form_end(form, {'render_rest': false}) }}
