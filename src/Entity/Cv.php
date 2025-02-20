@@ -49,12 +49,6 @@ class Cv
     private Collection $cvHistories;
 
     /**
-     * @var Collection<int, Category>
-     */
-    #[ORM\ManyToMany(targetEntity: Category::class)]
-    private Collection $categories;
-
-    /**
      * @var Collection<int, Experience>
      */
     #[ORM\ManyToMany(targetEntity: Experience::class, inversedBy: 'cvs')]
@@ -88,10 +82,15 @@ class Cv
      */
     private $softSkills;
 
+    /**
+     * @var Collection<int, SoftSkill>
+     */
+    #[ORM\ManyToMany(targetEntity: SoftSkill::class, inversedBy: 'cvs')]
+    private Collection $softskills;
+
     public function __construct()
     {
         $this->cvHistories = new ArrayCollection();
-        $this->categories = new ArrayCollection();
         $this->experiences = new ArrayCollection();
         $this->formations = new ArrayCollection();
         $this->ref = uniqid($this->title);
@@ -99,7 +98,7 @@ class Cv
         $this->softSkills = new ArrayCollection();
         $this->link = '';
         $this->email = '';
-
+        $this->softskills = new ArrayCollection();
     }
 
     public function getSkills(): Collection
@@ -288,30 +287,6 @@ class Cv
                 $cvHistory->setCv(null);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Category>
-     */
-    public function getCategories(): Collection
-    {
-        return $this->categories;
-    }
-
-    public function addCategory(Category $category): static
-    {
-        if (!$this->categories->contains($category)) {
-            $this->categories->add($category);
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Category $category): static
-    {
-        $this->categories->removeElement($category);
 
         return $this;
     }

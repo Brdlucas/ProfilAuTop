@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SoftSkillRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SoftSkillRepository::class)]
@@ -19,6 +21,17 @@ class SoftSkill
     #[ORM\ManyToOne(inversedBy: 'softSkills')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
+
+    /**
+     * @var Collection<int, Cv>
+     */
+    #[ORM\ManyToMany(targetEntity: Cv::class, mappedBy: 'softskills')]
+    private Collection $cvs;
+
+    public function __construct()
+    {
+        $this->cvs = new ArrayCollection();
+    }
 
     public function __tostring()
     {
@@ -50,6 +63,33 @@ class SoftSkill
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cv>
+     */
+    public function getCvs(): Collection
+    {
+        return $this->cvs;
+    }
+
+    public function addCv(Cv $cv): static
+    {
+        if (!$this->cvs->contains($cv)) {
+            $this->cvs->add($cv);
+            $cv->addSoftskill($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCv(Cv $cv): static
+    {
+        if ($this->cvs->removeElement($cv)) {
+            $cv->removeSoftskill($this);
+        }
 
         return $this;
     }
