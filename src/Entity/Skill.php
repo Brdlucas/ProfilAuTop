@@ -21,13 +21,13 @@ class Skill
     /**
      * @var Collection<int, Experience>
      */
-    #[ORM\ManyToMany(targetEntity: Experience::class, mappedBy: 'skills', nullable: true)]
+    #[ORM\ManyToMany(targetEntity: Experience::class, inversedBy: 'skills')]
     private Collection $experiences;
 
     /**
      * @var Collection<int, Formation>
      */
-    #[ORM\ManyToMany(targetEntity: Formation::class, mappedBy: 'skills', nullable: true)]
+    #[ORM\ManyToMany(targetEntity: Formation::class, inversedBy: 'skills')]
     private Collection $formations;
 
     public function __construct()
@@ -35,7 +35,6 @@ class Skill
         $this->experiences = new ArrayCollection();
         $this->formations = new ArrayCollection();
     }
-
     public function __tostring()
     {
         return $this->name;
@@ -70,7 +69,6 @@ class Skill
     {
         if (!$this->experiences->contains($experience)) {
             $this->experiences->add($experience);
-            $experience->addSkill($this);
         }
 
         return $this;
@@ -78,9 +76,7 @@ class Skill
 
     public function removeExperience(Experience $experience): static
     {
-        if ($this->experiences->removeElement($experience)) {
-            $experience->removeSkill($this);
-        }
+        $this->experiences->removeElement($experience);
 
         return $this;
     }
@@ -97,7 +93,6 @@ class Skill
     {
         if (!$this->formations->contains($formation)) {
             $this->formations->add($formation);
-            $formation->addSkill($this);
         }
 
         return $this;
@@ -105,10 +100,9 @@ class Skill
 
     public function removeFormation(Formation $formation): static
     {
-        if ($this->formations->removeElement($formation)) {
-            $formation->removeSkill($this);
-        }
+        $this->formations->removeElement($formation);
 
         return $this;
     }
+
 }

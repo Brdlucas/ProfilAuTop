@@ -141,7 +141,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $pois;
 
     #[ORM\Column]
-    private ?int $cv_count = null;
+    private int $cv_count = 0;
 
     public function __construct()
     {
