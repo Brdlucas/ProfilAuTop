@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use App\Form\LanguagesType;
 use App\Form\UserType;
+use App\Form\LanguagesType;
+use App\Form\UserPoiFormType;
 use App\Service\UploaderService;
 use App\Form\UserCompleteBeingFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -158,6 +159,26 @@ final class UserController extends AbstractController
         }
 
         return $this->render('user/languages_edit.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/editer/centres-d-interets', name: 'poi_edit', methods: ['GET', 'POST'])]
+    public function poiEdit(Request $request): Response
+    {
+        $user = $this->getUser();
+        $form = $this->createForm(UserPoiFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($user);
+            $this->em->flush();
+
+            $this->addFlash('success', 'Vos centres d\'intérêts ont été mises à jour.');
+            return $this->redirectToRoute('app_user_profil', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('user/poi_edit.html.twig', [
             'form' => $form,
         ]);
     }
