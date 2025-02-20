@@ -521,7 +521,7 @@ class AppFixtures extends Fixture
             $Pois7,
         ];
 
-        // Créer et persister les soft skills pour chaque catégorie
+        // Créer et persister les loisirs pour chaque catégorie
         foreach ($allPois as $index => $Pois) {
             foreach ($Pois as $PoiName) {
                 $Poi = new Poi();
