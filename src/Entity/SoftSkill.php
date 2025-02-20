@@ -79,7 +79,7 @@ class SoftSkill
     {
         if (!$this->cvs->contains($cv)) {
             $this->cvs->add($cv);
-            $cv->addSoftskill($this);
+            $cv->addSoftSkill($this);
         }
 
         return $this;
@@ -88,9 +88,10 @@ class SoftSkill
     public function removeCv(Cv $cv): static
     {
         if ($this->cvs->removeElement($cv)) {
-            $cv->removeSoftskill($this);
+            $cv->removeSoftSkill($this);
         }
 
         return $this;
     }
+
 }
