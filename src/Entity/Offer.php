@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OfferRepository::class)]
-#[ORM\HasLifecycleCallbacks] 
+#[ORM\HasLifecycleCallbacks]
 class Offer
 {
     #[ORM\Id]

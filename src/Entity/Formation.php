@@ -75,7 +75,7 @@ class Formation
     {
         $this->skills = new ArrayCollection();
         $this->cvs = new ArrayCollection();
-        $this->ref = uniqid($this->title);
+        $this->ref = uniqid();
     }
 
     public function __tostring()

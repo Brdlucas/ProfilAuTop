@@ -158,7 +158,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updated_at = new \DateTimeImmutable;
     }
 
-    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function setUpdatedAtValue()
     {
         $this->updated_at = new \DateTimeImmutable;
