@@ -28,7 +28,7 @@
                 <td>{{ offer.createdAt ? offer.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('app_offer_show', {'id': offer.id}) }}">show</a>
-                    <a href="{{ path('app_offer_edit', {'id': offer.id}) }}">edit</a>
+{#                    <a href="{{ path('app_offer_edit', {'id': offer.id}) }}">edit</a>#}
                 </td>
             </tr>
         {% else %}
