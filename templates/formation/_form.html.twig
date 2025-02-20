@@ -28,15 +28,20 @@
 	{# Description #}
 	<div id="description-fields" class="flex flex-col gap-5">
 		{% if formation.description is empty %}
-			<input type="text" name="description[]" placeholder="Description" value="" class="w-full p-3 rounded border border-gray-300">
+			<div class="flex items-center gap-2">
+				<input type="text" name="description[]" placeholder="Description" value="" class="w-full p-3 rounded border border-gray-300">
+				<button type="button" class="delete-description p-2 bg-red-500 hover:bg-red-600 text-white rounded">X</button>
+			</div>
 		{% else %}
 			{% for description in formation.description %}
-				<input type="text" class="w-full p-3 rounded border border-gray-300" name="description[]" placeholder="Description" value="{{ description }}">
+				<div class="flex items-center gap-2">
+					<input type="text" class="w-full p-3 rounded border border-gray-300" name="description[]" placeholder="Description" value="{{ description }}">
+					<button type="button" class="delete-description p-2 bg-red-500 hover:bg-red-600 text-white rounded">X</button>
+				</div>
 			{% endfor %}
 		{% endif %}
 	</div>
-	<button type="button" id="add-description" class="p-3 bg-blue-500 m-auto text-white">Ajouter une description</button>
-
+	<button type="button" id="add-description" class="p-3 bg-blue-500 hover:bg-blue-600 text-white rounded mt-2">Ajouter une description</button>
 	{# Code postal #}
 	<div class="form-group">
 		{{ form_label(form.postal_code, 'Code postal', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
@@ -91,29 +96,51 @@
 					</div>
 					{{ form_label(skill, null, {
                     'label_attr': {'class': 'text-sm text-gray-700' }}) 
-																																																																																																				                    }}
+																																																																																																																													                    }}
 				</div>
 			{% endfor %}
 		</div>
 	</div>
 
-	<div class="flex justify-center">
-		<a class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white" href={{path('app_cv_index')}}>Précédent</a>
-		<button type="submit" name="action" value="create_new" class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white">{{ button_label|default('enregistrer et créer un nouveau') }}</button>
-		<button type="submit" name="action" value="next" class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white">{{ button_label|default('suivant') }}</button>
-	</div>
+	{% if app.request.headers.get('referer') == 'http://127.0.0.1:8000/profil/cv' %}
+		<div class="flex justify-center">
+			<a class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white" href={{path('app_cv_index')}}>Précédent</a>
+			<button type="submit" name="action" value="create_new" class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white">{{ button_label|default('enregistrer et créer un nouveau') }}</button>
+			<button type="submit" name="action" value="next" class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white">{{ button_label|default('suivant') }}</button>
+		</div>
+	{% else %}
+		<div class="flex justify-center">
+			<button type="submit" name="action" value="save" class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white">{{ button_label|default('sauvegarder') }}</button>
+		</div>
+	{% endif %}
 
 
 	<script>
 		document.getElementById('add-description').addEventListener('click', function () {
 var container = document.getElementById('description-fields');
+var wrapper = document.createElement('div');
+wrapper.className = 'flex items-center gap-2';
+
 var input = document.createElement('input');
 input.type = 'text';
 input.name = 'description[]';
 input.placeholder = 'Description';
-input.className = 'w-full p-3 rounded border border-gray-300 mb-2';
-container.appendChild(input);
-container.appendChild(input);
+input.className = 'w-full p-3 rounded border border-gray-300';
+
+var deleteButton = document.createElement('button');
+deleteButton.type = 'button';
+deleteButton.className = 'delete-description p-2 bg-red-500 hover:bg-red-600 text-white rounded';
+deleteButton.textContent = 'X';
+
+wrapper.appendChild(input);
+wrapper.appendChild(deleteButton);
+container.appendChild(wrapper);
+});
+
+document.getElementById('description-fields').addEventListener('click', function (e) {
+if (e.target && e.target.classList.contains('delete-description')) {
+e.target.parentElement.remove();
+}
 });
 	</script>
 
