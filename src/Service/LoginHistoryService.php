@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class LoginHistoryService
 {
-    public function __construct(readonly private EntityManagerInterface $em){}
+    public function __construct(readonly private EntityManagerInterface $em) {}
 
     public function addHistory(User $user, string $userAgent, string $ip): void
     {
@@ -22,12 +22,12 @@ class LoginHistoryService
 
         $loginHistory = new LoginHistory();
         $loginHistory
-            ->setUser($user)
+            ->setJobless($user)
             ->setIpAddress($ip)
             ->setDevice($deviceDetector->getDeviceName())
             ->setOs($deviceDetector->getOs()['name'])
             ->setBrowser($deviceDetector->getClient()['name'])
-            ;
+        ;
         $this->em->persist($loginHistory);
         $this->em->flush();
     }
