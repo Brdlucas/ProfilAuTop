@@ -44,7 +44,12 @@ class UserCompleteBeingFormType extends AbstractType
             'by_reference' => false, // Important pour CollectionType
             'prototype' => true, // Permet l'ajout dynamique de champs avec JS
         ])
-        ->add('save', SubmitType::class)
+        ->add('submit', SubmitType::class, [
+            'label' => 'Enregistrer mes informations',
+            'attr' => [
+                'class' => 'bg-sky-500 hover:bg-sky-400 text-white font-bold py-2 px-4 rounded',
+            ],
+        ])
         ;
     }
 

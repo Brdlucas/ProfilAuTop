@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use App\Entity\Subscription;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\Email;
@@ -150,6 +151,12 @@ class UserType extends AbstractType
                 'attr' => [
                     'class' => 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
                     'placeholder' => 'https://www.votre-portfolio.com',
+                ],
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Modifier mes informations',
+                'attr' => [
+                    'class' => 'bg-sky-500 hover:bg-sky-400 text-white font-bold py-2 px-4 rounded',
                 ],
             ])
         ;
