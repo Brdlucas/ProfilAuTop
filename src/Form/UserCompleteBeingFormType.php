@@ -36,7 +36,7 @@ class UserCompleteBeingFormType extends AbstractType
                 'Permis DE (autocars avec remorque)' => 'DE',
             ],
             'multiple' => true,
-            'expanded' => true, // Mettre à true pour afficher sous forme de checkboxes
+            'autocomplete' => true,
         ])
         ->add('languages', CollectionType::class, [
             'entry_type' => LanguageType::class,
