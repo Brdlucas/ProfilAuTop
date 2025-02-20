@@ -194,4 +194,9 @@ document.addEventListener("turbo:load", function () {
       });
     });
   }
+
+  // Print cv
+  function printPage() {
+    window.print();
+  }
 });
