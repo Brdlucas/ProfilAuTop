@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/profil/skill')]
 final class SkillController extends AbstractController{
+
     #[Route(name: 'app_skill_index', methods: ['GET'])]
     public function index(SkillRepository $skillRepository): Response
     {
@@ -27,8 +28,9 @@ final class SkillController extends AbstractController{
         $skill = new Skill();
         $form = $this->createForm(SkillType::class, $skill);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->persist($skill);
             $entityManager->flush();
 
