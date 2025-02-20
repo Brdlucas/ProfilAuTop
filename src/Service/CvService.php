@@ -16,26 +16,27 @@ class CvService
     // Méthode pour analyser un champ du CV et proposer des optimisations pour les ATS
     public function optimizeCVFieldForATS(string $fieldType, array $fieldContent, string $jobTitle, string $jobDescription): array
     {
-        set_time_limit(120);  // Définir un temps d'exécution plus long pour les appels API
+        set_time_limit(120);
 
         $prompt = $this->generatePrompt($fieldType, $fieldContent, $jobTitle, $jobDescription);
 
         try {
             $response = $this->client->chat()->create([
-                'model' => 'gpt-4',  // Utilisation du modèle GPT-4
+                'model' => 'gpt-3.5-turbo',
                 'messages' => [
                     ['role' => 'system', 'content' =>
-                        'Tu es un expert en optimisation de CV pour les systèmes de suivi des candidatures (ATS). Ta mission est de fournir des suggestions précises et pertinentes pour améliorer chaque section du CV en fonction de l\'offre d\'emploi fournie. Respecte ces règles :
+                        'Tu es un expert en optimisation de CV pour les systèmes de suivi des candidatures (ATS) en français. 
+                        Ta mission est de fournir des suggestions précises et pertinentes pour améliorer chaque section du CV en fonction de l\'offre d\'emploi fournie. 
+                        Respecte ces règles :
                         1. Propose uniquement des modifications concrètes et directes.
-                        2. Utilise un format structuré pour chaque suggestion.
-                        3. Concentre-toi sur l\'adaptation à l\'offre d\'emploi et l\'optimisation pour les ATS.
-                        4. Ne donne pas d\'explications supplémentaires.
-                        5. Si aucune modification n\'est nécessaire, indique-le clairement
-                        '
+                        2. Utilise un format structuré pour chaque suggestion (JSON).
+                        3. Quand tu renvois les infos, renvoi un objet JSON avec les clés "title" et "introduction" (ou les clés appropriées pour le type de champ).
+                        4. Concentre-toi sur l\'adaptation à l\'offre d\'emploi et l\'optimisation pour les ATS.
+                        5. Ne donne pas d\'explications supplémentaires.'
                     ],
                     ['role' => 'user', 'content' => $prompt],
                 ],
-                'max_tokens' => 500,  // Limite du nombre de tokens pour la réponse
+                'max_tokens' => 500,
             ]);
         } catch (\Exception $e) {
             return [
@@ -43,30 +44,32 @@ class CvService
             ];
         }
 
-        // Suggestions d'améliorations pour ce champ
-        $suggestions = $response['choices'][0]['message']['content'];
+        // Décode la réponse JSON de l'IA
+        $suggestions = json_decode($response['choices'][0]['message']['content'], true);
 
-        return [
-            'original' => $fieldContent,  // Contenu original du champ
-            'suggestions' => $suggestions  // Suggestions d'améliorations proposées par l'IA
-        ];
+        // Vérifie si le décodage a réussi et si $suggestions est un tableau
+        if (json_last_error() === JSON_ERROR_NONE && is_array($suggestions)) {
+            return $suggestions;
+        } else {
+            // En cas d'erreur de décodage JSON ou si ce n'est pas un tableau, renvoie un message d'erreur
+            return [
+                'error' => 'Erreur lors du décodage de la réponse JSON de l\'IA ou format de réponse incorrect.',
+                'details' => $response['choices'][0]['message']['content'] // Ajoute les détails de la réponse pour débogage
+            ];
+        }
     }
 
-    // Générer le prompt pour analyser le champ en fonction du type (compétence, expérience, etc.)
+    // Générer le prompt pour analyser le champ en fonction du type
     private function generatePrompt(string $fieldType, array $fieldContent, string $jobTitle, string $jobDescription): string
     {
-        // Partie générale : l'IA doit toujours être informée du titre et du contenu de l'offre d'emploi
-        $generalPrompt = "
-        L'offre d'emploi suivante est à optimiser pour les ATS :
+        $generalPrompt = "L'offre d'emploi suivante est à optimiser pour les ATS :
         Titre de l'offre d'emploi : $jobTitle
         Description de l'offre d'emploi : $jobDescription
 
-        Maintenant, optimise les informations suivantes pour le champ : $fieldType.
-        ";
+        Optimise les informations suivantes pour le champ : $fieldType. ";
 
-        // Ajout des sections spécifiques selon le type de champ (formation, expérience, etc.)
         switch ($fieldType) {
-            case 'title': // Titre du CV
+            case 'title':
                 return $generalPrompt .
                     "Titre du CV actuel : {$fieldContent['title']}
                     Offre d'emploi : $jobTitle
@@ -76,11 +79,12 @@ class CvService
                     2. Met en avant les compétences principales recherchées
                     3. Est concis et impactant (maximum 5-7 mots)
                     
-                    Format de réponse :
-                    Titre optimisé : [Votre suggestion]
-                    ";
+                    Format de réponse (JSON) :
+                    {
+                      \"[Votre suggestion]\"
+                    }";
 
-            case 'introduction': // Introduction / Phrase d'accroche
+            case 'introduction':
                 return $generalPrompt .
                     "Introduction actuelle : {$fieldContent['introduction']}
                     Offre d'emploi : $jobTitle
@@ -91,11 +95,12 @@ class CvService
                     2. Intègre les mots-clés principaux de l'offre d'emploi
                     3. Met en avant la valeur ajoutée du candidat pour le poste
                     
-                    Format de réponse :
-                    Introduction optimisée : [Votre suggestion]
-                    ";
+                    Format de réponse (JSON) :
+                    {
+                      \"[Votre suggestion]\"
+                    }";
 
-            case 'formation': // Formations
+           case 'formation': // Formations
                 $formationsText = '';
                 foreach ($fieldContent as $formation) {
                     $formationsText .= $this->formatFormation($formation);
@@ -111,11 +116,24 @@ class CvService
                 1. Mettent en avant les compétences et réalisations pertinentes pour l'offre
                 2. Utilisent des verbes d'action et des mots-clés de l'offre d'emploi
                 3. Quantifient les résultats lorsque c'est possible
-                
-                Format de réponse :
-                - [Nom du champ et numéro] : [Suggestion optimisée]
-                (Répéter pour chaque champ nécessitant une optimisation)
-                ";
+                4. Ajoute les skills associé à la formation, si l'utilisateur n'a pas assoscié de skills ajoutes-en 10
+                        
+                Format de réponse (JSON) :
+                {
+                    \"title\": \"[Votre suggestion]\",
+                    \"organization\": \"[Votre suggestion]\",
+                    \"description\": \"[Votre suggestion]\",
+                    \"city\": \"[Votre suggestion]\",
+                    \"postal_code\": \"[Votre suggestion]\",
+                    \"country\": \"[Votre suggestion]\",
+                    \"date_start\": \"[Votre suggestion]\",
+                    \"date_end\": \"[Votre suggestion]\",
+                    \"is_graduated\": \"[Votre suggestion]\",
+                    \"level\": \"[Votre suggestion]\",
+                    \"skills\": [
+                            \"[Votre suggestion]\"
+                        ]
+                }";
 
             case 'experience': // Expériences professionnelles
                 $experiencesText = '';
@@ -133,11 +151,22 @@ class CvService
                 1. Mettent en avant les compétences et réalisations pertinentes pour l'offre
                 2. Utilisent des verbes d'action et des mots-clés de l'offre d'emploi
                 3. Quantifient les résultats lorsque c'est possible
-                
-                Format de réponse :
-                - [Nom du champ et numéro] : [Suggestion optimisée]
-                (Répéter pour chaque champ nécessitant une optimisation)
-                ";
+                4. Ajoute les skills associé à l'éxpérience, si l'utilisateur n'a pas assoscié de skills ajoutes-en 10
+
+                Format de réponse (JSON) :
+                {
+                    \"title\": \"[Votre suggestion]\",
+                    \"organization\": \"[Votre suggestion]\",
+                    \"description\": \"[Votre suggestion]\",
+                    \"city\": \"[Votre suggestion]\",
+                    \"postal_code\": \"[Votre suggestion]\",
+                    \"country\": \"[Votre suggestion]\",
+                    \"date_start\": \"[Votre suggestion]\",
+                    \"date_end\": \"[Votre suggestion]\",
+                    \"skills\": [
+                            \"[Votre suggestion]\"
+                        ]
+                }";
 
             case 'skills': // Compétences (Skills)
                 $skills = implode(", ", $fieldContent['skills']);  // Liste des compétences
@@ -151,16 +180,15 @@ class CvService
                     2. Suggère des reformulations pour mieux correspondre aux termes de l'offre
                     3. Propose jusqu'à 3 compétences supplémentaires si pertinent
                     
-                    Format de réponse :
-                    Compétences optimisés :
-                    - [Compétence 1]
-                    - [Compétence 2]
-                    ...
-                    Suggestions supplémentaires :
-                    - [Nouvelle compétence 1]
-                    - [Nouvelle compétence 2]
-                    - [Nouvelle compétence 3]
-                    ";
+                    Format de réponse (JSON) :
+                    {
+                        [
+                            \"[Votre suggestion]\",
+                            \"[Votre suggestion]\",
+                            \"[Votre suggestion]\",
+                            \"[Votre suggestion]\"
+                        ]
+                    }";
 
             case 'softskills': // Savoir-être (Soft Skills)
                 $softSkills = implode(", ", $fieldContent['softskills']);  // Liste des savoir-être
@@ -174,16 +202,14 @@ class CvService
                     2. Suggère des reformulations pour mieux correspondre aux termes de l'offre
                     3. Propose jusqu'à 3 savoir-être supplémentaires si pertinent
                     
-                    Format de réponse :
-                    Savoir-être optimisés :
-                    - [Savoir-être 1]
-                    - [Savoir-être 2]
-                    ...
-                    Suggestions supplémentaires :
-                    - [Nouvelle savoir-être 1]
-                    - [Nouvelle savoir-être 2]
-                    - [Nouvelle savoir-être 3]
-                    ";
+                    Format de réponse (JSON) :
+                    {
+                        [
+                            \"[Votre suggestion]\",
+                            \"[Votre suggestion]\",
+                            \"[Votre suggestion]\"
+                        ]
+                    }";
 
             default:
                 return $generalPrompt . "Optimise ce champ pour les ATS en prenant en compte l'offre d'emploi. Contenu : {$fieldContent['content']}.";
@@ -231,5 +257,4 @@ class CvService
         $end = $end ? date('m/Y', strtotime($end)) : 'Présent';
         return "$start - $end";
     }
-
 }
