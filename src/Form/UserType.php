@@ -117,7 +117,6 @@ class UserType extends AbstractType
             ])
             ->add('licences', ChoiceType::class, [
                 'choices' => [
-                    'Pas de permis' => 'none',
                     'Permis AM (cyclomoteur)' => 'AM',
                     'Permis A1 (moto légère)' => 'A1',
                     'Permis A2 (moto intermédiaire)' => 'A2',
@@ -136,13 +135,6 @@ class UserType extends AbstractType
                 ],
                 'multiple' => true,
                 'autocomplete' => true,
-            ])
-            ->add('languages', CollectionType::class, [
-                'entry_type' => LanguageType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false, // Important pour CollectionType
-                'prototype' => true, // Permet l'ajout dynamique de champs avec JS
             ])
             ->add('linkedin', TextType::class, [
                 'label' => "Profil LinkedIn",
