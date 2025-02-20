@@ -27,14 +27,14 @@ final class ExperienceController extends AbstractController{
     {
         $user = $this->getUser();
         $experience = new Experience();
-        $experience->setEmployee($user);
         $form = $this->createForm(ExperienceType::class, $experience);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $descriptions = $request->request->all()['description'] ?? [];
             $experience->setDescription($descriptions);
-
+            
+            $experience->setEmployee($user);
 
             $entityManager->persist($experience);
             $entityManager->flush();
