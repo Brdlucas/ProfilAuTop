@@ -12,8 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/profil/formation')]
-final class FormationController extends AbstractController{
-    
+final class FormationController extends AbstractController
+{
+
     #[Route(name: 'app_formation_index', methods: ['GET'])]
     public function index(FormationRepository $formationRepository): Response
     {
@@ -29,15 +30,25 @@ final class FormationController extends AbstractController{
         $formation = new Formation();
         $form = $this->createForm(FormationType::class, $formation);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $action = $request->get('action');
             $descriptions = $request->request->all()['description'] ?? [];
             $formation->setDescription($descriptions);
-            
+
             $formation->setStudent($user);
 
             $entityManager->persist($formation);
             $entityManager->flush();
+
+            switch ($action) {
+                case 'create_new':
+                    return $this->redirectToRoute('app_formation_new', [], Response::HTTP_SEE_OTHER);
+                    break;
+                case 'next':
+                    return $this->redirectToRoute('app_experience_new', [], Response::HTTP_SEE_OTHER);
+                    break;
+            }
 
             return $this->redirectToRoute('app_formation_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -77,7 +88,7 @@ final class FormationController extends AbstractController{
     #[Route('/{id}', name: 'app_formation_delete', methods: ['POST'])]
     public function delete(Request $request, Formation $formation, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$formation->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $formation->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($formation);
             $entityManager->flush();
         }
