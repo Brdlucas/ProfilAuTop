@@ -21,13 +21,13 @@ class Skill
     /**
      * @var Collection<int, Experience>
      */
-    #[ORM\ManyToMany(targetEntity: Experience::class, mappedBy: 'skills')]
+    #[ORM\ManyToMany(targetEntity: Experience::class, mappedBy: 'skills', nullable: true)]
     private Collection $experiences;
 
     /**
      * @var Collection<int, Formation>
      */
-    #[ORM\ManyToMany(targetEntity: Formation::class, mappedBy: 'skills')]
+    #[ORM\ManyToMany(targetEntity: Formation::class, mappedBy: 'skills', nullable: true)]
     private Collection $formations;
 
     public function __construct()
