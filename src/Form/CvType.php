@@ -4,15 +4,17 @@ namespace App\Form;
 
 use App\Entity\Cv;
 use App\Entity\Category;
-use App\Entity\Experience;
 use App\Entity\Formation;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\SoftSkill;
+use App\Entity\Experience;
+use App\Entity\Offer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CvType extends AbstractType
 {
@@ -26,15 +28,6 @@ class CvType extends AbstractType
                 ],
                 'label' => 'Titre',
                 'required' => true,
-            ])
-            ->add('introduction', TextareaType::class, [
-                'attr' => [
-                    'class' => 'p-5',
-                    'placeholder' => 'Présentez-vous brièvement',
-                    'rows' => 4
-                ],
-                'label' => 'Introduction',
-                'required' => false,
             ])
             ->add('date_start', TextType::class, [
                 'attr' => [
@@ -53,17 +46,7 @@ class CvType extends AbstractType
                 'label' => 'Date de fin',
                 'required' => false,
             ])
-            ->add('categories', EntityType::class, [
-                'class' => Category::class,
-                'choice_label' => 'name',
-                'multiple' => true,
-                'expanded' => true,
-                'attr' => [
-                    'class' => 'block max-h-60 overflow-y-auto rounded-md border-gray-300'
-                ],
-                'label' => 'Catégories',
-                'required' => false,
-            ])
+
             ->add('experiences', EntityType::class, [
                 'class' => Experience::class,
                 'choice_label' => function ($entity) {
@@ -90,13 +73,18 @@ class CvType extends AbstractType
                 'label' => 'Formations',
                 'required' => false,
             ])
-            ->add('link', TextType::class, [
-                'attr' => [
-                    'class' => 'p-5',
-                    'placeholder' => 'Lien vers votre CV / Portfolio'
-                ],
-                'label' => 'Lien',
-                'required' => false,
+            ->add('softskills', EntityType::class, [
+                'label' => 'Compétences personnelles',
+                'class' => SoftSkill::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'autocomplete' => true,
+            ])
+            ->add('offer', EntityType::class, [
+                'label' => 'Poster sur l\'Offre',
+                'class' => Offer::class,
+                'multiple' => false,
+                'autocomplete' => true,
             ])
         ;
     }
