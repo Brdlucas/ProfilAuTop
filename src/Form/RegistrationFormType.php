@@ -94,9 +94,9 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('submit', SubmitType::class, [
-                'label' => "S'inscrire",
+                'label' => "M'inscrire",
                 'attr' => [
-                    'class' => 'btn btn-primary',
+                    'class' => 'bg-sky-500 hover:bg-sky-400 text-white font-bold py-2 px-4 rounded',
                 ],
             ]) 
         ;

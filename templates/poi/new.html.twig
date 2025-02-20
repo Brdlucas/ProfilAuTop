@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Centres d'intérêts{% endblock %}
+
+{% block body %}
+    <h1>Mes Centres d'intérêts</h1>
+
+    {{ include('poi/_form.html.twig') }}
+
+    <a href="{{ path('app_user_profil') }}">Profil</a>
+{% endblock %}

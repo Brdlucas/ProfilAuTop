@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use App\Entity\Subscription;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\Email;
@@ -14,7 +15,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class UserType extends AbstractType
 {
@@ -113,6 +116,27 @@ class UserType extends AbstractType
                     'class' => 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
                 ],
             ])
+            ->add('licences', ChoiceType::class, [
+                'choices' => [
+                    'Permis AM (cyclomoteur)' => 'AM',
+                    'Permis A1 (moto légère)' => 'A1',
+                    'Permis A2 (moto intermédiaire)' => 'A2',
+                    'Permis A (moto toutes cylindrées)' => 'A',
+                    'Permis B (voiture)' => 'B',
+                    'Permis B1 (quadricycles lourds à moteur)' => 'B1',
+                    'Permis BE (voiture avec remorque lourde)' => 'BE',
+                    'Permis C1 (petits camions)' => 'C1',
+                    'Permis C (camions)' => 'C',
+                    'Permis C1E (petits camions avec remorque)' => 'C1E',
+                    'Permis CE (camions avec remorque)' => 'CE',
+                    'Permis D1 (minibus)' => 'D1',
+                    'Permis D (autocars)' => 'D',
+                    'Permis D1E (minibus avec remorque)' => 'D1E',
+                    'Permis DE (autocars avec remorque)' => 'DE',
+                ],
+                'multiple' => true,
+                'autocomplete' => true,
+            ])
             ->add('linkedin', TextType::class, [
                 'label' => "Profil LinkedIn",
                 'label_attr' => ['class' => 'block text-sm font-medium text-gray-700'],
@@ -127,6 +151,12 @@ class UserType extends AbstractType
                 'attr' => [
                     'class' => 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
                     'placeholder' => 'https://www.votre-portfolio.com',
+                ],
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Modifier mes informations',
+                'attr' => [
+                    'class' => 'bg-sky-500 hover:bg-sky-400 text-white font-bold py-2 px-4 rounded',
                 ],
             ])
         ;

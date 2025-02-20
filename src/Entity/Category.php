@@ -42,6 +42,9 @@ class Category
     #[ORM\OneToMany(targetEntity: Poi::class, mappedBy: 'category')]
     private Collection $pois;
 
+    #[ORM\Column(length: 100)]
+    private ?string $type = null;
+
     public function __construct()
     {
         $this->softSkills = new ArrayCollection();
@@ -126,6 +129,18 @@ class Category
                 $poi->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }

@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
+use App\Entity\Poi;
 use App\Entity\User;
 use App\Entity\Offer;
 use App\Entity\Skill;
@@ -29,19 +30,20 @@ class AppFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         $categories = [
-            "Compétences relationnelles",
-            "Gestion et Organisation",
-            "Intelligence émotionnelle",
-            "Pensée critique et créativité",
-            "Apprentissage et adaptabilité",
-            "Ethique et professionnalisme"
+            ["name" => "Compétences relationnelles", "type" => "savoir-être"],
+            ["name" => "Gestion et Organisation", "type" => "savoir-être"],
+            ["name" => "Intelligence émotionnelle", "type" => "savoir-être"],
+            ["name" => "Pensée critique et créativité", "type" => "savoir-être"],
+            ["name" => "Apprentissage et adaptabilité", "type" => "savoir-être"],
+            ["name" => "Ethique et professionnalisme", "type" => "savoir-être"]
         ];
 
         // Créer et persister les catégories
         $createdCategories = [];
         foreach ($categories as $cat) {
             $category = new Category();
-            $category->setName($cat);
+            $category->setName($cat['name']);
+            $category->setType($cat['type']);
             $manager->persist($category);
             $createdCategories[] = $category;
         }
@@ -143,29 +145,29 @@ class AppFixtures extends Fixture
             }
         }
 
-         // Créer un admin
-         $admin = new User();
-         $admin->setEmail('admin@admin.com');
-         $admin->setRoles(['ROLE_ADMIN']);
-         $admin->setPassword($this->passwordHasher->hashPassword($admin, 'admin123'));
-         $admin->setFirstname('Drizzt');
-         $admin->setLastname("Do'Urden");
-         $admin->setBorn(born: "2005-02-18");
-         $admin->setPhone($faker->phoneNumber());
-         $admin->setPostalCode($faker->postcode());
-         $admin->setCity($faker->city());
-         $admin->setLanguages([['name' =>'français', 'level' => 'maternel'], ['name' =>'anglais', 'level' => 'C1']]);
-         $admin->setLicences(['B', 'moto']);
-         $admin->setLinkedin('https://www.linkedin.com/in/');
-         $admin->setPortfolioUrl('https://www.google.com');
-         $admin->setIsGpdr(true);
-         $admin->setIsTerms(true);
-         $admin->setIsMajor(true);
-         $admin->setIsVerified(true);
-         $manager->persist($admin);
- 
+        // Créer un admin
+        $admin = new User();
+        $admin->setEmail('admin@admin.com');
+        $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setPassword($this->passwordHasher->hashPassword($admin, 'admin123'));
+        $admin->setFirstname('Drizzt');
+        $admin->setLastname("Do'Urden");
+        $admin->setBorn(born: "2005-02-18");
+        $admin->setPhone($faker->phoneNumber());
+        $admin->setPostalCode($faker->postcode());
+        $admin->setCity($faker->city());
+        $admin->setLanguages([['name' => 'français', 'level' => 'maternel'], ['name' => 'anglais', 'level' => 'C1']]);
+        $admin->setLicences(['B', 'moto']);
+        $admin->setLinkedin('https://www.linkedin.com/in/');
+        $admin->setPortfolioUrl('https://www.google.com');
+        $admin->setIsGpdr(true);
+        $admin->setIsTerms(true);
+        $admin->setIsMajor(true);
+        $admin->setIsVerified(true);
+        $manager->persist($admin);
 
-         // User 1
+
+        // User 1
         $user1 = new User();
         $user1->setEmail('user1@example.com');
         $user1->setPassword($this->passwordHasher->hashPassword($user1, 'password'));
@@ -260,9 +262,9 @@ class AppFixtures extends Fixture
             'BTS Commerce International',
             'DUT Génie Civil'
         ];
-        
+
         foreach ($createdUsers as $user) {
-            for ($i = 0; $i < 3; $i++) { 
+            for ($i = 0; $i < 3; $i++) {
                 $formation = new Formation();
                 $formation->setTitle($formationTitles[$i % count($formationTitles)]);
                 // $formation->setRef(uniqid($formation->getTitle()));
@@ -275,7 +277,7 @@ class AppFixtures extends Fixture
                 $formation->setCountry($faker->country());
                 $formation->setLevel($faker->randomElement(['Bac+2', 'Bac+3', 'Bac+5']));
                 $formation->setIsGraduated(true);
-                $formation->setDegree('default.png'); 
+                $formation->setDegree('default.png');
                 $formation->setStudent($user);
                 $formation->setIsAi($faker->boolean(50));
                 $createdFormations[] = $formation;
@@ -293,11 +295,11 @@ class AppFixtures extends Fixture
         ];
 
         foreach ($createdUsers as $user) {
-            for ($i = 0; $i < 2; $i++) { 
+            for ($i = 0; $i < 2; $i++) {
                 $experience = new Experience();
                 $experience->setTitle($experienceTitles[$i % count($experienceTitles)]);
                 $experience->setDateStart($faker->date('Y-m'));
-                $experience->setDateEnd($faker->boolean(80) ? $faker->date('Y-m') : null); 
+                $experience->setDateEnd($faker->boolean(80) ? $faker->date('Y-m') : null);
                 $experience->setOrganization($faker->company());
                 $experience->setDescription([$faker->sentence(6), $faker->sentence(8)]);
                 $experience->setPostalCode($faker->postcode());
@@ -336,8 +338,8 @@ class AppFixtures extends Fixture
             $manager->persist($skill);
             $createdSkills[] = $skill;
         }
-        
-         // Assurer au moins 1 skill par formation
+
+        // Assurer au moins 1 skill par formation
         foreach ($createdFormations as $formation) {
             $skillKey = array_rand($createdSkills);
             $skill = $createdSkills[$skillKey];
@@ -395,6 +397,142 @@ class AppFixtures extends Fixture
 
             $manager->persist($skill);
         }
+
+        $categoriesPoi = [
+            ["name" => "Lecture", "type" => "loisir"],
+            ["name" => "Jeux", "type" => "loisir"],
+            ["name" => "Sport", "type" => "loisir"],
+            ["name" => "Culture", "type" => "loisir"],
+            ["name" => "Voyages", "type" => "loisir"],
+            ["name" => "Musique", "type" => "loisir"],
+            ["name" => "Cinéma", "type" => "loisir"]
+        ];
+
+        // Créer et persister les catégories pour les loisirs
+        $createdCategoriesPoi = [];
+        foreach ($categoriesPoi as $catPois) {
+            $categoryPoi = new Category();
+            $categoryPoi->setName($catPois['name']);
+            $categoryPoi->setType($catPois['type']);
+            $manager->persist($categoryPoi);
+            $createdCategoriesPoi[] = $categoryPoi;
+        }
+
+        // Créer des loisirs 
+
+        $Pois1 = [
+            "Communication",
+            "Écoute active",
+            "Empathie",
+            "Esprit d’équipe",
+            "Diplomatie",
+            "Négociation",
+            "Leadership",
+            "Networking",
+            "Gestion des conflits",
+            "Collaboration interculturelle"
+        ];
+
+        $Pois2 = [
+            "Gestion du temps",
+            "Capacité d'adaptation",
+            "Prise de décision",
+            "Gestion du stress",
+            "Planification et organisation",
+            "Résolution de problèmes",
+            "Délégation",
+            "Gestion de projet",
+            "Priorisation des tâches",
+            "Multitâche"
+        ];
+
+        $Pois3 = [
+            "Confiance en soi",
+            "Gestion des émotions",
+            "Résilience",
+            "Patience",
+            "Persuasion",
+            "Auto-motivation",
+            "Empathie",
+            "Conscience de soi",
+            "Régulation émotionnelle",
+            "Optimisme"
+        ];
+
+        $Pois4 = [
+            "Esprit d'analyse",
+            "Curiosité",
+            "Innovation",
+            "Capacité à résoudre des problèmes complexes",
+            "Prise d'initiative",
+            "Pensée latérale",
+            "Remise en question",
+            "Synthèse d'informations",
+            "Créativité",
+            "Esprit critique"
+        ];
+
+        $Pois5 = [
+            "Apprentissage continu",
+            "Agilité cognitive",
+            "Ouverture au changement",
+            "Polyvalence",
+            "Flexibilité mentale",
+            "Curiosité intellectuelle",
+            "Capacité d'auto-formation",
+            "Adaptabilité technologique",
+            "Gestion de l'ambiguïté",
+            "Réceptivité aux feedbacks"
+        ];
+
+        $Pois6 = [
+            "Fiabilité",
+            "Sens des responsabilités",
+            "Intégrité",
+            "Déontologie professionnelle",
+            "Respect de la confidentialité",
+            "Engagement",
+            "Honnêteté",
+            "Éthique du travail",
+            "Respect des normes et procédures",
+            "Conscience professionnelle"
+        ];
+
+        $Pois7 = [
+            "Fiabilité",
+            "Sens des responsabilités",
+            "Intégrité",
+            "Déontologie professionnelle",
+            "Respect de la confidentialité",
+            "Engagement",
+            "Honnêteté",
+            "Éthique du travail",
+            "Respect des normes et procédures",
+            "Conscience professionnelle"
+        ];
+
+        $allPois = [
+            $Pois1,
+            $Pois2,
+            $Pois3,
+            $Pois4,
+            $Pois5,
+            $Pois6,
+            $Pois7,
+        ];
+
+        // Créer et persister les loisirs pour chaque catégorie
+        foreach ($allPois as $index => $Pois) {
+            foreach ($Pois as $PoiName) {
+                $Poi = new Poi();
+                $Poi->setName($PoiName);
+                $Poi->setCategory($createdCategories[$index]);
+                $manager->persist($Poi);
+            }
+        }
+
+
+
 
 
         $manager->flush();

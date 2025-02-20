@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-
+use App\Form\LanguagesType;
 use App\Form\UserType;
 use App\Service\UploaderService;
 use App\Form\UserCompleteBeingFormType;
@@ -142,6 +142,26 @@ final class UserController extends AbstractController
         return $this->redirectToRoute('app_user_profil');
     }
 
+    #[Route('/editer/langages', name: 'languages_edit', methods: ['GET', 'POST'])]
+    public function languagesEdit(Request $request): Response
+    {
+        $user = $this->getUser();
+        $form = $this->createForm(LanguagesType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($user);
+            $this->em->flush();
+
+            $this->addFlash('success', 'Vos langues ont été mises à jour.');
+            return $this->redirectToRoute('app_user_profil', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('user/languages_edit.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{ref}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request): Response
     {
@@ -151,6 +171,7 @@ final class UserController extends AbstractController
             $this->em->flush();
         }
 
-        return $this->redirectToRoute('app_user_profil', [], Response::HTTP_SEE_OTHER);
+        $this->addFlash('success', 'Votre compte a bien été supprimé !');
+        return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
     }
 }
