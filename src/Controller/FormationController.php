@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/profil/formation')]
 final class FormationController extends AbstractController{
+    
     #[Route(name: 'app_formation_index', methods: ['GET'])]
     public function index(FormationRepository $formationRepository): Response
     {
@@ -24,11 +25,17 @@ final class FormationController extends AbstractController{
     #[Route('/new', name: 'app_formation_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
         $formation = new Formation();
         $form = $this->createForm(FormationType::class, $formation);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
+            $descriptions = $request->request->all()['description'] ?? [];
+            $formation->setDescription($descriptions);
+            
+            $formation->setStudent($user);
+
             $entityManager->persist($formation);
             $entityManager->flush();
 
