@@ -1,52 +1,65 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Experience index{% endblock %}
+{% block title %}Experience index
+{% endblock %}
 
 {% block body %}
-    <h1>Experience index</h1>
+	<div class="mx-auto px-4 py-8">
+		<h1 class="text-3xl font-bold mb-6 text-gray-800">Experience index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Ref</th>
-                <th>Date_start</th>
-                <th>Date_end</th>
-                <th>Title</th>
-                <th>Organization</th>
-                <th>Description</th>
-                <th>Postal_code</th>
-                <th>City</th>
-                <th>Country</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for experience in experiences %}
-            <tr>
-                <td>{{ experience.id }}</td>
-                <td>{{ experience.ref }}</td>
-                <td>{{ experience.dateStart }}</td>
-                <td>{{ experience.dateEnd }}</td>
-                <td>{{ experience.title }}</td>
-                <td>{{ experience.organization }}</td>
-                <td>{{ experience.description ? experience.description|join(', ') : '' }}</td>
-                <td>{{ experience.postalCode }}</td>
-                <td>{{ experience.city }}</td>
-                <td>{{ experience.country }}</td>
-                <td>
-                    <a href="{{ path('app_experience_show', {'id': experience.id}) }}">show</a>
-                    <a href="{{ path('app_experience_edit', {'id': experience.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="11">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+		<div class="m-5">
+			<a href="{{ path('app_experience_new') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+				Create new
+			</a>
+		</div>
+		<div class="overflow-x-auto bg-white rounded-lg shadow">
+			<table class="min-w-full table-auto">
+				<thead class="bg-gray-50">
+					<tr>
+						<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Id</th>
+						<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ref</th>
+						<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date_start</th>
+						<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date_end</th>
+						<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+						<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Organization</th>
+						<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+						<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Postal_code</th>
+						<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">City</th>
+						<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Country</th>
+						<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+					</tr>
+				</thead>
+				<tbody class="bg-white divide-y divide-gray-200">
+					{% for experience in experiences %}
+						<tr class="hover:bg-gray-50">
+							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ experience.id }}</td>
+							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ experience.ref }}</td>
+							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ experience.dateStart }}</td>
+							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ experience.dateEnd }}</td>
+							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ experience.title }}</td>
+							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ experience.organization }}</td>
+							<td class="px-6 py-4 text-sm text-gray-900">{{ experience.description ? experience.description|join(', ') : '' }}</td>
+							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ experience.postalCode }}</td>
+							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ experience.city }}</td>
+							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ experience.country }}</td>
+							<td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+								<a href="{{ path('app_experience_show', {'id': experience.id}) }}" class="text-indigo-600 hover:text-indigo-900">Show</a>
+								<a href="{{ path('app_experience_edit', {'id': experience.id}) }}" class="text-green-600 hover:text-green-900">Edit</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="11" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">No records found</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
 
-    <a href="{{ path('app_experience_new') }}">Create new</a>
-
+		<div class="mt-6">
+			<a href="{{ path('app_experience_new') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+				Create new
+			</a>
+		</div>
+	</div>
 {% endblock %}
