@@ -78,6 +78,8 @@ final class ExperienceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $descriptions = $request->request->all()['description'] ?? [];
+            $experience->setDescription($descriptions);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_experience_index', [], Response::HTTP_SEE_OTHER);
