@@ -1,12 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CV Index
+{% block title %}Vos CV
 {% endblock %}
 
 {% block body %}
 	<div class="container mx-auto px-4 sm:px-8">
 		<div class="py-8">
-			<h1 class="text-2xl font-semibold leading-tight">CV Index</h1>
+			<h1 class="uppercase font-bold text-center text-3xl p-5">Vos Cv</h1>
+
 			<div class="my-2 flex sm:flex-row flex-col">
 				<div class="flex flex-row mb-1 sm:mb-0">
 					<div class="relative">
@@ -22,19 +23,22 @@
 						<thead>
 							<tr>
 								<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-									Id
-								</th>
-								<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-									Ref
-								</th>
-								<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
 									Title
 								</th>
 								<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-									Date Start
+									Date du début
 								</th>
 								<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-									Date End
+									Date de fin
+								</th>
+								<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+									Éxpérience(s)
+								</th>
+								<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+									Formation(s)
+								</th>
+								<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+									Compétence(s) personnelle(s)
 								</th>
 								<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
 									Actions
@@ -46,12 +50,6 @@
 								{% for cv in cvs %}
 									<tr>
 										<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-											<p class="text-gray-900 whitespace-no-wrap">{{ cv.id }}</p>
-										</td>
-										<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-											<p class="text-gray-900 whitespace-no-wrap">{{ cv.ref }}</p>
-										</td>
-										<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 											<p class="text-gray-900 whitespace-no-wrap">{{ cv.title }}</p>
 										</td>
 										<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -61,8 +59,23 @@
 											<p class="text-gray-900 whitespace-no-wrap">{{ cv.dateEnd }}</p>
 										</td>
 										<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-											<a href="{{ path('app_cv_show', {'id': cv.id}) }}" class="text-blue-600 hover:text-blue-900 mr-2">Show</a>
-											<a href="{{ path('app_cv_edit', {'id': cv.id}) }}" class="text-green-600 hover:text-green-900">Edit</a>
+											{% for experience in cv.experiences %}
+												<p class="text-gray-900 whitespace-no-wrap">{{ experience }}</p>
+											{% endfor %}
+										</td>
+										<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+											{% for formation in cv.formations %}
+												<p class="text-gray-900 whitespace-no-wrap">{{ formation }}</p>
+											{% endfor %}
+										</td>
+										<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+											{% for skill in cv.softSkills %}
+												<p class="text-gray-900 whitespace-no-wrap">{{ skill }}</p>
+											{% endfor %}
+										</td>
+										<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+											<a href="{{ path('app_cv_show', {'id': cv.id}) }}" class="text-blue-600 hover:text-blue-900 mr-2">Afficher</a>
+											<a href="{{ path('app_cv_edit', {'id': cv.id}) }}" class="text-green-600 hover:text-green-900">Modifier</a>
 										</td>
 									</tr>
 								{% else %}
