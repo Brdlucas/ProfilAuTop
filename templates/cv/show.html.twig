@@ -1,50 +1,67 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Cv{% endblock %}
+{% block title %}Détails du CV
+{% endblock %}
 
 {% block body %}
-    <h1>Cv</h1>
+	<div class="container mx-auto px-4 py-8">
+		<h1 class="text-3xl font-bold text-gray-800 mb-6 uppercase">Détails du CV</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ cv.id }}</td>
-            </tr>
-            <tr>
-                <th>Ref</th>
-                <td>{{ cv.ref }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ cv.title }}</td>
-            </tr>
-            <tr>
-                <th>Date_start</th>
-                <td>{{ cv.dateStart }}</td>
-            </tr>
-            <tr>
-                <th>Date_end</th>
-                <td>{{ cv.dateEnd }}</td>
-            </tr>
-            <tr>
-                <th>Created_at</th>
-                <td>{{ cv.createdAt ? cv.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Updated_at</th>
-                <td>{{ cv.updatedAt ? cv.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Link</th>
-                <td>{{ cv.link }}</td>
-            </tr>
-        </tbody>
-    </table>
+		<div class="bg-white shadow-md rounded-lg overflow-hidden">
+			<div class="px-6 py-4">
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Titre</span>
+						<span class="text-gray-900">{{ cv.title }}</span>
+					</div>
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Experiences</span>
+						{% for experience in cv.experiences %}
 
-    <a href="{{ path('app_cv_index') }}">back to list</a>
+							<span class="text-gray-900">{{ experience }}</span>
+						{% endfor %}
+					</div>
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Date de début</span>
+						<span class="text-gray-900">{{ cv.dateStart('d/m/Y') }}</span>
+					</div>
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Date de fin</span>
+						<span class="text-gray-900">{{ cv.dateEnd('d/m/Y') }}</span>
+					</div>
+				</div>
+				<div class="mt-4">
+					<span class="text-gray-600 text-sm font-medium">Compétences personnelles</span>
+					{% for experience in cv.experiences %}
+						<p class="text-gray-900 mt-1">{{ experience }}</p>
 
-    <a href="{{ path('app_cv_edit', {'id': cv.id}) }}">edit</a>
+					{% endfor %}
+				</div>
+				<div class="mt-4">
+					<span class="text-gray-600 text-sm font-medium">Compétences personnelles</span>
+					{% for skill in cv.softSkills %}
+						<p class="text-gray-900 mt-1">{{ skill }}</p>
 
-    {{ include('cv/_delete_form.html.twig') }}
+					{% endfor %}
+				</div>
+				<div class="mt-4">
+					<span class="text-gray-600 text-sm font-medium">Compétences personnelles</span>
+					{% for formation in cv.formations %}
+						<p class="text-gray-900 mt-1">{{ formation }}</p>
+
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
+		<div class="mt-6 flex space-x-4">
+			<a href="{{ path('app_cv_index') }}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
+				Retour à la liste
+			</a>
+			<a href="{{ path('app_cv_edit', {'id': cv.id}) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+				Modifier
+			</a>
+			{{ include('cv/_delete_form.html.twig') }}
+		</div>
+	</div>
 {% endblock %}
