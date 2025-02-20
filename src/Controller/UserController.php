@@ -6,11 +6,13 @@ use App\Form\UserType;
 use App\Form\LanguagesType;
 use App\Form\UserPoiFormType;
 use App\Service\UploaderService;
+use App\Repository\PoiRepository;
 use App\Form\UserCompleteBeingFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -22,7 +24,7 @@ final class UserController extends AbstractController
     #[Route(name: 'profil', methods: ['GET', 'POST'])]
     public function index(
         Request $request,
-        UploaderService $us, 
+        UploaderService $us,
         UserPasswordHasherInterface $uphi
     ): Response {
 
@@ -127,7 +129,7 @@ final class UserController extends AbstractController
             $user = $this->getUser();
             $user->setLicences($licences)
                 ->setLanguages($languages)
-                ;
+            ;
             $this->em->persist($user);
             $this->em->flush();
 

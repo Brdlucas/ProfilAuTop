@@ -1,17 +1,47 @@
-{% extends 'base.html.twig' %} {% block title %}Centres d'intérêt{% endblock %}
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes centres d'intérêt{% endblock %}
+
 {% block body %}
-
 <div class="max-w-4xl mx-auto py-8 px-4">
-  <h1 class="text-2xl font-bold mb-6 text-gray-800">Mes centres d'intérêts</h1>
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Mes centres d'intérêt</h1>
 
-  {{ form_start(form, { attr: { class: "space-y-8" }, method: "POST" }) }}
-  <div class="bg-white p-6 rounded-lg shadow-md">
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+    {# Affichage des POIs par catégorie #}
+    {% set categorizedPois = {} %}
+    {% for poi in app.user.pois %}
+        {% set category = poi.category.name %}
+        {% if category not in categorizedPois|keys %}
+            {% set categorizedPois = categorizedPois|merge({(category): []}) %}
+        {% endif %}
+        {% set categorizedPois = categorizedPois|merge({(category): categorizedPois[category]|merge([poi])}) %}
+    {% endfor %}
 
-    {{ form_end(form) }}
-  </div>
-  </div>
-  {% endblock %}
+    {% for category, pois in categorizedPois %}
+        <div class="mb-6">
+            <h2 class="text-2xl font-semibold mb-3 text-gray-700">{{ category }}</h2>
+            <ul class="list-disc pl-5 space-y-2">
+                {% for poi in pois %}
+                    <li class="text-gray-600">{{ poi.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
 
+    {# Formulaire d'ajout #}
+    <div class="mt-10 bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Ajouter ou modifier mes centres d'intérêt</h2>
+        
+        {{ form_start(form) }}
+        <div class="mb-4">
+            {{ form_label(form.pois, 'Choisissez vos centres d\'intérêt', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+            {{ form_widget(form.pois, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+            {{ form_errors(form.pois) }}
+        </div>
+
+        <div class="flex items-center justify-between">
+            {{ form_widget(form.submit) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
