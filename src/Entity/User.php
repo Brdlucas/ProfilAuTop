@@ -140,6 +140,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Poi::class, inversedBy: 'users')]
     private Collection $pois;
 
+    #[ORM\Column]
+    private int $cv_count = 0;
+
     public function __construct()
     {
         $this->loginHistories = new ArrayCollection();
@@ -694,6 +697,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removePoi(Poi $poi): static
     {
         $this->pois->removeElement($poi);
+
+        return $this;
+    }
+
+    public function getCvCount(): ?int
+    {
+        return $this->cv_count;
+    }
+
+    public function setCvCount(int $cv_count): static
+    {
+        $this->cv_count = $cv_count;
 
         return $this;
     }

@@ -96,16 +96,11 @@ class ExperienceType extends AbstractType
             ->add('country', CountryType::class, [
                 'label' => 'pays',
                 'label_attr' => ['class' => 'block'],
-                'attr' => ['class' => 'border border-gray-300 rounded-md w-full p-1'],
-                'constraints' => [
-                    new NotBlank(
-                        message: "Ce champs est obligatoire"
-                    )
-                ],
+                'attr' => ['class' => 'border border-gray-300 rounded-md w-full p-1']
             ])
             ->add('skills', EntityType::class, [
                 'label' => "Compétences",
-                'label_attr' => ['class' => 'w-full bg-red-800'],
+                'label_attr' => ['class' => 'w-full'],
                 'attr' => ['class' => 'custom-wrapper'],
                 'class' => Skill::class,
                 'choice_label' => 'name',

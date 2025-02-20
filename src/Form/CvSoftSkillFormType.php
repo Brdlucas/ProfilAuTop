@@ -2,41 +2,38 @@
 
 namespace App\Form;
 
-use App\Entity\User;
-use App\Entity\Subscription;
+use App\Entity\Cv;
+use App\Entity\SoftSkill;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class UserCompleteIdentityFormType extends AbstractType
+class CvSoftSkillFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstname')
-            ->add('lastname')
-            ->add('born', DateType::class, [
-                'widget' => 'single_text'
+            ->add('softskills', EntityType::class, [
+                'class' => SoftSkill::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'autocomplete' => true,
             ])
-            ->add('phone')
-            ->add('postal_code')
-            ->add('city')
             ->add('submit', SubmitType::class, [
-                'label' => 'Enregistrer mes informations',
+                'label' => 'Enregistrer mes centres d\'intérêt',
                 'attr' => [
                     'class' => 'bg-sky-500 hover:bg-sky-400 text-white font-bold py-2 px-4 rounded',
                 ],
             ])
-        ;
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => Cv::class,
         ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
+use App\Entity\Poi;
 use App\Entity\User;
 use App\Entity\Offer;
 use App\Entity\Skill;
@@ -29,19 +30,20 @@ class AppFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         $categories = [
-            "Compétences relationnelles",
-            "Gestion et Organisation",
-            "Intelligence émotionnelle",
-            "Pensée critique et créativité",
-            "Apprentissage et adaptabilité",
-            "Ethique et professionnalisme"
+            ["name" => "Compétences relationnelles", "type" => "savoir-être"],
+            ["name" => "Gestion et Organisation", "type" => "savoir-être"],
+            ["name" => "Intelligence émotionnelle", "type" => "savoir-être"],
+            ["name" => "Pensée critique et créativité", "type" => "savoir-être"],
+            ["name" => "Apprentissage et adaptabilité", "type" => "savoir-être"],
+            ["name" => "Ethique et professionnalisme", "type" => "savoir-être"]
         ];
 
         // Créer et persister les catégories
         $createdCategories = [];
         foreach ($categories as $cat) {
             $category = new Category();
-            $category->setName($cat);
+            $category->setName($cat['name']);
+            $category->setType($cat['type']);
             $manager->persist($category);
             $createdCategories[] = $category;
         }
@@ -143,29 +145,29 @@ class AppFixtures extends Fixture
             }
         }
 
-         // Créer un admin
-         $admin = new User();
-         $admin->setEmail('admin@admin.com');
-         $admin->setRoles(['ROLE_ADMIN']);
-         $admin->setPassword($this->passwordHasher->hashPassword($admin, 'admin123'));
-         $admin->setFirstname('Drizzt');
-         $admin->setLastname("Do'Urden");
-         $admin->setBorn(born: "2005-02-18");
-         $admin->setPhone($faker->phoneNumber());
-         $admin->setPostalCode($faker->postcode());
-         $admin->setCity($faker->city());
-         $admin->setLanguages([['name' =>'français', 'level' => 'maternel'], ['name' =>'anglais', 'level' => 'C1']]);
-         $admin->setLicences(['B', 'moto']);
-         $admin->setLinkedin('https://www.linkedin.com/in/');
-         $admin->setPortfolioUrl('https://www.google.com');
-         $admin->setIsGpdr(true);
-         $admin->setIsTerms(true);
-         $admin->setIsMajor(true);
-         $admin->setIsVerified(true);
-         $manager->persist($admin);
- 
+        // Créer un admin
+        $admin = new User();
+        $admin->setEmail('admin@admin.com');
+        $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setPassword($this->passwordHasher->hashPassword($admin, 'admin123'));
+        $admin->setFirstname('Drizzt');
+        $admin->setLastname("Do'Urden");
+        $admin->setBorn(born: "2005-02-18");
+        $admin->setPhone($faker->phoneNumber());
+        $admin->setPostalCode($faker->postcode());
+        $admin->setCity($faker->city());
+        $admin->setLanguages([['name' => 'français', 'level' => 'maternel'], ['name' => 'anglais', 'level' => 'C1']]);
+        $admin->setLicences(['B', 'moto']);
+        $admin->setLinkedin('https://www.linkedin.com/in/');
+        $admin->setPortfolioUrl('https://www.google.com');
+        $admin->setIsGpdr(true);
+        $admin->setIsTerms(true);
+        $admin->setIsMajor(true);
+        $admin->setIsVerified(true);
+        $manager->persist($admin);
 
-         // User 1
+
+        // User 1
         $user1 = new User();
         $user1->setEmail('user1@example.com');
         $user1->setPassword($this->passwordHasher->hashPassword($user1, 'password'));
@@ -260,9 +262,9 @@ class AppFixtures extends Fixture
             'BTS Commerce International',
             'DUT Génie Civil'
         ];
-        
+
         foreach ($createdUsers as $user) {
-            for ($i = 0; $i < 3; $i++) { 
+            for ($i = 0; $i < 3; $i++) {
                 $formation = new Formation();
                 $formation->setTitle($formationTitles[$i % count($formationTitles)]);
                 // $formation->setRef(uniqid($formation->getTitle()));
@@ -275,7 +277,7 @@ class AppFixtures extends Fixture
                 $formation->setCountry($faker->country());
                 $formation->setLevel($faker->randomElement(['Bac+2', 'Bac+3', 'Bac+5']));
                 $formation->setIsGraduated(true);
-                $formation->setDegree('default.png'); 
+                $formation->setDegree('default.png');
                 $formation->setStudent($user);
                 $formation->setIsAi($faker->boolean(50));
                 $createdFormations[] = $formation;
@@ -293,11 +295,11 @@ class AppFixtures extends Fixture
         ];
 
         foreach ($createdUsers as $user) {
-            for ($i = 0; $i < 2; $i++) { 
+            for ($i = 0; $i < 2; $i++) {
                 $experience = new Experience();
                 $experience->setTitle($experienceTitles[$i % count($experienceTitles)]);
                 $experience->setDateStart($faker->date('Y-m'));
-                $experience->setDateEnd($faker->boolean(80) ? $faker->date('Y-m') : null); 
+                $experience->setDateEnd($faker->boolean(80) ? $faker->date('Y-m') : null);
                 $experience->setOrganization($faker->company());
                 $experience->setDescription([$faker->sentence(6), $faker->sentence(8)]);
                 $experience->setPostalCode($faker->postcode());
@@ -336,8 +338,8 @@ class AppFixtures extends Fixture
             $manager->persist($skill);
             $createdSkills[] = $skill;
         }
-        
-         // Assurer au moins 1 skill par formation
+
+        // Assurer au moins 1 skill par formation
         foreach ($createdFormations as $formation) {
             $skillKey = array_rand($createdSkills);
             $skill = $createdSkills[$skillKey];
@@ -396,6 +398,347 @@ class AppFixtures extends Fixture
             $manager->persist($skill);
         }
 
+        $categoriesPoi = [
+            ["name" => "Lecture", "type" => "loisir"],
+            ["name" => "Jeux", "type" => "loisir"],
+            ["name" => "Sport", "type" => "loisir"],
+            ["name" => "Culture", "type" => "loisir"],
+            ["name" => "Voyages", "type" => "loisir"],
+            ["name" => "Musique", "type" => "loisir"],
+            ["name" => "Cinéma", "type" => "loisir"]
+        ];
+
+        // Créer et persister les catégories pour les loisirs
+        $createdCategoriesPoi = [];
+        foreach ($categoriesPoi as $catPois) {
+            $categoryPoi = new Category();
+            $categoryPoi->setName($catPois['name']);
+            $categoryPoi->setType($catPois['type']);
+            $manager->persist($categoryPoi);
+            $createdCategoriesPoi[] = $categoryPoi;
+        }
+
+        // Créer des loisirs 
+
+        $Pois1 = [
+            "Romans",
+            "Light-Novels",
+            "Manga",
+            "Manhwa",
+            "Fanfiction",
+            "BD",
+        ];
+
+        $Pois2 = [
+            "Jeux de société",
+            "Jeux de cartes",
+            "Jeux de rôle",
+            "Jeux vidéo",
+            "Jeux mobiles",
+            "Echec",
+            "Dundgeon & Dragons",
+            "Summoners War",
+            "League of Legends",
+            "Marvel Futur Fight",
+            "Tekken 8"
+        ];
+
+        $Pois3 = [
+            "Boxe anglaise",
+            "Boxe française",
+            "Judo",
+            "Karate",
+            "Taekwondo",
+            "Kung-fu",
+            "Aïkido",
+            "Capoeira",
+            "Krav Maga",
+            "Muay Thaï",
+            "Kick-boxing",
+            "Full-contact",
+            "MMA",
+            "Sumo",
+            "Lutte",
+            "Catch",
+            "Jiu-jitsu",
+            "Sambo",
+            "Wing Chun",
+            "Boxe birmane",
+            "Football",
+            "Rugby",
+            "Basket-ball",
+            "Handball",
+            "Volley-ball",
+            "Tennis",
+            "Golf",
+            "Natation",
+            "Athlétisme",
+            "Cyclisme",
+            "Equitation",
+            "Escalade",
+            "Randonnée",
+            "Ski",
+            "Snowboard",
+            "Surf",
+            "Kitesurf",
+            "Plongée",
+            "Voile",
+            "Pêche",
+            "Chasse",
+            "Tir à l'arc",
+            "Tir sportif",
+        ];
+
+        $Pois4 = [
+            "Théâtre",
+            "Danse",
+            "Musique",
+            "Peinture",
+            "Sculpture",
+            "Photographie",
+            "Cinéma",
+            "Littérature",
+            "Poésie",
+            "Philosophie",
+            "Histoire",
+            "Géographie",
+            "Sciences",
+            "Technologie",
+            "Economie",
+            "Politique",
+            "Sociologie",
+            "Psychologie",
+            "Religion",
+            "Spiritualité",
+            "Mythologie",
+            "Astrologie",
+            "Médecine",
+            "Biologie",
+            "Physique",
+            "Chimie",
+            "Mathématiques",
+            "Informatique",
+            "Langues",
+            "Linguistique",
+            "Droit",
+            "Commerce",
+            "Marketing",
+        ];
+
+        $Pois5 = [
+            "Afrique",
+            "Amérique",
+            "Asie",
+            "Europe",
+            "Océanie",
+            "France",
+            "Espagne",
+            "Italie",
+            "Allemagne",
+            "Royaume-Uni",
+            "Russie",
+            "Chine",
+            "Japon",
+            "Inde",
+            "Brésil",
+            "Canada",
+            "Australie",
+            "Nouvelle-Zélande",
+            "Mexique",
+            "Argentine",
+            "Afrique du Sud",
+            "Egypte",
+            "Maroc",
+            "Algérie",
+            "Tunisie",
+            "Sénégal",
+            "Côte d'Ivoire",
+            "Nigeria",
+            "Kenya",
+            "Cameroun",
+            "Ghana",
+            "Mali",
+            "Niger",
+            "Tchad",
+            "Congo",
+            "Gabon",
+            "RDC",
+            "Angola",
+            "Zambie",
+            "Zimbabwe",
+            "Mozambique",
+            "Madagascar",
+            "Maurice",
+            "Seychelles",
+            "Comores",
+            "Mauritanie",
+            "Soudan",
+            "Tchad",
+            "Libye",
+            "Tunisie",
+            "Algérie",
+            "Maroc",
+            "Mauritanie",
+            "Mali",
+            "Niger",
+            "Tchad",
+            "Soudan",
+            "Egypte",
+        ];
+
+        $Pois6 = [
+            "Pop",
+            "Rock",
+            "Rap",
+            "Reggae",
+            "Jazz",
+            "Blues",
+            "Classique",
+            "Electro",
+            "Techno",
+            "House",
+            "Trance",
+            "Hardcore",
+            "Metal",
+            "Punk",
+            "Country",
+            "Folk",
+            "Latino",
+            "Salsa",
+            "Bachata",
+            "Merengue",
+            "Reggaeton",
+            "Samba",
+            "Forro",
+            "Zouk",
+            "Kizomba",
+            "Hip-hop",
+            "RnB",
+            "Soul",
+            "Funk",
+            "Disco",
+            "Dance",
+            "Pop-rock",
+            "Rock'n'roll",
+            "Grunge",
+            "Indie",
+            "Britpop",
+            "Metalcore",
+            "Death metal",
+            "Black metal",
+            "Thrash metal",
+            "Heavy metal",
+            "Power metal",
+            "Speed metal",
+            "Doom metal",
+            "Gothic metal",
+            "Symphonic metal",
+            "Folk metal",
+            "Pagan metal",
+            "Viking metal",
+            "Nu metal",
+            "Rapcore",
+            "Rap metal",
+            "Rap rock",
+            "Rap alternatif",
+            "Rap conscient",
+            "Rap hardcore",
+            "Rap old school",
+            "Rap new school",
+            "Rap français",
+            "Rap US",
+            "Rap UK",
+        ];
+
+        $Pois7 = [
+            "Action",
+            "Aventure",
+            "Comédie",
+            "Drame",
+            "Fantastique",
+            "Horreur",
+            "Policier",
+            "Science-fiction",
+            "Thriller",
+            "Western",
+            "Animation",
+            "Documentaire",
+            "Expérimental",
+            "Fiction",
+            "Historique",
+            "Mélodrame",
+            "Musical",
+            "Romance",
+            "Sport",
+            "Guerre",
+            "Biographie",
+            "Comédie dramatique",
+            "Comédie musicale",
+            "Comédie romantique",
+            "Comédie d'action",
+            "Comédie d'aventure",
+            "Comédie de science-fiction",
+            "Comédie de super-héros",
+            "Comédie de zombies",
+            "Comédie familiale",
+            "Comédie fantastique",
+            "Comédie horrifique",
+            "Comédie musicale",
+            "Comédie noire",
+            "Comédie policière",
+            "Comédie romantique",
+            "Comédie satirique",
+            "Comédie sociale",
+            "Comédie sportive",
+            "Comédie western",
+            "Comédie de mœurs",
+            "Comédie de bureau",
+            "Comédie de campus",
+            "Comédie de guerre",
+            "Comédie de science-fiction",
+            "Comédie de super-héros",
+            "Comédie de zombies",
+            "Comédie dramatique",
+            "Comédie fantastique",
+            "Comédie horrifique",
+            "Comédie musicale",
+            "Comédie noire",
+            "Comédie policière",
+            "Comédie romantique",
+            "Comédie satirique",
+            "Comédie sociale",
+            "Comédie sportive",
+            "Comédie western",
+            "Comédie de mœurs",
+            "Comédie de bureau",
+            "Comédie de campus",
+            "Comédie de guerre",
+            "Comédie de science-fiction",
+            "Comédie de super-héros",
+            "Comédie de zombies",
+            "Comédie dramatique",
+            "Comédie fantastique",
+        ];
+
+        $allPois = [
+            $Pois1,
+            $Pois2,
+            $Pois3,
+            $Pois4,
+            $Pois5,
+            $Pois6,
+            $Pois7,
+        ];
+
+        // Créer et persister les loisirs pour chaque catégorie
+        foreach ($allPois as $index => $Pois) {
+            foreach ($Pois as $PoiName) {
+                $Poi = new Poi();
+                $Poi->setName($PoiName);
+                $Poi->setCategory($createdCategoriesPoi[$index]);
+                $manager->persist($Poi);
+            }
+        }
 
         $manager->flush();
     }

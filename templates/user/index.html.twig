@@ -13,7 +13,9 @@
 
                         <header class="flex flex-col items-center text-center">
                             <img class="inline-flex object-cover border-4 border-sky-500 rounded-full shadow-[5px_5px_0_0_rgba(0,0,0,1)] shadow-sky-500/100 bg-indigo-50 text-sky-600 h-24 w-24 !h-48 !w-48" src="" alt="Profile Image">
+
                             <h1 class="text-2xl text-gray-800 font-bold mt-4">{{app.user.firstname}} <span class="uppercase">{{app.user.lastname}}</span></h1>
+                            
                         </header>
 
                         <div class="mt-6 w-full">
@@ -28,10 +30,10 @@
                                 </li>
                                 <li class="flex items-center gap-2">
                                     <div class="text-lg cursor-pointer relative before:absolute before:bg-sky-200 before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500">
-                                        <a href={{path('app_cv_index') }} class="flex items-center gap-2 p-1 relative">
+                                        {# <a href={{path('app_cv_index') }} class="flex items-center gap-2 p-1 relative">
                                             {{ ux_icon('tabler:file-cv', { class: 'h-8 w-8' }) }}
                                             <span>Mes CV</span>
-                                        </a>
+                                        </a> #}
                                     </div>
                                 </li>
                                 <li class="flex items-center gap-2">
@@ -52,7 +54,15 @@
                                 </li>
                                 <li class="flex items-center gap-2">
                                     <div class="text-lg cursor-pointer relative before:absolute before:bg-sky-200 before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500">
-                                        <a href={{path('app_user_pois') }} class="flex items-center gap-2 p-1 relative">
+                                        <a href={{path('app_user_languages_edit') }} class="flex items-center gap-2 p-1 relative">
+                                            {{ ux_icon('tabler:language', { class: 'h-8 w-8' }) }}
+                                            Mes Langues
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <div class="text-lg cursor-pointer relative before:absolute before:bg-sky-200 before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500">
+                                        <a href={{path('app_user_poi_edit') }} class="flex items-center gap-2 p-1 relative">
                                             {{ ux_icon('tabler:books', { class: 'h-8 w-8' }) }}
                                             Mes Centres d'intérêts
                                         </a>

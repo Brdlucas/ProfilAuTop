@@ -38,7 +38,6 @@ class PaymentService
     
             $subscription
                 ->setAmount($amount)
-                ->setFrequency($amount > 99 ? 'year' : 'month')
             ;
 
             $this->em->persist($subscription);
@@ -51,7 +50,7 @@ class PaymentService
                         'currency' => 'eur', // Setup de la devise
                         'unit_amount' => $amount * 100, // Montant en centimes
                         'recurring' => [ // Recurrence de l'abonnement
-                            'interval' => $subscription->getFrequency(), // mois ou année
+                            'interval' => 'month', // mois ou année
                         ],
                         'product_data' => [ // Informations du produit
                             'name' => 'miniamaker', // Texte affiché sur la page de paiement

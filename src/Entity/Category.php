@@ -25,7 +25,14 @@ class Category
             "Intelligence émotionnelle",
             "Pensée critique et créativité",
             "Apprentissage et adaptabilité",
-            "Ethique et professionnalisme"
+            "Ethique et professionnalisme",
+            "Lecture",
+            "Jeux",
+            "Sport",
+            "Culture",
+            "Voyages",
+            "Musique",
+            "Cinéma",
         ],
     )]
     private ?string $name = null;
@@ -41,6 +48,9 @@ class Category
      */
     #[ORM\OneToMany(targetEntity: Poi::class, mappedBy: 'category')]
     private Collection $pois;
+
+    #[ORM\Column(length: 100)]
+    private ?string $type = null;
 
     public function __construct()
     {
@@ -126,6 +136,18 @@ class Category
                 $poi->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }
