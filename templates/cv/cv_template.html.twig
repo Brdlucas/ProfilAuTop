@@ -5,8 +5,12 @@
 {% block body %}
 
 {
-  "title": "Ingénieur DevOps Expérimenté en CI/CD et Test Automation",
-  "introduction": "Ingénieur DevOps chevronné avec 3 ans d'expérience dans l'automatisation des tests, l'intégration logicielle et la mise en place de pipelines CI/CD GitLab et Jenkins. Expert en développement d'outils internes en C# et Python, sensibilité aux enjeux de cybersécurité et passion pour l'optimisation des infrastructures. Cherche à mettre en avant ces compétences pour améliorer l'efficacité de l'équipe logicielle chez Médiane Système.",
+  "title": {
+    "title": "Ingénieur DevOps Expérimenté en CI/CD et Test Automation",
+  },
+  "introduction": {
+    "introduction": "Ingénieur DevOps chevronné avec 3 ans d'expérience dans l'automatisation des tests, l'intégration logicielle et la mise en place de pipelines CI/CD GitLab et Jenkins. Expert en développement d'outils internes en C# et Python, sensibilité aux enjeux de cybersécurité et passion pour l'optimisation des infrastructures. Cherche à mettre en avant ces compétences pour améliorer l'efficacité de l'équipe logicielle chez Médiane Système.",
+  },
   "formation": [
       {
         "title": "Master en Informatique",
@@ -106,11 +110,41 @@
         ],
       },
     ],
+  "skills" : [
+      "CI/CD",
+      "Jenkins",
+      "Test Automation"
+    ],
   "softskills": [
         "Travail en équipe",
         "Leadership",
         "Communication efficace"
-      ]
+      ],
+}
+
+{
+  "user": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": doa@doe.com",
+    "born": "1980-06-01",
+    "phone": "0601020304",
+    "postal_code": "75000",
+    "languages": [
+      {
+      "name": "French",
+      "level": "Native"
+      },
+      {
+      "name": "English",
+      "level": "Fluent"
+      }
+    ],
+    "licences": [
+      "Permis B", 
+      "Permis A"
+    ]
+}
 }
 
 {% endblock %}
