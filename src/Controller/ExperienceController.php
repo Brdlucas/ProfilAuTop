@@ -18,8 +18,10 @@ final class ExperienceController extends AbstractController
     #[Route(name: 'app_experience_index', methods: ['GET'])]
     public function index(ExperienceRepository $experienceRepository): Response
     {
+        $userId = $this->getUser()->getId();
+
         return $this->render('experience/index.html.twig', [
-            'experiences' => $experienceRepository->findAll(),
+            'experiences' => $experienceRepository->findBy(['employee' => $userId]),
         ]);
     }
 
@@ -49,6 +51,9 @@ final class ExperienceController extends AbstractController
                 case 'next':
                     return $this->redirectToRoute('app_cv_new', [], Response::HTTP_SEE_OTHER);
                     break;
+                case 'save':
+                    return $this->redirectToRoute('app_experience_index', [], Response::HTTP_SEE_OTHER);
+                    break;
             }
         }
 
@@ -73,6 +78,8 @@ final class ExperienceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $descriptions = $request->request->all()['description'] ?? [];
+            $experience->setDescription($descriptions);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_experience_index', [], Response::HTTP_SEE_OTHER);
