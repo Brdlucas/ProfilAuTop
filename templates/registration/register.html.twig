@@ -3,23 +3,81 @@
 {% block title %}Créer un compte{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-md-4 p-4 mx-auto">
-            <h1 class="fs-4">Créez un compte et créer le cv qui augmentera vos opportunités !</h1>
-            <p class="text-secondary mb-4">
-            <span class="logo">Profil au Top</span> est la plateforme dédiée à la création de cv passant les ATs.
-            </p>
-            <div class="">
-                {% for flash_error in app.flashes('verify_email_error') %}
-                    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-                {% endfor %}
-            
-                {{ form_errors(registrationForm) }}
-                {{ form(registrationForm) }}
+    <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen flex">
+            <div class="w-full lg:w-1/2 flex items-center justify-center p-8 mt-12">
+                <div class="w-full max-w-md">
+                    <div class="bg-white rounded-2xl shadow-xl p-8 mt-12">
+                        <div class="text-center mb-8">
+                            <div class="inline-flex items-center justify-center w-16 h-16 bg-sky-100 rounded-full mb-4">
+                                {{ ux_icon('line-md:account-add', { class: 'h-10 w-10'}) }}
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800">
+                                <span>Créer le cv qui augmentera vos opportunités !</span>
+                            </h2>
+                            <p class="text-gray-600 mt-2">Profil au Top est la plateforme dédiée à la création de cv optimisé pour les ATS</p>
+                        </div>
+
+                        <div class="max-w-md mx-auto mt-8 p-6 nodark:bg-gray-800">
+                            {% for flash_error in app.flashes('verify_email_error') %}
+                                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 nodark:bg-gray-800 nodark:text-red-400" role="alert">
+                                    {{ flash_error }}
+                                </div>
+                            {% endfor %}
+
+                            {{ form_start(registrationForm) }}
+                            {{ form_errors(registrationForm) }}
+
+                            <div class="mb-6">
+                                {{ form_row(registrationForm.email) }}
+                            </div>
+
+                            <div class="mb-6">
+                                {{ form_row(registrationForm.plainPassword.first) }}
+                            </div>
+
+                            <div class="mb-6">
+                                {{ form_row(registrationForm.plainPassword.second) }}
+                            </div>
+
+                            <div class="flex items-start mb-6">
+                                {{ form_widget(registrationForm.isMajor) }}
+                                {{ form_label(registrationForm.isMajor) }}
+                            </div>
+
+                            <div class="flex items-start mb-6">
+                                {{ form_widget(registrationForm.isTerms) }}
+                                {{ form_label(registrationForm.isTerms) }}
+                            </div>
+
+                            <div class="flex items-start mb-6">
+                                {{ form_widget(registrationForm.isGpdr) }}
+                                {{ form_label(registrationForm.isGpdr) }}
+                            </div>
+
+                            {{ form_row(registrationForm.submit) }}
+                            {{ form_end(registrationForm) }}
+                        </div>
+
+
+                        <p class="mt-6 text-center text-gray-600">
+                            <span>Vous avez un compte ?</span>
+                            <a href="{{path('app_login') }}" class="ml-1 text-sky-500 hover:text-sky-700 font-semibold focus:outline-none">
+                                <span>Connexion</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-md-8">
-            <img src="https://picsum.photos/id/10/1200/1200" alt="Image de fond" class="img-fluid">
+
+            <div class="hidden lg:block lg:w-1/2 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&amp;fit=crop&amp;q=80')">
+                <div class="h-full bg-black bg-opacity-50 flex items-center justify-center">
+                    <div class="text-center text-white px-12">
+                        <h2 class="text-4xl font-bold mb-6">Your Title</h2>
+                        <p class="text-xl">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis, expedita.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

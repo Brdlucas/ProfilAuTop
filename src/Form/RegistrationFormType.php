@@ -21,32 +21,37 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Votre adresse e-mail',
                 'label_attr' => [
-                    'class' => 'form-label',
+                    'class' => 'block mb-2 text-sm font-medium text-sky-900 nodark:text-white',
                 ],
                 'attr' => [
-                    'placeholder' => 'martin@gmail.com',
-                    'class' => 'form-control',
+                    'placeholder' => 'profilautop@example.com',
+                    'class' => 'bg-sky-50 border border-sky-300 text-sky-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 nodark:bg-sky-700 nodark:border-sky-600 nodark:placeholder-sky-400 nodark:text-white nodark:focus:ring-sky-500 nodark:focus:border-sky-500',
                 ],
-            ]) 
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Merci de saisir une adresse e-mail valide',
+                    ]),
+                ],
+            ])
             ->add('plainPassword', RepeatedType::class, [
-                'row_attr' => ['class' => 'mb-3'],
-                'label' => 'Mot de passe',
-                'label_attr' => [ 'class' => 'form-label'],
-                'type' => PasswordType::class, //  avec quoi tu es associé à la répétition
+                'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe doivent être identiques.',
                 'mapped' => false,
                 'first_options' => [
-                    'label_attr' => ['class' => 'form-label'],
                     'label' => 'Mot de passe',
-                    'attr' => ['class' => 'form-control mb-3']
+                    'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-sky-900 nodark:text-white'],
+                    'attr' => [
+                        'placeholder' => '••••••••',
+                        'class' => 'bg-sky-50 border border-sky-300 text-sky-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 nodark:bg-sky-700 nodark:border-sky-600 nodark:placeholder-sky-400 nodark:text-white nodark:focus:ring-sky-500 nodark:focus:border-sky-500']
                 ],
                 'second_options' => [
-                    'label_attr' => ['class' => 'form-label'],
                     'label' => 'Confirmer le mot de passe',
-                    'attr' => ['class' => 'form-control mb-3']
+                    'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-sky-900 nodark:text-white'],
+                    'attr' => [
+                        'placeholder' => '••••••••',
+                        'class' => 'bg-sky-50 border border-sky-300 text-sky-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 nodark:bg-sky-700 nodark:border-sky-600 nodark:placeholder-sky-400 nodark:text-white nodark:focus:ring-sky-500 nodark:focus:border-sky-500']
                 ],
                 'constraints' => [
                     new NotBlank([
@@ -55,16 +60,14 @@ class RegistrationFormType extends AbstractType
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
-                        // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
                 ],
             ])
             ->add('isMajor', CheckboxType::class, [
-                'row_attr' => ['class' => 'form-check mb-2'],
-                'label_attr' => ['class' => 'form-check-label', 'checked' => 'checked'],
-                'attr' => ['class' => 'form-check-input'],
                 'label' => "Vous confirmez que vous êtes majeur",
+                'label_attr' => ['class' => 'ml-2 text-sm font-medium text-sky-900 nodark:text-sky-300'],
+                'attr' => ['class' => 'w-4 h-4 text-sky-600 bg-sky-100 border-sky-300 rounded focus:ring-sky-500 nodark:focus:ring-sky-600 nodark:ring-offset-sky-800 focus:ring-2 nodark:bg-sky-700 nodark:border-sky-600'],
                 'constraints' => [
                     new IsTrue([
                         'message' => 'Vous devez être majeur pour vous inscrire',
@@ -72,10 +75,9 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('isTerms', CheckboxType::class, [
-                'row_attr' => ['class' => 'form-check mb-2'],
-                'label_attr' => ['class' => 'form-check-label'],
-                'attr' => ['class' => 'form-check-input', 'checked' => 'checked'],
-                'label' => "J'accepte les CGU et CGV",
+                'label' => "J'accepte les conditions d'utilisation",
+                'label_attr' => ['class' => 'ml-2 text-sm font-medium text-sky-900 nodark:text-sky-300'],
+                'attr' => ['class' => 'w-4 h-4 text-sky-600 bg-sky-100 border-sky-300 rounded focus:ring-sky-500 nodark:focus:ring-sky-600 nodark:ring-offset-sky-800 focus:ring-2 nodark:bg-sky-700 nodark:border-sky-600'],
                 'constraints' => [
                     new IsTrue([
                         'message' => 'Vous devez accepter les CGU pour vous inscrire',
@@ -83,22 +85,21 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('isGpdr', CheckboxType::class, [
-                'row_attr' => ['class' => 'form-check mb-2'],
-                'label_attr' => ['class' => 'form-check-label'],
-                'attr' => ['class' => 'form-check-input', 'checked' => 'checked'],
                 'label' => "J'accepte la politique RGPD de Profil au Top",
+                'label_attr' => ['class' => 'ml-2 text-sm font-medium text-sky-900 nodark:text-sky-300'],
+                'attr' => ['class' => 'w-4 h-4 text-sky-600 bg-sky-100 border-sky-300 rounded focus:ring-sky-500 nodark:focus:ring-sky-600 nodark:ring-offset-sky-800 focus:ring-2 nodark:bg-sky-700 nodark:border-sky-600'],
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'Vous devez notre politique RGPD pour vous inscrire',
+                        'message' => 'Vous devez accepter notre politique RGPD pour vous inscrire',
                     ]),
                 ],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => "M'inscrire",
                 'attr' => [
-                    'class' => 'bg-sky-500 hover:bg-sky-400 text-white font-bold py-2 px-4 rounded',
+                    'class' => 'w-full bg-sky-500 text-white py-3 rounded-lg font-semibold hover:bg-sky-700 focus:ring-4 focus:ring-sky-600 focus:ring-opacity-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed',
                 ],
-            ]) 
+            ])
         ;
     }
 
