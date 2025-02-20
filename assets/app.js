@@ -197,6 +197,16 @@ document.addEventListener("turbo:load", function () {
 
   // Print cv
   function printPage() {
+    printBtn.style.display = 'none';
     window.print();
+    printBtn.style.display = '';
+  }
+
+  const printBtn = document.getElementById("print");
+
+  if (printBtn) {
+    printBtn.addEventListener("click", printPage);
+
+    pint
   }
 });

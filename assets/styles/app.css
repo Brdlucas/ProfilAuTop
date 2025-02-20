@@ -96,4 +96,21 @@ label {
     .no-print {
         display: none !important;
     }
+
+    body {
+        margin: 0;
+        padding: 0;
+      }
+    
+      .print\:max-w-a4 {
+        max-width: 21cm;
+      }
+    
+      .print\:h-a4 {
+        height: 29.7cm;
+      }
+      
+      * {
+        page-break-inside: avoid;
+      }
 }

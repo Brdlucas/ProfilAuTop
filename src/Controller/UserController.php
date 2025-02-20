@@ -197,4 +197,59 @@ final class UserController extends AbstractController
         $this->addFlash('success', 'Votre compte a bien été supprimé !');
         return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    #[Route('/cv1', name: 'cv1', methods: ['GET'])]
+    public function verify(Request $request): Response
+    {
+        $jsonCv = '{
+            "title": {
+                "title": "Ingénieur DevOps Expérimenté en CI/CD et Test Automation"
+            },
+            "introduction": {
+                "introduction": "Ingénieur DevOps chevronné avec 3 ans d\'expérience dans l\'automatisation des tests, l\'intégration logicielle et la mise en place de pipelines CI/CD GitLab et Jenkins."
+            },
+            "formation": [
+                {
+                    "title": "Master en Informatique",
+                    "organization": "Université de Paris",
+                    "description": "Formation approfondie en développement logiciel et architecture des systèmes.",
+                    "city": "Paris",
+                    "postal_code": "75000",
+                    "country": "France",
+                    "date_start": "2015-09-01",
+                    "date_end": "2017-06-30",
+                    "is_graduated": true,
+                    "level": "Master",
+                    "skills": ["C#", "Python", "Cybersécurité"]
+                }
+            ],
+            "experience": [
+                {
+                    "title": "Ingénieur DevOps",
+                    "organization": "Médiane Système",
+                    "description": "Mise en place de pipelines CI/CD sous GitLab, optimisation des processus de déploiement et gestion des environnements de développement.",
+                    "city": "Paris",
+                    "postal_code": "75000",
+                    "country": "France",
+                    "date_start": "2019-01-01",
+                    "date_end": "2022-06-30",
+                    "skills": ["CI/CD", "Jenkins", "Test Automation"]
+                }
+            ],
+            "skills": ["CI/CD", "Jenkins", "Test Automation"],
+            "softskills": ["Travail en équipe", "Leadership", "Communication efficace"]
+        }';
+
+        // Décoder le JSON en tableau PHP
+        $cv = json_decode($jsonCv, true);
+
+     
+        // Passer le tableau à Twig
+        return $this->render('cv/cv_template.html.twig', [
+            "cv" => $cv,
+           
+        ]);
+    }
+       
 }
