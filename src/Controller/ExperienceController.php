@@ -30,12 +30,12 @@ final class ExperienceController extends AbstractController
         $experience = new Experience();
         $form = $this->createForm(ExperienceType::class, $experience);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $action = $request->get('action');
             $descriptions = $request->request->all()['description'] ?? [];
             $experience->setDescription($descriptions);
-            
+
             $experience->setEmployee($user);
 
             $entityManager->persist($experience);
@@ -47,7 +47,7 @@ final class ExperienceController extends AbstractController
                     return $this->redirectToRoute('app_experience_new', [], Response::HTTP_SEE_OTHER);
                     break;
                 case 'next':
-                    return $this->redirectToRoute('app_skill_new', [], Response::HTTP_SEE_OTHER);
+                    return $this->redirectToRoute('app_cv_new', [], Response::HTTP_SEE_OTHER);
                     break;
             }
         }

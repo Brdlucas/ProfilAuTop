@@ -2,13 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\Subscription;
 use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Subscription;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class UserCompleteIdentityFormType extends AbstractType
 {
@@ -17,17 +18,18 @@ class UserCompleteIdentityFormType extends AbstractType
         $builder
             ->add('firstname')
             ->add('lastname')
-            ->add('born', Date::class, [
+            ->add('born', DateType::class, [
                 'widget' => 'single_text'
             ])
             ->add('phone')
-            ->add('city')
             ->add('postal_code')
-            // ->add('licences')
-            // ->add('languages')
-            // ->add('pois')
-            // ->add('linkedin')
-            // ->add('portfolio_url')
+            ->add('city')
+            ->add('submit', SubmitType::class, [
+                'label' => 'Enregistrer mes informations',
+                'attr' => [
+                    'class' => 'bg-sky-500 hover:bg-sky-400 text-white font-bold py-2 px-4 rounded',
+                ],
+            ])
         ;
     }
 

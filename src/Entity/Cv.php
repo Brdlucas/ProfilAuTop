@@ -27,9 +27,6 @@ class Cv
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $introduction = null;
-
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $date_start = null;
 
@@ -49,12 +46,6 @@ class Cv
     private Collection $cvHistories;
 
     /**
-     * @var Collection<int, Category>
-     */
-    #[ORM\ManyToMany(targetEntity: Category::class)]
-    private Collection $categories;
-
-    /**
      * @var Collection<int, Experience>
      */
     #[ORM\ManyToMany(targetEntity: Experience::class, inversedBy: 'cvs')]
@@ -70,19 +61,54 @@ class Cv
     #[ORM\JoinColumn(nullable: false)]
     private ?User $creator = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $link = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Skill::class, inversedBy="cvs")
+     * @ORM\JoinTable(name="cv_skills")
+     */
+    private $skills;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $ai = null;
+
+    /**
+     * @var Collection<int, SoftSkill>
+     */
+    #[ORM\ManyToMany(targetEntity: SoftSkill::class, inversedBy: 'cvs')]
+    private Collection $softSkills;
 
     public function __construct()
     {
         $this->cvHistories = new ArrayCollection();
-        $this->categories = new ArrayCollection();
         $this->experiences = new ArrayCollection();
         $this->formations = new ArrayCollection();
         $this->ref = uniqid($this->title);
+        $this->skills = new ArrayCollection();
+        $this->email = '';
+        $this->softSkills = new ArrayCollection();
+    }
+
+    public function getSkills(): Collection
+    {
+        return $this->skills;
+    }
+
+    public function addSkill(Skill $skill): self
+    {
+        if (!$this->skills->contains($skill)) {
+            $this->skills[] = $skill;
+        }
+
+        return $this;
+    }
+
+    public function removeSkill(Skill $skill): self
+    {
+        $this->skills->removeElement($skill);
+
+        return $this;
     }
 
     public function __tostring()
@@ -94,9 +120,10 @@ class Cv
     public function setCreatedAtValue()
     {
         $this->created_at = new \DateTimeImmutable();
+        $this->updated_at = new \DateTimeImmutable();
     }
 
-    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function setUpdatedAtValue()
     {
         $this->updated_at = new \DateTimeImmutable;
@@ -139,18 +166,6 @@ class Cv
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getIntroduction(): ?string
-    {
-        return $this->introduction;
-    }
-
-    public function setIntroduction(?string $introduction): static
-    {
-        $this->introduction = $introduction;
 
         return $this;
     }
@@ -234,30 +249,6 @@ class Cv
     }
 
     /**
-     * @return Collection<int, Category>
-     */
-    public function getCategories(): Collection
-    {
-        return $this->categories;
-    }
-
-    public function addCategory(Category $category): static
-    {
-        if (!$this->categories->contains($category)) {
-            $this->categories->add($category);
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Category $category): static
-    {
-        $this->categories->removeElement($category);
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Experience>
      */
     public function getExperiences(): Collection
@@ -317,18 +308,6 @@ class Cv
         return $this;
     }
 
-    public function getLink(): ?string
-    {
-        return $this->link;
-    }
-
-    public function setLink(string $link): static
-    {
-        $this->link = $link;
-
-        return $this;
-    }
-
     public function getEmail(): ?string
     {
         return $this->email;
@@ -337,6 +316,42 @@ class Cv
     public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getAi(): ?string
+    {
+        return $this->ai;
+    }
+
+    public function setAi(?string $ai): static
+    {
+        $this->ai = $ai;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SoftSkill>
+     */
+    public function getSoftSkills(): Collection
+    {
+        return $this->softSkills;
+    }
+
+    public function addSoftSkill(SoftSkill $softSkill): static
+    {
+        if (!$this->softSkills->contains($softSkill)) {
+            $this->softSkills->add($softSkill);
+        }
+
+        return $this;
+    }
+
+    public function removeSoftSkill(SoftSkill $softSkill): static
+    {
+        $this->softSkills->removeElement($softSkill);
 
         return $this;
     }

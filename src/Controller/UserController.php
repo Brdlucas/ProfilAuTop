@@ -2,14 +2,17 @@
 
 namespace App\Controller;
 
-
-use App\Entity\User;
 use App\Form\UserType;
-use App\Repository\UserRepository;
+use App\Form\LanguagesType;
+use App\Form\UserPoiFormType;
+use App\Service\UploaderService;
+use App\Repository\PoiRepository;
+use App\Form\UserCompleteBeingFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -21,7 +24,7 @@ final class UserController extends AbstractController
     #[Route(name: 'profil', methods: ['GET', 'POST'])]
     public function index(
         Request $request,
-        UploaderService $us, 
+        UploaderService $us,
         UserPasswordHasherInterface $uphi
     ): Response {
 
@@ -30,7 +33,7 @@ final class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $pwd = $uphi->isPasswordValid($user, $form->get('password')->getData());;
+            $pwd = $uphi->isPasswordValid($user, $form->get('password')->getData());
             if ($pwd) {
                 $image = $form->get('image')->getData();
                 if ($image != null) {
@@ -78,6 +81,7 @@ final class UserController extends AbstractController
 
         return $this->render('user/index.html.twig', [
             'userForm' => $form,
+            'user' => $user
         ]);
     }
 
@@ -107,26 +111,25 @@ final class UserController extends AbstractController
             $this->addFlash('error', 'Vous devez remplir tous les champs');
         }
 
-        return $this->redirectToRoute('app_user_complete_competences_passions');
+        return $this->redirectToRoute('app_homepage');
     }
 
-    #[Route('/completer/competences_passions', name: 'complete_competences_passions', methods: ['GET', 'POST'])]
+    #[Route('/completer/competences_passions', name: 'complete_competences', methods: ['GET', 'POST'])]
     public function completeBeing(Request $request): Response
     {
-        $licences = $request->getPayload()->get('licences');
-        $languages = $request->getPayload()->get('languages');
-        $pois = $request->getPayload()->get('pois');
-        $linkedin = $request->getPayload()->get('linkedin');
-        $portfolio_url = $request->getPayload()->get('portfolio_url');
 
-        if (!empty($licences) && !empty($languages) && !empty($pois) && !empty($linkedin) && !empty($portfolio_url)) {
+        $form = $this->createForm(UserCompleteBeingFormType::class, $this->getUser());
+        $form->handleRequest($request);
+        $licences = $form->get('licences')->getData();
+        $languages = $form->get('languages')->getData();
+
+        // dd($licences, $languages);
+
+        if (!empty($licences) && !empty($languages)) {
             $user = $this->getUser();
             $user->setLicences($licences)
                 ->setLanguages($languages)
-                ->setPois($pois)
-                ->setLinkedin($linkedin)
-                ->setPortfolioUrl($portfolio_url)
-                ;
+            ;
             $this->em->persist($user);
             $this->em->flush();
 
@@ -139,17 +142,59 @@ final class UserController extends AbstractController
             $this->addFlash('error', 'Vous devez remplir tous les champs');
         }
 
-        return $this->redirectToRoute('app_user_profile');
+        return $this->redirectToRoute('app_user_profil');
+    }
+
+    #[Route('/editer/langages', name: 'languages_edit', methods: ['GET', 'POST'])]
+    public function languagesEdit(Request $request): Response
+    {
+        $user = $this->getUser();
+        $form = $this->createForm(LanguagesType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($user);
+            $this->em->flush();
+
+            $this->addFlash('success', 'Vos langues ont été mises à jour.');
+            return $this->redirectToRoute('app_user_profil', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('user/languages_edit.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/editer/centres-d-interets', name: 'poi_edit', methods: ['GET', 'POST'])]
+    public function poiEdit(Request $request): Response
+    {
+        $user = $this->getUser();
+        $form = $this->createForm(UserPoiFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($user);
+            $this->em->flush();
+
+            $this->addFlash('success', 'Vos centres d\'intérêts ont été mises à jour.');
+            return $this->redirectToRoute('app_user_profil', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('user/poi_edit.html.twig', [
+            'form' => $form,
+        ]);
     }
 
     #[Route('/{ref}', name: 'delete', methods: ['POST'])]
-    public function delete(Request $request, User $user): Response
+    public function delete(Request $request): Response
     {
+        $user = $this->getUser();
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->getPayload()->getString('_token'))) {
             $this->em->remove($user);
             $this->em->flush();
         }
 
-        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        $this->addFlash('success', 'Votre compte a bien été supprimé !');
+        return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
     }
 }

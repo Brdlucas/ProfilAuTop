@@ -26,10 +26,8 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Service\AIService:
+    App\Service\CvService:
         arguments:
-            $httpClient: '@http_client'
-            $aiApiUrl: '%env(OPENAI_URL)%'
             $apiKey: '%env(OPENAI)%'
 
     # add more service definitions when explicit configuration is needed
