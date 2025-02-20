@@ -1,49 +1,55 @@
 {{ form_start(form, {'attr': {'class': 'p-2 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col w-4/5 mt-10 m-auto gap-5'}}) }}
 <div class="max-w-7xl mx-auto space-y-6">
 	{% for field in form %}
-		{% if field.vars.name != '_token' %}
-			{# Ajoutez cette condition #}
-			{% if field.vars.name in ['categories', 'experiences', 'formations'] %}
-				<div class="form-section">
-					<h3 class="text-lg font-medium text-gray-900 mb-3">
-						{% if field.vars.name == 'categories' %}Catégories
-							{% elseif field.vars.name == 'experiences' %}Expériences
-							{% else %}Formations
-						{% endif %}
-					</h3>
-					<div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-						{% for choice in field %}
-							<div class="relative flex items-center px-4 py-3 bg-white rounded-lg border border-gray-200 hover:border-indigo-500 transition-colors">
-								{{ form_widget(choice, {
+		{% if field.vars.name in ['categories', 'experiences', 'formations'] %}
+			<div class="form-section">
+				<h3 class="text-lg font-medium text-gray-900 mb-3">
+					{% if field.vars.name == 'categories' %}Catégories
+						{% elseif field.vars.name == 'experiences' %}Expériences
+						{% else %}Formations
+					{% endif %}
+				</h3>
+				<div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+					{% for choice in field %}
+						<div class="relative flex items-center px-4 py-3 bg-white rounded-lg border border-gray-200 hover:border-indigo-500 transition-colors">
+							{{ form_widget(choice, {
                                 'attr': {
                                     'class': 'h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500'
                                 }
                             }) }}
-								{{ form_label(choice, null, {
+							{{ form_label(choice, null, {
                                 'label_attr': {
                                     'class': 'ml-3 text-sm font-medium text-gray-700 cursor-pointer'
                                 }
                             }) }}
-							</div>
-						{% endfor %}
-					</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		{% else %}
+			{% if field.vars.name == '_token' %}
+				<div style="display: none;">
+					{{ form_widget(field) }}
 				</div>
 			{% else %}
 				<div class="">
 					{{ form_label(field, null, {
-					'label_attr': {
-						'class': 'text-xl'
-					}
-				}) }}
+                'label_attr': {
+                    'class': 'text-xl'
+                }
+            }) }}
 
 					{{ form_widget(field, {
-                        'attr': {
-                            'class': 'block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'
-                        }
-                    }) }}
+                'attr': {
+                    'class': 'block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'
+                }
+            }) }}
 				</div>
-			</div>
+			{% endif %}
 		{% endif %}
-	{% endif %}
-{% endfor %}</div><button class="mt-6 m-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-{{ button_label|default('Créer un nouveau CV') }}</button>{{ form_end(form, {'render_rest': false}) }}
+
+	{% endfor %}
+</div>
+<button class="mt-6 m-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+	{{ button_label|default('Créer un nouveau CV') }}</button>
+{{ form_end(form, {'render_rest': false}) }}
