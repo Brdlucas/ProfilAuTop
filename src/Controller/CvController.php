@@ -19,8 +19,16 @@ final class CvController extends AbstractController
     #[Route(name: 'app_cv_index', methods: ['GET'])]
     public function index(CvRepository $cvRepository): Response
     {
+        $user = $this->getUser();
+
+        $userID = $user->getId(); // Assurez-vous que getRef() existe et retourne la référence correcte
+        $cvs = $cvRepository->findBy(['creator' => $userID]);
+
+        // dd($userRef);
+        // dd($cvs);
+
         return $this->render('cv/index.html.twig', [
-            'cvs' => $cvRepository->findAll(),
+            'cvs' => $cvs,
         ]);
     }
 
@@ -28,10 +36,12 @@ final class CvController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $cv = new Cv();
+        $user = $this->getUser();
         $form = $this->createForm(CvType::class, $cv);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $form->getData()->setCreator($user);
             $entityManager->persist($cv);
             $entityManager->flush();
 
