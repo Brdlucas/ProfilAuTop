@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Entity\User;
+use App\Form\PoiType;
 use App\Form\UserType;
 use App\Service\UploaderService;
 use App\Repository\UserRepository;
