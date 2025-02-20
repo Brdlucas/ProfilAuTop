@@ -48,6 +48,9 @@ final class FormationController extends AbstractController
                 case 'next':
                     return $this->redirectToRoute('app_experience_new', [], Response::HTTP_SEE_OTHER);
                     break;
+                case 'save':
+                    return $this->redirectToRoute('app_formation_index', [], Response::HTTP_SEE_OTHER);
+                    break;
             }
 
             return $this->redirectToRoute('app_formation_index', [], Response::HTTP_SEE_OTHER);
@@ -74,6 +77,9 @@ final class FormationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $descriptions = $request->request->all()['description'] ?? [];
+            $formation->setDescription($descriptions);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_formation_index', [], Response::HTTP_SEE_OTHER);
