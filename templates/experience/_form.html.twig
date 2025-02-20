@@ -39,7 +39,9 @@ container.appendChild(input);
 container.appendChild(input);
 });
 </script>
-<button class="btn">{{ button_label|default('Save') }}</button>
+<a class="btn" href={{path('app_formation_new')}}>Précédent</a>
+<button type="submit" name="action" value="create_new" class="btn">{{ button_label|default('enregistrer et créer un nouveau') }}</button>
+<button type="submit" name="action" value="next" class="btn">{{ button_label|default('suivant') }}</button>
 
 
 {{ form_end(form) }}
