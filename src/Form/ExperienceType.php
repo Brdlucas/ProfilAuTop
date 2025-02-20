@@ -100,7 +100,7 @@ class ExperienceType extends AbstractType
             ])
             ->add('skills', EntityType::class, [
                 'label' => "Compétences",
-                'label_attr' => ['class' => 'w-full bg-red-800'],
+                'label_attr' => ['class' => 'w-full'],
                 'attr' => ['class' => 'custom-wrapper'],
                 'class' => Skill::class,
                 'choice_label' => 'name',
