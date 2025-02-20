@@ -71,15 +71,20 @@ class Cv
     private $skills;
 
 
+    /**
+     * @var Collection<int, SoftSkill>
+     */
+    #[ORM\ManyToMany(targetEntity: SoftSkill::class, inversedBy: 'cvs')]
+    private Collection $softskills;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $ai = null;
-
+  
     /**
      * @var Collection<int, SoftSkill>
      */
     #[ORM\ManyToMany(targetEntity: SoftSkill::class, inversedBy: 'cvs')]
     private Collection $softSkills;
-
 
     public function __construct()
     {

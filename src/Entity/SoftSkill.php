@@ -93,5 +93,4 @@ class SoftSkill
 
         return $this;
     }
-
 }
