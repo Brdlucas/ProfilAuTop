@@ -28,10 +28,12 @@ final class CvController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $cv = new Cv();
+        $user = $this->getUser();
         $form = $this->createForm(CvType::class, $cv);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $form->getData()->setCreator($user);
             $entityManager->persist($cv);
             $entityManager->flush();
 
