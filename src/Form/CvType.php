@@ -19,7 +19,6 @@ class CvType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('introduction')
             ->add('date_start')
             ->add('date_end')
             ->add('categories', EntityType::class, [

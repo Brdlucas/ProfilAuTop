@@ -27,9 +27,6 @@ class Cv
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $introduction = null;
-
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $date_start = null;
 
@@ -201,18 +198,6 @@ class Cv
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getIntroduction(): ?string
-    {
-        return $this->introduction;
-    }
-
-    public function setIntroduction(?string $introduction): static
-    {
-        $this->introduction = $introduction;
 
         return $this;
     }
