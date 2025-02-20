@@ -44,9 +44,13 @@ container.appendChild(input);
 container.appendChild(input);
 });
 </script>
-<div class="flex justify-center">
-	<a class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white" href={{path('app_formation_new')}}>Précédent</a>
-	<button type="submit" name="action" value="create_new" class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white">{{ button_label|default('enregistrer et créer un nouveau') }}</button>
-	<button type="submit" name="action" value="next" class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white">{{ button_label|default('suivant') }}</button>
-</div>
+{% if app.request.headers.get('referer') == 'http://127.0.0.1:8000/profil/formation/new' %}
+	<div class="flex justify-center">
+		<a class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white" href={{path('app_formation_new')}}>Précédent</a>
+		<button type="submit" name="action" value="create_new" class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white">{{ button_label|default('enregistrer et créer un nouveau') }}</button>
+		<button type="submit" name="action" value="next" class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white">{{ button_label|default('suivant') }}</button>
+	</div>
+{% else %}
+	<button type="submit" name="action" value="save" class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white">{{ button_label|default('enregistrer') }}</button>
+{% endif %}
 {{ form_end(form) }}
