@@ -2,12 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\Category;
 use App\Entity\Poi;
 use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Category;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PoiType extends AbstractType
@@ -18,7 +19,13 @@ class PoiType extends AbstractType
             ->add('name')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-'choice_label' => 'id',
+                'choice_label' => 'name',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c.type = :type')
+                        ->setParameter('type', 'loisir')
+                        ->orderBy('c.name', 'ASC');
+                },
             ])
         ;
     }
