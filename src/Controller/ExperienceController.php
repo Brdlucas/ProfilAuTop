@@ -12,7 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/profil/experience')]
-final class ExperienceController extends AbstractController{
+final class ExperienceController extends AbstractController
+{
 
     #[Route(name: 'app_experience_index', methods: ['GET'])]
     public function index(ExperienceRepository $experienceRepository): Response
@@ -31,6 +32,7 @@ final class ExperienceController extends AbstractController{
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
+            $action = $request->get('action');
             $descriptions = $request->request->all()['description'] ?? [];
             $experience->setDescription($descriptions);
             
@@ -39,7 +41,15 @@ final class ExperienceController extends AbstractController{
             $entityManager->persist($experience);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_experience_index', [], Response::HTTP_SEE_OTHER);
+
+            switch ($action) {
+                case 'create_new':
+                    return $this->redirectToRoute('app_experience_new', [], Response::HTTP_SEE_OTHER);
+                    break;
+                case 'next':
+                    return $this->redirectToRoute('app_skill_new', [], Response::HTTP_SEE_OTHER);
+                    break;
+            }
         }
 
         return $this->render('experience/new.html.twig', [
