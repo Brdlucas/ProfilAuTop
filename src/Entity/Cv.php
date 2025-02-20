@@ -88,6 +88,9 @@ class Cv
      */
     private $softSkills;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $ai = null;
+
     public function __construct()
     {
         $this->cvHistories = new ArrayCollection();
@@ -396,6 +399,18 @@ class Cv
     public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getAi(): ?string
+    {
+        return $this->ai;
+    }
+
+    public function setAi(?string $ai): static
+    {
+        $this->ai = $ai;
 
         return $this;
     }
