@@ -12,12 +12,10 @@
 				<th>Id</th>
 				<th>Ref</th>
 				<th>Title</th>
-				<th>Introduction</th>
 				<th>Date_start</th>
 				<th>Date_end</th>
 				<th>Created_at</th>
 				<th>Updated_at</th>
-				<th>Link</th>
 				<th>actions</th>
 			</tr>
 		</thead>
@@ -27,12 +25,10 @@
 					<td>{{ cv.id }}</td>
 					<td>{{ cv.ref }}</td>
 					<td>{{ cv.title }}</td>
-					<td>{{ cv.introduction }}</td>
 					<td>{{ cv.dateStart }}</td>
 					<td>{{ cv.dateEnd }}</td>
 					<td>{{ cv.createdAt ? cv.createdAt|date('Y-m-d H:i:s') : '' }}</td>
 					<td>{{ cv.updatedAt ? cv.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-					<td>{{ cv.link }}</td>
 					<td>
 						<a href="{{ path('app_cv_show', {'id': cv.id}) }}">show</a>
 						<a href="{{ path('app_cv_edit', {'id': cv.id}) }}">edit</a>
