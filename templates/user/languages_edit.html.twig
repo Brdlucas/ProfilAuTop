@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editer vos langues{% endblock %}
+
+{% block body %}
+
+<div class="max-w-4xl mx-auto py-8 px-4">
+  <h1 class="text-2xl font-bold mb-6 text-gray-800">Mes langues</h1>
+  
+  {{ form_start(form, {'attr': {'class': 'space-y-8'}, 'method': 'POST'}) }}
+  <div class="bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-xl font-semibold mb-4 text-gray-700">Langues</h2>
+
+    <div id="languages-collection" class="space-y-4" 
+           data-prototype="{{ form_widget(form.languages.vars.prototype)|e('html_attr') }}"
+           data-index="{{ form.languages|length }}">
+        {% for languageField in form.languages %}
+            <div class="language-item bg-gray-50 p-4 rounded-md relative">
+                {{ form_row(languageField.name, {'attr': {'class': 'mb-2 w-full p-2 border rounded'}}) }}
+                {{ form_row(languageField.level, {'attr': {'class': 'mb-2 w-full p-2 border rounded'}}) }}
+                <button type="button" class="remove-language absolute top-1 right-2 text-red-500 hover:text-red-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+      
+    <button type="button" id="add-language" class="mt-4 inline-flex items-center px-4 py-2 bg-sky-500 text-white rounded-md hover:bg-sky-400 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+        </svg>
+        Ajouter une langue
+    </button>
+    </div>
+
+    <div class="flex justify-end">
+      {{ form_row(form.submit, {'attr': {'class': 'bg-sky-500 hover:bg-sky-400 text-white font-bold py-2 px-4 rounded'}}) }}
+    </div>
+
+  {{ form_end(form) }}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const collectionsHolder = document.getElementById('languages-collection');
+            const addButton = document.getElementById('add-language');
+            let index = parseInt(collectionsHolder.dataset.index || 0);
+            
+            // Fonction pour ajouter un formulaire de langue
+            function addLanguageForm() {
+                // Récupérer et préparer le prototype
+                const prototype = collectionsHolder.dataset.prototype;
+                const newForm = prototype.replace(/__name__/g, index);
+                
+                // Créer le conteneur de l'élément
+                const item = document.createElement('div');
+                item.classList.add('language-item', 'bg-gray-50', 'p-4', 'rounded-md', 'relative');
+                item.innerHTML = newForm;
+                
+                // Ajouter des classes aux champs pour le style
+                const inputs = item.querySelectorAll('input, select');
+                inputs.forEach(input => {
+                    input.classList.add('mb-2', 'w-full', 'p-2', 'border', 'rounded');
+                });
+                
+                // Créer le bouton de suppression
+                const removeButton = document.createElement('button');
+                removeButton.type = 'button';
+                removeButton.classList.add('remove-language', 'absolute', 'top-1', 'right-2', 'text-red-500', 'hover:text-red-700');
+                removeButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                `;
+                
+                // Ajouter l'écouteur pour la suppression
+                removeButton.addEventListener('click', function() {
+                    if (confirm("Êtes-vous sûr de vouloir supprimer cette langue ?")) {
+                        item.remove();
+                    }
+                });
+                
+                // Ajouter le bouton et l'élément complet au DOM
+                item.appendChild(removeButton);
+                collectionsHolder.appendChild(item);
+                
+                // Incrémenter l'index pour le prochain élément
+                index++;
+                collectionsHolder.dataset.index = index;
+            }
+            
+            // Ajouter l'écouteur au bouton d'ajout
+            addButton.addEventListener('click', addLanguageForm);
+            
+            // Ajouter les écouteurs aux boutons de suppression existants
+            document.querySelectorAll('.remove-language').forEach(button => {
+                button.addEventListener('click', function() {
+                    if (confirm("Êtes-vous sûr de vouloir supprimer cette langue ?")) {
+                        this.closest('.language-item').remove();
+                    }
+                });
+            });
+          });
+    </script>
+{% endblock %}
+          

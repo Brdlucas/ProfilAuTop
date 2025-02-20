@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Complétez votre profil{% endblock %}
+
+{% block body %}
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+    <form action="{{ path('app_user_complete_identity')}}" method="post" class="w-full max-w-md bg-white shadow-md rounded-lg p-6">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate')}}">
+        
+        <div class="mb-4">
+            <label for="firstname" class="block text-sm font-medium text-gray-700">Prénom</label>
+            <input type="text" id="firstname" name="firstname" value="{{ app.user.firstname ?? '' }}" required minlength="2" maxlength="80" pattern="[a-zA-Z0-9_-]+" {{ app.user.firstname ? 'readonly' : '' }} 
+                class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            <p class="text-xs text-gray-500 italic">2 caractères minimum, uniquement des lettres, des chiffres et des tirets</p>
+        </div>
+        
+        <div class="mb-4">
+            <label for="lastname" class="block text-sm font-medium text-gray-700">Nom de famille</label>
+            <input type="text" id="lastname" name="lastname" value="{{ app.user.lastname ?? '' }}" required minlength="5" maxlength="80" pattern="[a-zA-Z-\s]+" {{ app.user.lastname ? 'readonly' : '' }} 
+                class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            <p class="text-xs text-gray-500 italic">5 caractères minimum, uniquement des lettres, des traits d'unions et des espaces</p>
+        </div>
+        
+        <div class="mb-4">
+            <label for="born" class="block text-sm font-medium text-gray-700">Date de naissance</label>
+            <input type="date" id="born" name="born" required value="{{ app.user.born ? app.user.born|date('Y-m-d') : '' }}"
+                class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+        
+        <div class="mb-4">
+            <label for="phone" class="block text-sm font-medium text-gray-700">Téléphone</label>
+            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required 
+                class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            <p class="text-xs text-gray-500 italic">Format : 10 chiffres</p>
+        </div>
+        
+        <div class="mb-4">
+            <label for="postal_code" class="block text-sm font-medium text-gray-700">Code postal</label>
+            <input type="text" id="postal_code" name="postal_code" pattern="\d{5}" required 
+                class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            <p class="text-xs text-gray-500 italic">Format : 5 chiffres</p>
+        </div>
+        
+        <div class="mb-4">
+            <label for="city" class="block text-sm font-medium text-gray-700">Ville</label>
+            <input type="text" id="city" name="city" required 
+                class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+        
+        <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow hover:bg-indigo-700 transition">Enregistrer</button>
+    </form>
+</div>
+{% endblock %}

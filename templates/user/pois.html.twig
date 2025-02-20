@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Centres d'intérêt{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const itemsContainer = document.getElementById('items-container');
+            const addItemButton = document.getElementById('add-item');
+
+            // Ajout dynamique d'un nouvel item
+            addItemButton.addEventListener('click', function() {
+                const prototype = itemsContainer.dataset.prototype;
+                const index = itemsContainer.children.length;
+                const newForm = prototype.replace(/__name__/g, index);
+
+                const div = document.createElement('div');
+                div.classList.add('item-fields', 'mb-4', 'flex', 'items-center', 'space-x-4');
+                div.innerHTML = newForm + `
+                    <button type="button" class="remove-item text-red-500 hover:text-red-700">Supprimer</button>
+                `;
+
+                // Ajouter l'élément au conteneur
+                itemsContainer.appendChild(div);
+
+                // Ajouter un écouteur sur le bouton "Supprimer"
+                div.querySelector('.remove-item').addEventListener('click', function() {
+                    div.remove();
+                });
+            });
+
+            // Suppression des items existants
+            itemsContainer.addEventListener('click', function(e) {
+                if (e.target && e.target.classList.contains('remove-item')) {
+                    e.target.closest('.item-fields').remove();
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Centres d'intérêt</h1>
+
+    {# Liste des POIs existants #}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        {% for poi in pois %}
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-4">{{ poi.name }}</h2>
+                {% if poi.items is not empty %}
+                    <ul class="list-disc list-inside">
+                        {% for item in poi.items %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-gray-500">Aucun élément pour ce centre d'intérêt.</p>
+                {% endif %}
+            </div>
+        {% else %}
+            <p class="text-gray-500">Aucun centre d'intérêt enregistré.</p>
+        {% endfor %}
+    </div>
+
+    {# Formulaire pour ajouter un nouveau POI #}
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-bold mb-4">Ajouter un nouveau centre d'intérêt</h2>
+        
+        {{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+            {# Champ pour le nom du POI #}
+            {{ form_row(form.name, {
+                'attr': {
+                    'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                }
+            }) }}
+
+            {# Collection des items du POI (avec ajout dynamique) #}
+            <div id="items-container" data-prototype="{{ form_widget(form.items.vars.prototype)|e('html_attr') }}">
+                {% for item in form.items %}
+                    <div class="item-fields mb-4 flex items-center space-x-4">
+                        {{ form_widget(item, {
+                            'attr': {
+                                'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                            }
+                        }) }}
+                        <button type="button" class="remove-item text-red-500 hover:text-red-700">Supprimer</button>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {# Bouton pour ajouter un nouvel item #}
+            <button type="button" id="add-item" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                Ajouter un élément
+            </button>
+
+            {# Bouton de soumission du formulaire #}
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 mt-4">
+                Enregistrer le centre d'intérêt
+            </button>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+{% endblock %}

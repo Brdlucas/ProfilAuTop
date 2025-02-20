@@ -70,11 +70,23 @@ class Cv
     #[ORM\JoinColumn(nullable: false)]
     private ?User $creator = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $link = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Skill::class, inversedBy="cvs")
+     * @ORM\JoinTable(name="cv_skills")
+     */
+    private $skills;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=SoftSkill::class, inversedBy="cvs")
+     * @ORM\JoinTable(name="cv_soft_skills")
+     */
+    private $softSkills;
 
     public function __construct()
     {
@@ -83,6 +95,53 @@ class Cv
         $this->experiences = new ArrayCollection();
         $this->formations = new ArrayCollection();
         $this->ref = uniqid($this->title);
+        $this->skills = new ArrayCollection();
+        $this->softSkills = new ArrayCollection();
+        $this->link = '';
+        $this->email = '';
+
+    }
+
+    public function getSkills(): Collection
+    {
+        return $this->skills;
+    }
+
+    public function addSkill(Skill $skill): self
+    {
+        if (!$this->skills->contains($skill)) {
+            $this->skills[] = $skill;
+        }
+
+        return $this;
+    }
+
+    public function removeSkill(Skill $skill): self
+    {
+        $this->skills->removeElement($skill);
+
+        return $this;
+    }
+
+    public function getSoftSkills(): Collection
+    {
+        return $this->softSkills;
+    }
+
+    public function addSoftSkill(SoftSkill $softSkill): self
+    {
+        if (!$this->softSkills->contains($softSkill)) {
+            $this->softSkills[] = $softSkill;
+        }
+
+        return $this;
+    }
+
+    public function removeSoftSkill(SoftSkill $softSkill): self
+    {
+        $this->softSkills->removeElement($softSkill);
+
+        return $this;
     }
 
     public function __tostring()
@@ -96,7 +155,7 @@ class Cv
         $this->created_at = new \DateTimeImmutable();
     }
 
-    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function setUpdatedAtValue()
     {
         $this->updated_at = new \DateTimeImmutable;

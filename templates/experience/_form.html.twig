@@ -1,20 +1,25 @@
 {{ form_start(form, {'attr': {'class': 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col w-2/5 mt-10 m-auto gap-5'}}) }}
 {% for field in form %}
 	{% if field.vars.name == 'skills' %}
-		<div class="columns-3">
-			{{ form_label(field) }}
-			{% for skill in field %}
-				<br>
-				<div class="p-3">
-					{{ form_widget(skill) }}
-					{{ form_label(skill) }}
-				</div>
-			{% endfor %}
+		<div class="mb-4">
+			{{ form_label(field, null, {'class': 'block mb-2 font-bold'}) }}
+			<div class="grid grid-cols-3 align-middle justify-center  gap-5">
+				{% for skill in field %}
+					<div class="flex items-center align-middle">
+						<div>
+							{{ form_widget(skill) }}
+						</div>
+						{{ form_label(skill) }}
+					</div>
+				{% endfor %}
+			</div>
 		</div>
 	{% else %}
 		{{ form_row(field) }}
 	{% endif %}
 {% endfor %}
+
+
 <div id="description-fields" class="flex flex-col gap-5">
 	{% if experience.description is empty %}
 		<input type="text" name="description[]" placeholder="Description" value="" class="w-full p-3 rounded border border-gray-300">
@@ -39,7 +44,9 @@ container.appendChild(input);
 container.appendChild(input);
 });
 </script>
-<button class="btn">{{ button_label|default('Save') }}</button>
-
-
+<div class="flex justify-center">
+	<a class="btn m-auto p-3 hover:bg-blue-300" href={{path('app_formation_new')}}>Précédent</a>
+	<button type="submit" name="action" value="create_new" class="btn m-auto p-3 hover:bg-blue-300">{{ button_label|default('enregistrer et créer un nouveau') }}</button>
+	<button type="submit" name="action" value="next" class="btn m-auto p-3 hover:bg-blue-300">{{ button_label|default('suivant') }}</button>
+</div>
 {{ form_end(form) }}
