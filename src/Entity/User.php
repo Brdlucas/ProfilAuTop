@@ -62,9 +62,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $languages = null;
 
-    #[ORM\Column(type: Types::JSON, nullable: true)]
-    private ?array $pois = null;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
@@ -137,6 +134,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updated_name_at = null;
 
+    /**
+     * @var Collection<int, Poi>
+     */
+    #[ORM\ManyToMany(targetEntity: Poi::class, inversedBy: 'users')]
+    private Collection $pois;
+
     public function __construct()
     {
         $this->loginHistories = new ArrayCollection();
@@ -145,6 +148,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->experiences = new ArrayCollection();
         $this->formations = new ArrayCollection();
         $this->ref = uniqid($this->firstname . '-' .$this->lastname);
+        $this->pois = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -347,17 +351,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPois(): ?array
-    {
-        return $this->pois;
-    }
-
-    public function setPois(?array $pois): static
-    {
-        $this->pois = $pois;
-
-        return $this;
-    }
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;
@@ -677,6 +670,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedNameAt(\DateTimeImmutable $updated_name_at): static
     {
         $this->updated_name_at = $updated_name_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Poi>
+     */
+    public function getPois(): Collection
+    {
+        return $this->pois;
+    }
+
+    public function addPoi(Poi $poi): static
+    {
+        if (!$this->pois->contains($poi)) {
+            $this->pois->add($poi);
+        }
+
+        return $this;
+    }
+
+    public function removePoi(Poi $poi): static
+    {
+        $this->pois->removeElement($poi);
 
         return $this;
     }

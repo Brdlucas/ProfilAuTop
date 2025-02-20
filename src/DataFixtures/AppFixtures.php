@@ -155,7 +155,6 @@ class AppFixtures extends Fixture
          $admin->setPostalCode($faker->postcode());
          $admin->setCity($faker->city());
          $admin->setLanguages([['name' =>'français', 'level' => 'maternel'], ['name' =>'anglais', 'level' => 'C1']]);
-         $admin->setPois([['name' => 'Lecture', 'items' => ['Manga', 'Manhwa', 'Light-Novels', 'Romans', 'Fanfictions']], ['name' => 'Sport', 'items' => ['Natation', 'Course à pied', 'Vélo', 'Fitness']], ['name' => 'Jeux mobiles', 'items' => ['Summoners War', 'Marver Futur Fight (top 0%)']]]);
          $admin->setLicences(['B', 'moto']);
          $admin->setLinkedin('https://www.linkedin.com/in/');
          $admin->setPortfolioUrl('https://www.google.com');
@@ -180,16 +179,6 @@ class AppFixtures extends Fixture
             ['name' => 'espagnol', 'level' => 'B2'],
             ['name' => 'allemand', 'level' => 'A1']
         ]);
-        $user1->setPois([
-            [
-                'name' => 'Musique',
-                'items' => ['Guitare', 'Piano', 'Concerts']
-            ],
-            [
-                'name' => 'Voyages',
-                'items' => ['Europe', 'Asie']
-            ]
-        ]);
         $user1->setLicences(['A']);
         $user1->setLinkedin('https://www.linkedin.com/in/' . $faker->userName());
         $user1->setPortfolioUrl($faker->url());
@@ -211,16 +200,6 @@ class AppFixtures extends Fixture
         $user2->setCity($faker->city());
         $user2->setLanguages([
             ['name' => 'italien', 'level' => 'B1']
-        ]);
-        $user2->setPois([
-            [
-                'name' => 'Cuisine',
-                'items' => ['Pâtisserie', 'Cuisine italienne']
-            ],
-            [
-                'name' => 'Cinéma',
-                'items' => ['Films d\'auteur', 'Comédies']
-            ]
         ]);
         $user2->setLicences([]);
         $user2->setLinkedin('https://www.linkedin.com/in/' . $faker->userName());
@@ -244,16 +223,6 @@ class AppFixtures extends Fixture
         $user3->setLanguages([
             ['name' => 'chinois', 'level' => 'A2'],
             ['name' => 'japonais', 'level' => 'A1']
-        ]);
-        $user3->setPois([
-            [
-                'name' => 'Arts martiaux',
-                'items' => ['Karaté', 'Aïkido']
-            ],
-            [
-                'name' => 'Jeux vidéo',
-                'items' => ['MMORPG', 'Jeux de stratégie']
-            ]
         ]);
         $user3->setLicences(['B', 'C']);
         $user3->setLinkedin('https://www.linkedin.com/in/' . $faker->userName());
