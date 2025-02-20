@@ -171,6 +171,7 @@ final class UserController extends AbstractController
             $this->em->flush();
         }
 
-        return $this->redirectToRoute('app_user_profil', [], Response::HTTP_SEE_OTHER);
+        $this->addFlash('success', 'Votre compte a bien été supprimé !');
+        return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
     }
 }
