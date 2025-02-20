@@ -1,4 +1,82 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
+	{{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+
+	{# Date de début #}
+	<div class="form-group">
+		{{ form_label(form.date_start, 'Date de début', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+		{{ form_widget(form.date_start, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+	</div>
+
+	{# Date de fin #}
+	<div class="form-group">
+		{{ form_label(form.date_end, 'Date de fin', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+		{{ form_widget(form.date_end, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+	</div>
+
+	{# Titre #}
+	<div class="form-group">
+		{{ form_label(form.title, 'Titre', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+		{{ form_widget(form.title, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+	</div>
+
+	{# Organisation #}
+	<div class="form-group">
+		{{ form_label(form.organization, 'Organisation', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+		{{ form_widget(form.organization, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+	</div>
+
+	{# Description #}
+	<div class="form-group">
+		{{ form_label(form.description, 'Description', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+		{{ form_widget(form.description, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+	</div>
+
+	{# Code postal #}
+	<div class="form-group">
+		{{ form_label(form.postal_code, 'Code postal', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+		{{ form_widget(form.postal_code, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+	</div>
+
+	{# Ville #}
+	<div class="form-group">
+		{{ form_label(form.city, 'Ville', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+		{{ form_widget(form.city, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+	</div>
+
+	{# Pays #}
+	<div class="form-group">
+		{{ form_label(form.country, 'Pays', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+		{{ form_widget(form.country, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+	</div>
+
+	{# Niveau #}
+	<div class="form-group">
+		{{ form_label(form.level, 'Niveau', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+		{{ form_widget(form.level, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+	</div>
+
+	{# Diplômé #}
+	<div class="form-group">
+		{{ form_label(form.is_graduated, 'Diplômé', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+		{{ form_widget(form.is_graduated, {'attr': {'class': 'mt-1 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'}}) }}
+	</div>
+
+	{# Diplôme #}
+	<div class="form-group">
+		{{ form_label(form.degree, 'Diplôme', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+		{{ form_widget(form.degree, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+	</div>
+
+	{# Compétences #}
+	<div class="form-group">
+		{{ form_label(form.skills, 'Compétences', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+		{{ form_widget(form.skills, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+	</div>
+
+	<div class="flex items-center justify-end mt-6">
+		<button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+			{{ button_label|default('Enregistrer') }}
+		</button>
+	</div>
+	{{ form_end(form) }}
+</div>
