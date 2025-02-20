@@ -1,58 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Experience{% endblock %}
+{% block title %}Détails de l'Expérience
+{% endblock %}
 
 {% block body %}
-    <h1>Experience</h1>
+	<div class="container mx-auto px-4 py-8">
+		<h1 class="text-3xl font-bold text-gray-800 mb-6 uppercase">Détails de l'Expérience</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ experience.id }}</td>
-            </tr>
-            <tr>
-                <th>Ref</th>
-                <td>{{ experience.ref }}</td>
-            </tr>
-            <tr>
-                <th>Date_start</th>
-                <td>{{ experience.dateStart }}</td>
-            </tr>
-            <tr>
-                <th>Date_end</th>
-                <td>{{ experience.dateEnd }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ experience.title }}</td>
-            </tr>
-            <tr>
-                <th>Organization</th>
-                <td>{{ experience.organization }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ experience.description ? experience.description|join(', ') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Postal_code</th>
-                <td>{{ experience.postalCode }}</td>
-            </tr>
-            <tr>
-                <th>City</th>
-                <td>{{ experience.city }}</td>
-            </tr>
-            <tr>
-                <th>Country</th>
-                <td>{{ experience.country }}</td>
-            </tr>
-        </tbody>
-    </table>
+		<div class="bg-white shadow-md rounded-lg overflow-hidden">
+			<div class="px-6 py-4">
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Titre</span>
+						<span class="text-gray-900">{{ experience.title }}</span>
+					</div>
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Organisation</span>
+						<span class="text-gray-900">{{ experience.organization }}</span>
+					</div>
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Date de début</span>
+						<span class="text-gray-900">{{ experience.dateStart('d/m/Y') }}</span>
+					</div>
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Date de fin</span>
+						<span class="text-gray-900">{{ experience.dateEnd('d/m/Y') }}</span>
+					</div>
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Ville</span>
+						<span class="text-gray-900">{{ experience.city }}</span>
+					</div>
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Pays</span>
+						<span class="text-gray-900">{{ experience.country }}</span>
+					</div>
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Code postal</span>
+						<span class="text-gray-900">{{ experience.postalCode }}</span>
+					</div>
+				</div>
+				<div class="mt-4">
+					<span class="text-gray-600 text-sm font-medium">Description</span>
+					<p class="text-gray-900 mt-1">{{ experience.description ? experience.description|join(', ') : 'Aucune description fournie' }}</p>
+				</div>
+			</div>
+		</div>
 
-    <a href="{{ path('app_experience_index') }}">back to list</a>
-
-    <a href="{{ path('app_experience_edit', {'id': experience.id}) }}">edit</a>
-
-    {{ include('experience/_delete_form.html.twig') }}
+		<div class="mt-6 flex space-x-4">
+			<a href="{{ path('app_experience_index') }}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
+				Retour à la liste
+			</a>
+			<a href="{{ path('app_experience_edit', {'id': experience.id}) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+				Modifier
+			</a>
+			{{ include('experience/_delete_form.html.twig') }}
+		</div>
+	</div>
 {% endblock %}
