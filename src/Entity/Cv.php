@@ -70,11 +70,6 @@ class Cv
      */
     private $skills;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=SoftSkill::class, inversedBy="cvs")
-     * @ORM\JoinTable(name="cv_soft_skills")
-     */
-    private $softSkills;
 
     /**
      * @var Collection<int, SoftSkill>
@@ -84,7 +79,12 @@ class Cv
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $ai = null;
-
+  
+    /**
+     * @var Collection<int, SoftSkill>
+     */
+    #[ORM\ManyToMany(targetEntity: SoftSkill::class, inversedBy: 'cvs')]
+    private Collection $softSkills;
 
     public function __construct()
     {
@@ -93,8 +93,8 @@ class Cv
         $this->formations = new ArrayCollection();
         $this->ref = uniqid($this->title);
         $this->skills = new ArrayCollection();
-        $this->softSkills = new ArrayCollection();
         $this->email = '';
+        $this->softSkills = new ArrayCollection();
     }
 
     public function getSkills(): Collection
@@ -114,27 +114,6 @@ class Cv
     public function removeSkill(Skill $skill): self
     {
         $this->skills->removeElement($skill);
-
-        return $this;
-    }
-
-    public function getSoftSkills(): Collection
-    {
-        return $this->softSkills;
-    }
-
-    public function addSoftSkill(SoftSkill $softSkill): self
-    {
-        if (!$this->softSkills->contains($softSkill)) {
-            $this->softSkills[] = $softSkill;
-        }
-
-        return $this;
-    }
-
-    public function removeSoftSkill(SoftSkill $softSkill): self
-    {
-        $this->softSkills->removeElement($softSkill);
 
         return $this;
     }
@@ -355,6 +334,30 @@ class Cv
     public function setAi(?string $ai): static
     {
         $this->ai = $ai;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SoftSkill>
+     */
+    public function getSoftSkills(): Collection
+    {
+        return $this->softSkills;
+    }
+
+    public function addSoftSkill(SoftSkill $softSkill): static
+    {
+        if (!$this->softSkills->contains($softSkill)) {
+            $this->softSkills->add($softSkill);
+        }
+
+        return $this;
+    }
+
+    public function removeSoftSkill(SoftSkill $softSkill): static
+    {
+        $this->softSkills->removeElement($softSkill);
 
         return $this;
     }
