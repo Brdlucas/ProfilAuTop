@@ -27,9 +27,6 @@ class Cv
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $introduction = null;
-
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $date_start = null;
 
@@ -65,9 +62,6 @@ class Cv
     private ?User $creator = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $link = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
 
     /**
@@ -88,6 +82,10 @@ class Cv
     #[ORM\ManyToMany(targetEntity: SoftSkill::class, inversedBy: 'cvs')]
     private Collection $softskills;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $ai = null;
+
+
     public function __construct()
     {
         $this->cvHistories = new ArrayCollection();
@@ -96,9 +94,7 @@ class Cv
         $this->ref = uniqid($this->title);
         $this->skills = new ArrayCollection();
         $this->softSkills = new ArrayCollection();
-        $this->link = '';
         $this->email = '';
-        $this->softskills = new ArrayCollection();
     }
 
     public function getSkills(): Collection
@@ -197,18 +193,6 @@ class Cv
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getIntroduction(): ?string
-    {
-        return $this->introduction;
-    }
-
-    public function setIntroduction(?string $introduction): static
-    {
-        $this->introduction = $introduction;
 
         return $this;
     }
@@ -351,18 +335,6 @@ class Cv
         return $this;
     }
 
-    public function getLink(): ?string
-    {
-        return $this->link;
-    }
-
-    public function setLink(string $link): static
-    {
-        $this->link = $link;
-
-        return $this;
-    }
-
     public function getEmail(): ?string
     {
         return $this->email;
@@ -371,6 +343,18 @@ class Cv
     public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getAi(): ?string
+    {
+        return $this->ai;
+    }
+
+    public function setAi(?string $ai): static
+    {
+        $this->ai = $ai;
 
         return $this;
     }
