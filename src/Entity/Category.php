@@ -25,7 +25,14 @@ class Category
             "Intelligence émotionnelle",
             "Pensée critique et créativité",
             "Apprentissage et adaptabilité",
-            "Ethique et professionnalisme"
+            "Ethique et professionnalisme",
+            "Lecture",
+            "Jeux",
+            "Sport",
+            "Culture",
+            "Voyages",
+            "Musique",
+            "Cinéma",
         ],
     )]
     private ?string $name = null;

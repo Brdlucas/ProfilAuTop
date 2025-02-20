@@ -91,3 +91,9 @@ label {
 #user.grid.grid-cols-2 {
     grid-template-columns: repeat(2, 1fr);
 }
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+}
