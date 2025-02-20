@@ -25,7 +25,7 @@ class SoftSkill
     /**
      * @var Collection<int, Cv>
      */
-    #[ORM\ManyToMany(targetEntity: Cv::class, mappedBy: 'softskills')]
+    #[ORM\ManyToMany(targetEntity: Cv::class, mappedBy: 'softSkills')]
     private Collection $cvs;
 
     public function __construct()

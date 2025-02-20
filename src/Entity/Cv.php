@@ -71,16 +71,10 @@ class Cv
     private $skills;
 
     /**
-     * @ORM\ManyToMany(targetEntity=SoftSkill::class, inversedBy="cvs")
-     * @ORM\JoinTable(name="cv_soft_skills")
-     */
-    private $softSkills;
-
-    /**
      * @var Collection<int, SoftSkill>
      */
     #[ORM\ManyToMany(targetEntity: SoftSkill::class, inversedBy: 'cvs')]
-    private Collection $softskills;
+    private Collection $softSkills;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $ai = null;
