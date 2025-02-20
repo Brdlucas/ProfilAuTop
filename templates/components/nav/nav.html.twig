@@ -1,42 +1,20 @@
-<header class="fixed top-0 z-40 w-full transition-all duration-300  shadow-lg bg-white py-4">
-	<div class="lg:py-0 py-2">
-		<div class="container mx-auto lg:max-w-screen-xl md:max-w-screen-md flex items-center justify-between px-4">
-			<a class="flex items-center text-black dark:text-white text-2xl font-semibold gap-4" href="/"><img alt="logo" loading="lazy" width="160" height="50" decoding="async" data-nimg="1" style="color:transparent;width:auto;height:auto" src="/images/Logo/Logo.svg">Chef's Kitchen.</a>
-			<div class="flex items-center">
-				<a class="hidden lg:block text-primary bg-primary/15 hover:text-white font-medium text-lg py-4 px-8 rounded-full" href="#">Connexion</a>
-				<a class="hidden lg:block bg-primary   hover:text-primary font-medium text-lg py-4 px-8 rounded-full " href="#">Inscription</a>
-				<button class="block lg:hidden p-2 rounded-lg" aria-label="Toggle mobile menu">
-					<span class="block w-6 h-0.5 bg-white"></span>
-					<span class="block w-6 h-0.5 bg-white mt-1.5"></span>
-					<span class="block w-6 h-0.5 bg-white mt-1.5"></span>
-				</button>
-			</div>
-		</div>
-		<div class="lg:hidden fixed top-0 right-0 h-full w-full bg-darkmode shadow-lg transform transition-transform duration-300 max-w-xs translate-x-full z-50">
-			<div class="flex items-center justify-between p-4">
-				<h2 class="text-lg font-bold text-midnight_text dark:text-midnight_text">
-					<a class="flex items-center text-black dark: text-2xl font-semibold gap-4" href="/"><img alt="logo" loading="lazy" width="160" height="50" decoding="async" data-nimg="1" style="color:transparent;width:auto;height:auto" src="/images/Logo/Logo.svg">Chef's Kitchen.</a>
-				</h2>
-				<button class="bg-[url('/images/closed.svg')] bg-no-repeat bg-contain w-5 h-5 absolute top-0 right-0 mr-8 mt-8 dark:invert" aria-label="Close menu Modal"></button>
-			</div>
-			<nav class="flex flex-col items-start p-4">
-				<div class="relative w-full">
-					<a class="flex items-center justify-between w-full py-2 text-muted focus:outline-none" href="#">Home</a>
-				</div>
-				<div class="relative w-full">
-					<a class="flex items-center justify-between w-full py-2 text-muted focus:outline-none" href="#">About Us</a>
-				</div>
-				<div class="relative w-full">
-					<a class="flex items-center justify-between w-full py-2 text-muted focus:outline-none" href="#">Recipe</a>
-				</div>
-				<div class="relative w-full">
-					<a class="flex items-center justify-between w-full py-2 text-muted focus:outline-none" href="/documentation">Docs</a>
-				</div>
-				<div class="mt-4 flex flex-col space-y-4 w-full">
-					<a class="bg-transparent border border-primary text-primary px-4 py-2 rounded-lg hover:bg-blue-600" href="#">Sign In</a>
-					<a class="bg-primary  px-4 py-2 rounded-lg hover:bg-blue-700" href="#">Sign Up</a>
-				</div>
-			</nav>
-		</div>
-	</div>
+<header class="fixed inset-x-0 top-0 z-30 mx-auto w-full max-w-screen-md border border-sky-600/50 py-3 shadow backdrop-blur-lg md:top-6 md:rounded-3xl lg:max-w-screen-lg">
+    <div class="px-4">
+        <div class="flex items-center justify-between">
+            <div class="flex shrink-0">
+                <a class="flex navbar-brand fs-4 logo" href="{{ path('app_homepage') }}">
+					<img class="h-20 w-auto" src="/images/ProfilAuTop.png" alt="">
+				</a>
+            </div>
+            <div class="flex items-center justify-end gap-3">
+                <a class="hidden items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-gray-50 sm:inline-flex" href="/register">Inscription</a>
+                <div class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                    <a class="flex items-center" href="/login">
+                        {{ ux_icon('line-md:login',{ class: 'h-4 w-4 mr-2' }) }}
+                        Connexion
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </header>

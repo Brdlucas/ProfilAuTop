@@ -1,493 +1,309 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PageController!
-{% endblock %}
+{% block title %}Page d'accueil{% endblock %}
 
 {% block body %}
-    <!-- Start block -->
-    <section class="bg-white dark:bg-gray-900 mt-8">
-        <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
+    <!-- Hero -->
+    <section class="bg-white nodark:bg-gray-900">
+        <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto mt-10 lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
             <div class="mr-auto place-self-center lg:col-span-7">
-                <h1 class="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white">
-                    Propulsez votre carrière avec des CV intelligents et personnalisés</h1>
-                <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">De
-                    l'inscription à la création de CV personnalisés, les professionnels du monde entier utilisent
-                    ProfilAuTop pour booster leur recherche d'emploi.</p>
+                <h1 class="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl nodark:text-white">Propulsez votre carrière avec des CV intelligents et personnalisés</h1>
+                <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl nodark:text-gray-400">De l'inscription à la création de CV personnalisés, les professionnels du monde entier utilisent Profil Au Top pour booster leur recherche d'emploi.</p>
             </div>
             <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
                 <img src="/images/homepage_image.svg" alt="homepage">
             </div>
         </div>
     </section>
-    <!-- End block -->
 
-    <!-- Start block -->
-    <section class="bg-gray-50 dark:bg-gray-800">
-        <div
-                class="max-w-screen-xl px-4 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-6">
-            <!-- Row -->
+    <!-- Info -->
+    <section class="bg-gray-50 nodark:bg-gray-800">
+        <div class="max-w-screen-xl px-4 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-6">
             <div class="items-center gap-8 lg:grid lg:grid-cols-2 xl:gap-16">
-                <div class="text-gray-500 sm:text-lg dark:text-gray-400">
-                    <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">Créez un profil complet pour vos candidatures</h2>
+                <div class="text-gray-500 sm:text-lg nodark:text-gray-400">
+                    <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 nodark:text-white">Créez un profil complet pour vos candidatures</h2>
                     <p class="mb-8 font-light lg:text-xl">Facilitez vos démarches de recrutement avec un profil enrichi et une création de CV personnalisé en fonction des offres d'emploi.</p>
-                    <!-- List -->
-                    <ul role="list" class="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700">
+                    <ul role="list" class="pt-8 space-y-5 border-t border-gray-200 my-7 nodark:border-gray-700">
                         <li class="flex space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-sky-400" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">Inscription simple avec des champs personnalisés</span>
+                            {{ ux_icon('tabler:zoom-check-filled',{ class: 'h-6 w-6 text-sky-500' }) }}
+                            <span class="text-base font-medium leading-tight text-gray-900 nodark:text-white">Inscription simple avec des champs personnalisés</span>
                         </li>
-                        <li
-                                class="flex space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-sky-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
-                            <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">Ajout d'expériences et de formations pertinentes</span>
+                        <li class="flex space-x-3">
+                            {{ ux_icon('tabler:zoom-check-filled',{ class: 'h-6 w-6 text-sky-500' }) }}
+                            <span class="text-base font-medium leading-tight text-gray-900 nodark:text-white">Ajout d'expériences et de formations pertinentes</span>
                         </li>
-                        <li
-                                class="flex space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-sky-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
-                            <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">Création d'un CV personnalisé pour chaque offre d'emploi</span>
+                        <li class="flex space-x-3">
+                            {{ ux_icon('tabler:zoom-check-filled',{ class: 'h-6 w-6 text-sky-500' }) }}
+                            <span class="text-base font-medium leading-tight text-gray-900 nodark:text-white">Création d'un CV personnalisé pour chaque offre d'emploi</span>
                         </li>
                     </ul>
-                    <p class="mb-8 font-light lg:text-xl">Maximisez vos chances de succès en ajustant votre CV aux
-                        exigences des recruteurs grâce à des outils intelligents.</p>
+                    <p class="mb-8 font-light lg:text-xl">Maximisez vos chances de succès en ajustant votre CV aux exigences des recruteurs grâce à des outils intelligents.</p>
                 </div>
-                <img class="hidden w-full mb-4 rounded-lg lg:mb-0 lg:flex" src="/images/homepage_image1.svg"
-                     alt="dashboard feature image"></div>
-            <!-- Row -->
-            <div class="items-center gap-8 lg:grid lg:grid-cols-2 xl:gap-16"><img
-                        class="hidden w-full mb-4 rounded-lg lg:mb-0 lg:flex" src="/images/homepage_image2.svg"
-                        alt="feature image 2">
-                <div class="text-gray-500 sm:text-lg dark:text-gray-400">
-                    <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-                        Optimisation de votre CV par l'intelligence artificielle</h2>
-                    <p class="mb-8 font-light lg:text-xl">Utilisez l'IA pour analyser et améliorer votre CV en fonction
-                        des offres d'emploi, vous assurant ainsi d'être bien positionné face aux recruteurs.</p>
-                    <!-- List -->
-                    <ul role="list" class="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700">
-                        <li
-                                class="flex space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-sky-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
-                            <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">Analyse approfondie des compétences et expériences</span>
-                        </li>
-                        <li
-                                class="flex space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-sky-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
-                            <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">Optimisation de la présentation et des mots-clés</span>
+                <img class="hidden w-full mb-4 rounded-lg lg:mb-0 lg:flex" src="/images/homepage_image1.svg" alt="dashboard feature image"></div>
+            <div class="items-center gap-8 lg:grid lg:grid-cols-2 xl:gap-16">
+                <img class="hidden w-full mb-4 rounded-lg lg:mb-0 lg:flex" src="/images/homepage_image2.svg" alt="feature image 2">
+                <div class="text-gray-500 sm:text-lg nodark:text-gray-400">
+                    <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 nodark:text-white">Optimisation de votre CV par l'intelligence artificielle</h2>
+                    <p class="mb-8 font-light lg:text-xl">Utilisez l'IA pour analyser et améliorer votre CV en fonction des offres d'emploi, vous assurant ainsi d'être bien positionné face aux recruteurs.</p>
+                    <ul role="list" class="pt-8 space-y-5 border-t border-gray-200 my-7 nodark:border-gray-700">
+                        <li class="flex space-x-3">
+                            {{ ux_icon('tabler:zoom-check-filled',{ class: 'h-6 w-6 text-sky-500' }) }}
+                            <span class="text-base font-medium leading-tight text-gray-900 nodark:text-white">Analyse approfondie des compétences et expériences</span>
                         </li>
                         <li class="flex space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-sky-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
-                            <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">Compatibilité avec les systèmes ATS (Applicant Tracking System)</span>
+                            {{ ux_icon('tabler:zoom-check-filled',{ class: 'h-6 w-6 text-sky-500' }) }}
+                            <span class="text-base font-medium leading-tight text-gray-900 nodark:text-white">Optimisation de la présentation et des mots-clés</span>
+                        </li>
+                        <li class="flex space-x-3">
+                            {{ ux_icon('tabler:zoom-check-filled',{ class: 'h-6 w-6 text-sky-500' }) }}
+                            <span class="text-base font-medium leading-tight text-gray-900 nodark:text-white">Compatibilité avec les systèmes ATS (Applicant Tracking System)</span>
                         </li>
                     </ul>
-                    <p class="font-light lg:text-xl">Obtenez un CV optimisé pour passer avec succès les filtres des
-                        systèmes ATS et attirer l'attention des recruteurs.</p>
+                    <p class="font-light lg:text-xl">Obtenez un CV optimisé pour passer avec succès les filtres des systèmes ATS et attirer l'attention des recruteurs.</p>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Start block -->
-    <section class="bg-white dark:bg-gray-900">
+
+    <!-- Info -->
+    <section class="bg-white nodark:bg-gray-900">
         <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
             <div class="max-w-screen-md mb-8 lg:mb-16"><h2
-                        class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Conçu pour les
-                    chercheurs d'emploi comme vous</h2>
-                <p class="text-gray-500 sm:text-xl dark:text-gray-400">Chez [Nom de votre plateforme], nous nous
-                    concentrons sur l'utilisation de l'IA et de l'innovation pour débloquer votre potentiel
-                    professionnel et stimuler votre carrière.</p></div>
+                        class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 nodark:text-white">Conçu pour les chercheurs d'emploi comme vous</h2>
+                <p class="text-gray-500 sm:text-xl nodark:text-gray-400">Chez [Nom de votre plateforme], nous nous concentrons sur l'utilisation de l'IA et de l'innovation pour débloquer votre potentiel professionnel et stimuler votre carrière.</p></div>
             <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
                 <div>
-                    <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 dark:bg-primary-900">
+                    <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 nodark:bg-primary-900">
                         {{ ux_icon('iconoir:doc-magnifying-glass', { class: 'h-8 w-8' }) }}
                     </div>
-                    <h3 class="mb-2 text-xl font-bold dark:text-white">Analyse d'offres</h3>
-                    <p class="text-gray-500 dark:text-gray-400">Notre IA analyse en profondeur les offres d'emploi pour
-                        vous aider à créer un CV parfaitement adapté à chaque opportunité.</p></div>
+                    <h3 class="mb-2 text-xl font-bold nodark:text-white">Analyse d'offres</h3>
+                    <p class="text-gray-500 nodark:text-gray-400">Notre IA analyse en profondeur les offres d'emploi pour vous aider à créer un CV parfaitement adapté à chaque opportunité.</p></div>
                 <div>
-                    <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 dark:bg-primary-900">
+                    <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 nodark:bg-primary-900">
                         {{ ux_icon('ix:optimize', { class: 'h-8 w-8' }) }}
                     </div>
-                    <h3 class="mb-2 text-xl font-bold dark:text-white">Optimisation ATS</h3>
-                    <p class="text-gray-500 dark:text-gray-400">Assurez-vous que votre CV passe les filtres des systèmes
-                        de suivi des candidatures (ATS) grâce à notre technologie d'optimisation avancée.</p></div>
+                    <h3 class="mb-2 text-xl font-bold nodark:text-white">Optimisation ATS</h3>
+                    <p class="text-gray-500 nodark:text-gray-400">Assurez-vous que votre CV passe les filtres des systèmes de suivi des candidatures (ATS) grâce à notre technologie d'optimisation avancée.</p></div>
                 <div>
-                    <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 dark:bg-primary-900">
+                    <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 nodark:bg-primary-900">
                         {{ ux_icon('fluent-mdl2:personalize', { class: 'h-8 w-8' }) }}
                     </div>
-                    <h3 class="mb-2 text-xl font-bold dark:text-white">Personnalisation automatique</h3>
-                    <p class="text-gray-500 dark:text-gray-400">Adaptez automatiquement votre CV à chaque offre d'emploi
-                        grâce à nos modèles intelligents et notre technologie de personnalisation.</p></div>
+                    <h3 class="mb-2 text-xl font-bold nodark:text-white">Personnalisation automatique</h3>
+                    <p class="text-gray-500 nodark:text-gray-400">Adaptez automatiquement votre CV à chaque offre d'emploi grâce à nos modèles intelligents et notre technologie de personnalisation.</p></div>
                 <div>
-                    <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 dark:bg-primary-900">
+                    <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 nodark:bg-primary-900">
                         {{ ux_icon('game-icons:skills', { class: 'h-8 w-8' }) }}
                     </div>
-                    <h3 class="mb-2 text-xl font-bold dark:text-white">Analyse de compétences</h3>
-                    <p class="text-gray-500 dark:text-gray-400">Notre IA identifie et met en valeur vos compétences les
-                        plus pertinentes pour chaque poste, augmentant vos chances d'être remarqué.</p></div>
+                    <h3 class="mb-2 text-xl font-bold nodark:text-white">Analyse de compétences</h3>
+                    <p class="text-gray-500 nodark:text-gray-400">Notre IA identifie et met en valeur vos compétences les plus pertinentes pour chaque poste, augmentant vos chances d'être remarqué.</p></div>
                 <div>
-                    {{ ux_icon('game-icons:tie', { class: 'h-8 w-8' }) }}
-                    <h3 class="mb-2 text-xl font-bold dark:text-white">Design professionnel</h3>
-                    <p class="text-gray-500 dark:text-gray-400">Créez des CV visuellement attrayants et professionnels
-                        grâce à nos modèles conçus par des experts en recrutement et en design.</p></div>
+                    <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 nodark:bg-primary-900">
+                        {{ ux_icon('game-icons:tie', { class: 'h-8 w-8' }) }}
+                    </div>
+                    <h3 class="mb-2 text-xl font-bold nodark:text-white">Design professionnel</h3>
+                    <p class="text-gray-500 nodark:text-gray-400">Créez des CV visuellement attrayants et professionnels grâce à nos modèles conçus par des experts en recrutement et en design.</p></div>
                 <div>
-                    <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 dark:bg-primary-900">
+                    <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 nodark:bg-primary-900">
                         {{ ux_icon('material-symbols:tooltip-2-outline-sharp', { class: 'h-8 w-8' }) }}
                     </div>
-                    <h3 class="mb-2 text-xl font-bold dark:text-white">Conseils personnalisés</h3>
-                    <p class="text-gray-500 dark:text-gray-400">Bénéficiez de conseils sur mesure pour améliorer votre
-                        CV, adaptés à votre profil et aux exigences spécifiques de chaque secteur d'activité.</p></div>
+                    <h3 class="mb-2 text-xl font-bold nodark:text-white">Conseils personnalisés</h3>
+                    <p class="text-gray-500 nodark:text-gray-400">Bénéficiez de conseils sur mesure pour améliorer votre CV, adaptés à votre profil et aux exigences spécifiques de chaque secteur d'activité.</p></div>
             </div>
         </div>
     </section>
-    <!-- End block -->
-    <!-- Start block -->
-    <section class="bg-white dark:bg-gray-900">
+
+    <!-- Abonnement -->
+    <section class="bg-gray-50 nodark:bg-gray-900">
         <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-24 lg:px-6">
             <div class="max-w-screen-md mx-auto mb-8 text-center lg:mb-12">
-                <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">Nos offres
-                    d'abonnement adaptées à vos besoins</h2>
-                <p class="mb-5 font-light text-gray-500 sm:text-xl dark:text-gray-400">Choisissez l'abonnement qui vous
-                    correspond et optimisez votre expérience de création de CV grâce à notre technologie IA avancée.</p>
+                <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 nodark:text-white">Nos offres d'abonnement adaptées à vos besoins</h2>
+                <p class="mb-5 font-light text-gray-500 sm:text-xl nodark:text-gray-400">Choisissez l'abonnement qui vous correspond et optimisez votre expérience de création de CV grâce à notre technologie IA avancée.</p>
             </div>
             <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
-                <!-- Offre Essentiel (Gratuite) -->
-                <div class="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-                    <h3 class="mb-4 text-2xl font-semibold">Essentiel (Gratuite)</h3>
-                    <p class="font-light text-gray-500 sm:text-lg dark:text-gray-400">L'offre gratuite pour commencer à
-                        créer votre CV simple et optimisé.</p>
+                <div class="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow nodark:border-gray-600 xl:p-8 nodark:bg-gray-800 nodark:text-white">
+                    <h3 class="mb-4 text-2xl font-semibold">Essentiel</h3>
+                    <p class="font-light text-gray-500 sm:text-lg nodark:text-gray-400">L'offre gratuite pour commencer à créer votre CV simple et optimisé.</p>
                     <div class="flex items-baseline justify-center my-8">
                         <span class="mr-2 text-5xl font-extrabold">Gratuit</span>
                     </div>
-                    <!-- Liste -->
                     <ul role="list" class="mb-8 space-y-4 text-left">
                         <li class="flex items-center space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
+                            {{ ux_icon('line-md:check-all', { class: 'h-6 w-6' }) }}
                             <span>Génération de CV basique avec IA</span>
                         </li>
                         <li class="flex items-center space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
+                            {{ ux_icon('line-md:check-all', { class: 'h-6 w-6' }) }}
                             <span>1 modèle de CV compatible ATS</span>
                         </li>
                         <li class="flex items-center space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
+                            {{ ux_icon('line-md:check-all', { class: 'h-6 w-6' }) }}
                             <span>Stockage limité à 1 CV</span>
                         </li>
                         <li class="flex items-center space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
+                            {{ ux_icon('line-md:check-all', { class: 'h-6 w-6' }) }}
                             <span>Conseils de base pour l'optimisation ATS</span>
                         </li>
                     </ul>
                     <a href="#"
-                       class="text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-purple-900">Commencer</a>
+                       class="text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:ring-sky-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center nodark:text-white nodark:focus:ring-sky-900">Commencer</a>
                 </div>
 
                 <!-- Offre Pro (9,99€/mois) -->
-                <div class="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-                    <h3 class="mb-4 text-2xl font-semibold">Pro (9,99€/mois)</h3>
-                    <p class="font-light text-gray-500 sm:text-lg dark:text-gray-400">Pour une utilisation plus avancée
-                        avec des fonctionnalités premium.</p>
+                <div class="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow nodark:border-gray-600 xl:p-8 nodark:bg-gray-800 nodark:text-white">
+                    <h3 class="mb-4 text-2xl font-semibold">Pro</h3>
+                    <p class="font-light text-gray-500 sm:text-lg nodark:text-gray-400">Pour une utilisation plus avancée avec des fonctionnalités premium.</p>
                     <div class="flex items-baseline justify-center my-8">
                         <span class="mr-2 text-5xl font-extrabold">9,99€</span>
-                        <span class="text-gray-500 dark:text-gray-400">/mois</span>
+                        <span class="text-gray-500 nodark:text-gray-400">/mois</span>
                     </div>
-                    <!-- Liste -->
                     <ul role="list" class="mb-8 space-y-4 text-left">
                         <li class="flex items-center space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
+                            {{ ux_icon('line-md:check-all', { class: 'h-6 w-6' }) }}
                             <span>Génération de CV avancée avec IA</span>
                         </li>
                         <li class="flex items-center space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
+                            {{ ux_icon('line-md:check-all', { class: 'h-6 w-6' }) }}
                             <span>5 modèles de CV compatibles ATS</span>
                         </li>
                         <li class="flex items-center space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
+                            {{ ux_icon('line-md:check-all', { class: 'h-6 w-6' }) }}
                             <span>Stockage illimité de CV</span>
                         </li>
                         <li class="flex items-center space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
+                            {{ ux_icon('line-md:check-all', { class: 'h-6 w-6' }) }}
                             <span>Analyse ATS approfondie</span>
                         </li>
                         <li class="flex items-center space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
+                            {{ ux_icon('line-md:check-all', { class: 'h-6 w-6' }) }}
                             <span>Conseils d'optimisation avancée</span>
                         </li>
                     </ul>
-                    <a href="#"
-                       class="text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-purple-900">S'abonner</a>
+                    <a href="#" class="text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:ring-sky-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center nodark:text-white  nodark:focus:ring-sky-900">S'abonner</a>
                 </div>
 
                 <!-- Offre Premium (14,99€/mois) -->
-                <div class="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-                    <h3 class="mb-4 text-2xl font-semibold">Premium (14,99€/mois)</h3>
-                    <p class="font-light text-gray-500 sm:text-lg dark:text-gray-400">L'expérience ultime avec toutes
-                        les fonctionnalités.</p>
+                <div class="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow nodark:border-gray-600 xl:p-8 nodark:bg-gray-800 nodark:text-white">
+                    <h3 class="mb-4 text-2xl font-semibold">Premium</h3>
+                    <p class="font-light text-gray-500 sm:text-lg nodark:text-gray-400">L'expérience ultime avec toutes les fonctionnalités.</p>
                     <div class="flex items-baseline justify-center my-8">
                         <span class="mr-2 text-5xl font-extrabold">14,99€</span>
-                        <span class="text-gray-500 dark:text-gray-400">/mois</span>
+                        <span class="text-gray-500 nodark:text-gray-400">/mois</span>
                     </div>
-                    <!-- Liste -->
                     <ul role="list" class="mb-8 space-y-4 text-left">
                         <li class="flex items-center space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
+                            {{ ux_icon('line-md:check-all', { class: 'h-6 w-6' }) }}
                             <span>Génération de CV premium avec IA</span>
                         </li>
                         <li class="flex items-center space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
+                            {{ ux_icon('line-md:check-all', { class: 'h-6 w-6' }) }}
                             <span>10 modèles de CV compatibles ATS</span>
                         </li>
                         <li class="flex items-center space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
+                            {{ ux_icon('line-md:check-all', { class: 'h-6 w-6' }) }}
                             <span>Stockage illimité et gestion multiple de CV</span>
                         </li>
                         <li class="flex items-center space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
+                            {{ ux_icon('line-md:check-all', { class: 'h-6 w-6' }) }}
                             <span>Analyse approfondie avec conseils avancés</span>
                         </li>
                         <li class="flex items-center space-x-3">
-                            <!-- Icon -->
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
+                            {{ ux_icon('line-md:check-all', { class: 'h-6 w-6' }) }}
                             <span>Assistance prioritaire à la création de CV</span>
                         </li>
                     </ul>
                     <a href="#"
-                       class="text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white dark:focus:ring-purple-900">S'abonner</a>
+                       class="text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:ring-sky-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center nodark:text-white nodark:focus:ring-sky-900">S'abonner</a>
                 </div>
             </div>
         </div>
     </section>
-    <!-- End block -->
-    <!-- Start block -->
-    <section class="bg-white dark:bg-gray-900">
+
+    <!-- Avis -->
+    <section class="bg-white nodark:bg-gray-900">
         <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
             <div class="mx-auto max-w-screen-sm">
-                <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Avis clients</h2>
-                <p class="mb-8 font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400">Découvrez les retours
-                    d'utilisateurs qui ont choisi nos formules payantes et ont bénéficié d'une expérience améliorée.</p>
+                <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 nodark:text-white">Avis clients</h2>
+                <p class="mb-8 font-light text-gray-500 lg:mb-16 sm:text-xl nodark:text-gray-400">Découvrez les retours d'utilisateurs qui ont choisi nos formules payantes et ont bénéficié d'une expérience améliorée.</p>
             </div>
             <div class="grid mb-8 lg:mb-12 lg:grid-cols-2">
-                <figure class="flex flex-col justify-center items-center p-8 text-center bg-gray-50 border-b border-gray-200 md:p-12 lg:border-r dark:bg-gray-800 dark:border-gray-700">
-                    <blockquote class="mx-auto mb-8 max-w-2xl text-gray-500 dark:text-gray-400">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Incroyable efficacité grâce à la
-                            formule Pro</h3>
-                        <p class="my-4">"J'ai récemment souscrit à l'abonnement Pro et je suis bluffé par la rapidité
-                            avec laquelle j'ai pu intégrer des modèles de CV compatibles ATS. En quelques minutes,
-                            j'avais mon CV prêt à être envoyé aux recruteurs."</p>
-                        <p class="my-4">"Les conseils d'optimisation avancée sont un véritable plus. Je recommande
-                            vivement cette formule à ceux qui veulent optimiser leur recherche d'emploi
-                            efficacement."</p>
+                <figure class="flex flex-col justify-center items-center p-8 text-center bg-gray-50 border-b border-gray-200 md:p-12 lg:border-r nodark:bg-gray-800 nodark:border-gray-700">
+                    <blockquote class="mx-auto mb-8 max-w-2xl text-gray-500 nodark:text-gray-400">
+                        <h3 class="text-lg font-semibold text-gray-900 nodark:text-white">Incroyable efficacité grâce à la formule Pro</h3>
+                        <p class="my-4">"J'ai récemment souscrit à l'abonnement Pro et je suis bluffé par la rapidité avec laquelle j'ai pu intégrer des modèles de CV compatibles ATS. En quelques minutes, j'avais mon CV prêt à être envoyé aux recruteurs."</p>
+                        <p class="my-4">"Les conseils d'optimisation avancée sont un véritable plus. Je recommande vivement cette formule à ceux qui veulent optimiser leur recherche d'emploi efficacement."</p>
                     </blockquote>
                     <figcaption class="flex justify-center items-center space-x-3">
-                        <img class="w-9 h-9 rounded-full"
-                             src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png"
-                             alt="profile picture">
-                        <div class="space-y-0.5 font-medium dark:text-white text-left">
+                        <img class="w-9 h-9 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png" alt="profile picture">
+                        <div class="space-y-0.5 font-medium nodark:text-white text-left">
                             <div>Lucie Moreau</div>
-                            <div class="text-sm font-light text-gray-500 dark:text-gray-400">Responsable RH</div>
+                            <div class="text-sm font-light text-gray-500 nodark:text-gray-400">Responsable RH</div>
                         </div>
                     </figcaption>
                 </figure>
-                <figure class="flex flex-col justify-center items-center p-8 text-center bg-gray-50 border-b border-gray-200 md:p-12 dark:bg-gray-800 dark:border-gray-700">
-                    <blockquote class="mx-auto mb-8 max-w-2xl text-gray-500 dark:text-gray-400">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Une base solide grâce à la
-                            formule Premium</h3>
-                        <p class="my-4">"Le Premium m'a permis de générer un CV sur-mesure, tout en accédant à un
-                            stockage illimité et à des fonctionnalités de gestion multiples. Tout cela m'a fait gagner
-                            un temps précieux et m'a permis de mieux gérer mes candidatures."</p>
-                        <p class="my-4">"En plus de ça, l'analyse approfondie m'a permis d'avoir des retours très
-                            détaillés pour améliorer mes chances d'être sélectionné. Une formule incontournable pour
-                            ceux qui veulent se donner les meilleures chances!"</p>
+                <figure class="flex flex-col justify-center items-center p-8 text-center bg-gray-50 border-b border-gray-200 md:p-12 nodark:bg-gray-800 nodark:border-gray-700">
+                    <blockquote class="mx-auto mb-8 max-w-2xl text-gray-500 nodark:text-gray-400">
+                        <h3 class="text-lg font-semibold text-gray-900 nodark:text-white">Une base solide grâce à la formule Premium</h3>
+                        <p class="my-4">"Le Premium m'a permis de générer un CV sur-mesure, tout en accédant à un stockage illimité et à des fonctionnalités de gestion multiples. Tout cela m'a fait gagner un temps précieux et m'a permis de mieux gérer mes candidatures."</p>
+                        <p class="my-4">"En plus de ça, l'analyse approfondie m'a permis d'avoir des retours très détaillés pour améliorer mes chances d'être sélectionné. Une formule incontournable pour ceux qui veulent se donner les meilleures chances!"</p>
                     </blockquote>
                     <figcaption class="flex justify-center items-center space-x-3">
-                        <img class="w-9 h-9 rounded-full"
-                             src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
-                             alt="profile picture">
-                        <div class="space-y-0.5 font-medium dark:text-white text-left">
+                        <img class="w-9 h-9 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="profile picture">
+                        <div class="space-y-0.5 font-medium nodark:text-white text-left">
                             <div>Jean-Baptiste Lemoine</div>
-                            <div class="text-sm font-light text-gray-500 dark:text-gray-400">Consultant en recrutement
+                            <div class="text-sm font-light text-gray-500 nodark:text-gray-400">Consultant en recrutement
                             </div>
                         </div>
                     </figcaption>
                 </figure>
-                <figure class="flex flex-col justify-center items-center p-8 text-center bg-gray-50 border-b border-gray-200 lg:border-b-0 md:p-12 lg:border-r dark:bg-gray-800 dark:border-gray-700">
-                    <blockquote class="mx-auto mb-8 max-w-2xl text-gray-500 dark:text-gray-400">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Un service sur-mesure avec la
-                            formule Premium</h3>
-                        <p class="my-4">"L'assistance prioritaire est un véritable atout. J'ai pu bénéficier de conseils
-                            personnalisés pour optimiser mon CV et mes candidatures. Je me sens beaucoup plus préparé à
-                            aborder le marché du travail avec un CV professionnel."</p>
-                        <p class="my-4">"Le stockage illimité et la possibilité de gérer plusieurs CV m'ont permis de
-                            cibler différentes opportunités sans perdre de temps. Le service Premium est définitivement
-                            un must-have!"</p>
+                <figure class="flex flex-col justify-center items-center p-8 text-center bg-gray-50 border-b border-gray-200 lg:border-b-0 md:p-12 lg:border-r nodark:bg-gray-800 nodark:border-gray-700">
+                    <blockquote class="mx-auto mb-8 max-w-2xl text-gray-500 nodark:text-gray-400">
+                        <h3 class="text-lg font-semibold text-gray-900 nodark:text-white">Un service sur-mesure avec la formule Premium</h3>
+                        <p class="my-4">"L'assistance prioritaire est un véritable atout. J'ai pu bénéficier de conseils personnalisés pour optimiser mon CV et mes candidatures. Je me sens beaucoup plus préparé à aborder le marché du travail avec un CV professionnel."</p>
+                        <p class="my-4">"Le stockage illimité et la possibilité de gérer plusieurs CV m'ont permis de cibler différentes opportunités sans perdre de temps. Le service Premium est définitivement un must-have!"</p>
                     </blockquote>
                     <figcaption class="flex justify-center items-center space-x-3">
-                        <img class="w-9 h-9 rounded-full"
-                             src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png"
-                             alt="profile picture">
-                        <div class="space-y-0.5 font-medium dark:text-white text-left">
+                        <img class="w-9 h-9 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png" alt="profile picture">
+                        <div class="space-y-0.5 font-medium nodark:text-white text-left">
                             <div>Amandine Roche</div>
-                            <div class="text-sm font-light text-gray-500 dark:text-gray-400">Chargée de recrutement
+                            <div class="text-sm font-light text-gray-500 nodark:text-gray-400">Chargée de recrutement
                             </div>
                         </div>
                     </figcaption>
                 </figure>
-                <figure class="flex flex-col justify-center items-center p-8 text-center bg-gray-50 border-gray-200 md:p-12 dark:bg-gray-800 dark:border-gray-700">
-                    <blockquote class="mx-auto mb-8 max-w-2xl text-gray-500 dark:text-gray-400">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Collaboration simplifiée grâce
-                            aux formules avancées</h3>
-                        <p class="my-4">"Avec la formule Pro, non seulement j'ai pu créer un CV performant, mais l'accès
-                            à des modèles compatibles ATS a facilité ma candidature auprès des recruteurs. J'ai
-                            maintenant un CV qui capte leur attention!"</p>
-                        <p class="my-4">"Le service d'optimisation m'a permis d'aller encore plus loin en ayant des
-                            conseils professionnels pour affiner mon CV et le rendre encore plus percutant."</p>
+                <figure class="flex flex-col justify-center items-center p-8 text-center bg-gray-50 border-gray-200 md:p-12 nodark:bg-gray-800 nodark:border-gray-700">
+                    <blockquote class="mx-auto mb-8 max-w-2xl text-gray-500 nodark:text-gray-400">
+                        <h3 class="text-lg font-semibold text-gray-900 nodark:text-white">Collaboration simplifiée grâce aux formules avancées</h3>
+                        <p class="my-4">"Avec la formule Pro, non seulement j'ai pu créer un CV performant, mais l'accès à des modèles compatibles ATS a facilité ma candidature auprès des recruteurs. J'ai maintenant un CV qui capte leur attention!"</p>
+                        <p class="my-4">"Le service d'optimisation m'a permis d'aller encore plus loin en ayant des conseils professionnels pour affiner mon CV et le rendre encore plus percutant."</p>
                     </blockquote>
                     <figcaption class="flex justify-center items-center space-x-3">
-                        <img class="w-9 h-9 rounded-full"
-                             src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/joseph-mcfall.png"
-                             alt="profile picture">
-                        <div class="space-y-0.5 font-medium dark:text-white text-left">
+                        <img class="w-9 h-9 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/joseph-mcfall.png" alt="profile picture">
+                        <div class="space-y-0.5 font-medium nodark:text-white text-left">
                             <div>Antoine Durand</div>
-                            <div class="text-sm font-light text-gray-500 dark:text-gray-400">Manager chez Accenture
+                            <div class="text-sm font-light text-gray-500 nodark:text-gray-400">Manager chez Accenture
                             </div>
                         </div>
                     </figcaption>
                 </figure>
             </div>
             <div class="text-center">
-                <a href="#"
-                   class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Voir
-                    plus...</a>
+                <a href="#" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 nodark:focus:ring-gray-700 nodark:bg-gray-800 nodark:text-gray-400 nodark:border-gray-600 nodark:hover:text-white nodark:hover:bg-gray-700">Voir plus...</a>
             </div>
         </div>
     </section>
-    <!-- End block -->
-    <!-- Start block -->
-    <section class="bg-gray-50 dark:bg-gray-800">
+
+    <!-- Redirect -->
+    <section class="bg-gray-50 nodark:bg-gray-800">
         <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
             <div class="max-w-screen-sm mx-auto text-center">
-                <h2 class="mb-4 text-3xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white">
-                    Start your free trial today</h2>
-                <p class="mb-6 font-light text-gray-500 dark:text-gray-400 md:text-lg">Try Landwind Platform for 30
-                    days. No credit card required.</p>
-                <a href="#"
-                   class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">Free
-                    trial for 30 days</a>
+                <h2 class="mb-4 text-3xl font-extrabold leading-tight tracking-tight text-gray-900 nodark:text-white">Créez votre CV optimisé dès maintenant</h2>
+                <p class="mb-6 font-light text-gray-500 nodark:text-gray-400 md:text-lg">Ne perdez plus de temps ! Utilisez notre outil de création de CV avec IA pour maximiser vos chances d'obtenir un entretien.</p>
+                <a href="/login" class="text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 nodark:bg-sky-600 nodark:hover:bg-sky-700 focus:outline-none nodark:focus:ring-sky-800">
+                    Commencer mon CV optimisé
+                </a>
             </div>
         </div>
     </section>
+
 
 {% endblock %}
