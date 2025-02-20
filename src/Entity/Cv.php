@@ -68,9 +68,6 @@ class Cv
     private ?User $creator = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $link = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
 
     /**
@@ -97,9 +94,7 @@ class Cv
         $this->ref = uniqid($this->title);
         $this->skills = new ArrayCollection();
         $this->softSkills = new ArrayCollection();
-        $this->link = '';
         $this->email = '';
-
     }
 
     public function getSkills(): Collection
@@ -360,18 +355,6 @@ class Cv
     public function setCreator(?User $creator): static
     {
         $this->creator = $creator;
-
-        return $this;
-    }
-
-    public function getLink(): ?string
-    {
-        return $this->link;
-    }
-
-    public function setLink(string $link): static
-    {
-        $this->link = $link;
 
         return $this;
     }
