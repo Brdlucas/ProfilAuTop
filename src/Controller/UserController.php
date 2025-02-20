@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 
-use App\Entity\User;
 use App\Form\UserType;
-use App\Repository\UserRepository;
+use App\Service\UploaderService;
+use App\Form\UserCompleteBeingFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +30,7 @@ final class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $pwd = $uphi->isPasswordValid($user, $form->get('password')->getData());;
+            $pwd = $uphi->isPasswordValid($user, $form->get('password')->getData());
             if ($pwd) {
                 $image = $form->get('image')->getData();
                 if ($image != null) {
@@ -78,6 +78,7 @@ final class UserController extends AbstractController
 
         return $this->render('user/index.html.twig', [
             'userForm' => $form,
+            'user' => $user
         ]);
     }
 
@@ -107,25 +108,24 @@ final class UserController extends AbstractController
             $this->addFlash('error', 'Vous devez remplir tous les champs');
         }
 
-        return $this->redirectToRoute('app_user_complete_competences_passions');
+        return $this->redirectToRoute('app_homepage');
     }
 
-    #[Route('/completer/competences_passions', name: 'complete_competences_passions', methods: ['GET', 'POST'])]
+    #[Route('/completer/competences_passions', name: 'complete_competences', methods: ['GET', 'POST'])]
     public function completeBeing(Request $request): Response
     {
-        $licences = $request->getPayload()->get('licences');
-        $languages = $request->getPayload()->get('languages');
-        $pois = $request->getPayload()->get('pois');
-        $linkedin = $request->getPayload()->get('linkedin');
-        $portfolio_url = $request->getPayload()->get('portfolio_url');
 
-        if (!empty($licences) && !empty($languages) && !empty($pois) && !empty($linkedin) && !empty($portfolio_url)) {
+        $form = $this->createForm(UserCompleteBeingFormType::class, $this->getUser());
+        $form->handleRequest($request);
+        $licences = $form->get('licences')->getData();
+        $languages = $form->get('languages')->getData();
+
+        // dd($licences, $languages);
+
+        if (!empty($licences) && !empty($languages)) {
             $user = $this->getUser();
             $user->setLicences($licences)
                 ->setLanguages($languages)
-                ->setPois($pois)
-                ->setLinkedin($linkedin)
-                ->setPortfolioUrl($portfolio_url)
                 ;
             $this->em->persist($user);
             $this->em->flush();
@@ -139,17 +139,18 @@ final class UserController extends AbstractController
             $this->addFlash('error', 'Vous devez remplir tous les champs');
         }
 
-        return $this->redirectToRoute('app_user_profile');
+        return $this->redirectToRoute('app_user_profil');
     }
 
     #[Route('/{ref}', name: 'delete', methods: ['POST'])]
-    public function delete(Request $request, User $user): Response
+    public function delete(Request $request): Response
     {
+        $user = $this->getUser();
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->getPayload()->getString('_token'))) {
             $this->em->remove($user);
             $this->em->flush();
         }
 
-        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_user_profil', [], Response::HTTP_SEE_OTHER);
     }
 }

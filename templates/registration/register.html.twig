@@ -1,23 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Créer un compte{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-
-    <h1>Register</h1>
-
-    {{ form_errors(registrationForm) }}
-
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+    <div class="row">
+        <div class="col-md-4 p-4 mx-auto">
+            <h1 class="fs-4">Créez un compte et créer le cv qui augmentera vos opportunités !</h1>
+            <p class="text-secondary mb-4">
+            <span class="logo">Profil au Top</span> est la plateforme dédiée à la création de cv passant les ATs.
+            </p>
+            <div class="">
+                {% for flash_error in app.flashes('verify_email_error') %}
+                    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                {% endfor %}
+            
+                {{ form_errors(registrationForm) }}
+                {{ form(registrationForm) }}
+            </div>
+        </div>
+        <div class="col-md-8">
+            <img src="https://picsum.photos/id/10/1200/1200" alt="Image de fond" class="img-fluid">
+        </div>
+    </div>
 {% endblock %}

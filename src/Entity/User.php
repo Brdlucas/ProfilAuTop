@@ -59,11 +59,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $city = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $languages = null;
-
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private ?array $pois = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
@@ -71,7 +68,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $licences = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -89,7 +86,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $is_major = false;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private string $image = 'default.png';
 
     /**
@@ -137,6 +134,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updated_name_at = null;
 
+    /**
+     * @var Collection<int, Poi>
+     */
+    #[ORM\ManyToMany(targetEntity: Poi::class, inversedBy: 'users')]
+    private Collection $pois;
+
     public function __construct()
     {
         $this->loginHistories = new ArrayCollection();
@@ -144,7 +147,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->cvs = new ArrayCollection();
         $this->experiences = new ArrayCollection();
         $this->formations = new ArrayCollection();
-        $this->ref = uniqid();
+        $this->ref = uniqid($this->firstname . '-' .$this->lastname);
+        $this->pois = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -158,6 +162,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedAtValue()
     {
         $this->updated_at = new \DateTimeImmutable;
+    }
+
+    public function isComplete(): bool
+    {
+        if (!empty($this->firstname) && !empty($this->lastname) && !empty($this->born) && !empty($this->phone) && !empty($this->city) && !empty($this->postal_code)) {
+            return true;
+        }
+
+        return false;
+    }
+    public function isComplete2(): bool
+    {
+        if (!empty($this->licences) && !empty($this->languages)) {
+            return true;
+        }
+
+        return false;
     }
 
     public function getId(): ?int
@@ -275,9 +296,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->born;
     }
 
-    public function setBorn(\DateTimeInterface $born): static
+    public function setBorn(?string $born): self
     {
-        $this->born = $born;
+        $this->born = $born ? new \DateTime($born) : null;
 
         return $this;
     }
@@ -330,17 +351,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPois(): ?array
-    {
-        return $this->pois;
-    }
-
-    public function setPois(?array $pois): static
-    {
-        $this->pois = $pois;
-
-        return $this;
-    }
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;
@@ -660,6 +670,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedNameAt(\DateTimeImmutable $updated_name_at): static
     {
         $this->updated_name_at = $updated_name_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Poi>
+     */
+    public function getPois(): Collection
+    {
+        return $this->pois;
+    }
+
+    public function addPoi(Poi $poi): static
+    {
+        if (!$this->pois->contains($poi)) {
+            $this->pois->add($poi);
+        }
+
+        return $this;
+    }
+
+    public function removePoi(Poi $poi): static
+    {
+        $this->pois->removeElement($poi);
 
         return $this;
     }
