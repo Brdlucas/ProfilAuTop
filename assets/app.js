@@ -209,4 +209,10 @@ document.addEventListener("turbo:load", function () {
 
     pint
   }
+
+
+  const languagesDivHid = document.getElementById("user_complete_being_form_languages");
+  if (languagesDivHid) {
+    languagesDivHid.parentElement.style.display = "none";
+  }
 });

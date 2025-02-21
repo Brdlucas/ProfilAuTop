@@ -109,6 +109,10 @@ form[name="user"] #user {
   align-items: end;
 }
 
+div label.required+div#user_complete_being_form_languages {
+  display: none;
+}
+
 @media print {
   .no-print {
     display: none !important;
