@@ -113,4 +113,49 @@ label {
       * {
         page-break-inside: avoid;
       }
+
+
+      @page {
+        size: A4;
+        margin: 0;
+    }
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 210mm;
+        height: 297mm;
+        padding: 10mm;
+        font-size: 10pt;
+        line-height: 1.3;
+    }
+    .print\:text-sm {
+        font-size: 9pt;
+    }
+    .print\:text-xs {
+        font-size: 8pt;
+    }
+  
+    h1 {
+        font-size: 18pt;
+    }
+    h2 {
+        font-size: 14pt;
+    }
+    h3 {
+        font-size: 12pt;
+    }
+    .mb-8 {
+        margin-bottom: 10pt;
+    }
+    .mb-6 {
+        margin-bottom: 8pt;
+    }
+    .mb-4 {
+        margin-bottom: 6pt;
+    }
+    .mb-2 {
+        margin-bottom: 4pt;
+    }
 }
