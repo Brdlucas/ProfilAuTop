@@ -21,8 +21,9 @@ final class CvController extends AbstractController
     {
         $user = $this->getUser();
 
-        $userID = $user->getId(); // Assurez-vous que getRef() existe et retourne la référence correcte
-        $cvs = $cvRepository->findBy(['creator' => $userID]);
+        // $userID = $user->getId();
+         // Assurez-vous que getRef() existe et retourne la référence correcte
+        $cvs = $cvRepository->findBy(['creator' => $user]);
 
         // dd($userRef);
         // dd($cvs);
