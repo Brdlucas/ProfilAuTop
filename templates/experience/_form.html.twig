@@ -1,0 +1,78 @@
+{{ form_start(form, {'attr': {'class': 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col w-2/5 mt-10 m-auto gap-5'}}) }}
+{% for field in form %}
+	{% if field.vars.name == 'skills' %}
+		<div class="mb-4">
+			{{ form_label(field, null, {'class': 'block mb-2 font-bold'}) }}
+			<div class="grid grid-cols-3 align-middle justify-center  gap-5">
+				{% for skill in field %}
+					<div class="flex items-center align-middle">
+						<div>
+							{{ form_widget(skill) }}
+						</div>
+						{{ form_label(skill) }}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	{% else %}
+		{{ form_row(field) }}
+	{% endif %}
+{% endfor %}
+
+
+<div id="description-fields" class="flex flex-col gap-5">
+	{% if experience.description is empty %}
+		<div class="flex items-center gap-2">
+			<input type="text" name="description[]" placeholder="Description" value="" class="w-full p-3 rounded border border-gray-300">
+			<button type="button" class="delete-description p-3 bg-red-500 hover:bg-red-600 text-white rounded">X</button>
+		</div>
+	{% else %}
+		{% for description in experience.description %}
+			<div class="flex items-center gap-2">
+				<input type="text" class="w-full p-3 rounded border border-gray-300" name="description[]" placeholder="Description" value="{{ description }}">
+				<button type="button" class="delete-description p-3 bg-red-500 hover:bg-red-600 text-white rounded">X</button>
+			</div>
+		{% endfor %}
+	{% endif %}
+</div>
+<button type="button" id="add-description" class="p-5 bg-gray-300 hover:bg-gray-200 transition-shadow m-auto">Ajouter une description</button>
+
+<script>
+	document.getElementById('add-description').addEventListener('click', function () {
+var container = document.getElementById('description-fields');
+var wrapper = document.createElement('div');
+wrapper.className = 'flex items-center gap-2';
+
+var input = document.createElement('input');
+input.type = 'text';
+input.name = 'description[]';
+input.placeholder = 'Description';
+input.className = 'w-full p-3 rounded border border-gray-300';
+
+var deleteButton = document.createElement('button');
+deleteButton.type = 'button';
+deleteButton.className = 'delete-description p-3 bg-red-500 hover:bg-red-600 text-white rounded';
+deleteButton.textContent = 'X';
+
+wrapper.appendChild(input);
+wrapper.appendChild(deleteButton);
+container.appendChild(wrapper);
+});
+
+document.getElementById('description-fields').addEventListener('click', function (e) {
+if (e.target && e.target.classList.contains('delete-description')) {
+e.target.parentElement.remove();
+}
+});
+</script>
+
+{% if app.request.headers.get('referer') == 'https://127.0.0.1:8000/profil/formation/new' %}
+	<div class="flex justify-center">
+		<a class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white" href={{path('app_formation_new')}}>Précédent</a>
+		<button type="submit" name="action" value="create_new" class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white">{{ button_label|default('enregistrer et créer un nouveau') }}</button>
+		<button type="submit" name="action" value="next" class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white">{{ button_label|default('suivant') }}</button>
+	</div>
+{% else %}
+	<button type="submit" name="action" value="save" class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white">{{ button_label|default('enregistrer') }}</button>
+{% endif %}
+{{ form_end(form) }}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'Experience
+{% endblock %}
+
+{% block body %}
+	<h1 class="text-center text-3xl font-bold p-5 uppercase">Modifier l'experience</h1>
+
+	{{ include('experience/_form.html.twig', {'button_label': 'Update'}) }}
+
+	<a href="{{ path('app_experience_index') }}">back to list</a>
+
+{% endblock %}

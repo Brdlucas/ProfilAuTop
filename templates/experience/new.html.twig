@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Experience
+{% endblock %}
+
+{% block body %}
+	<h1 class="uppercase font-bold text-center text-3xl p-5">Créer une nouvelle Éxpérience</h1>
+
+	{{ include('experience/_form.html.twig') }}
+
+	<a href="{{ path('app_experience_index') }}">back to list</a>
+{% endblock %}

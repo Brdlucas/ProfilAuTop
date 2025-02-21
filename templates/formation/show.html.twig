@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de la formation
+{% endblock %}
+
+{% block body %}
+	<div class="container mx-auto px-4 py-8">
+		<h1 class="text-3xl font-bold text-gray-800 mb-6 uppercase">Détails de la formation</h1>
+
+		<div class="bg-white shadow-md rounded-lg overflow-hidden">
+			<div class="px-6 py-4">
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Titre</span>
+						<span class="text-gray-900">{{ formation.title }}</span>
+					</div>
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Organisation</span>
+						<span class="text-gray-900">{{ formation.organization }}</span>
+					</div>
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Date de début</span>
+						<span class="text-gray-900">{{ formation.dateStart('d/m/Y') }}</span>
+					</div>
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Date de fin</span>
+						<span class="text-gray-900">{{ formation.dateEnd('d/m/Y') }}</span>
+					</div>
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Ville</span>
+						<span class="text-gray-900">{{ formation.city }}</span>
+					</div>
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Pays</span>
+						<span class="text-gray-900">{{ formation.country }}</span>
+					</div>
+					<div class="flex flex-col">
+						<span class="text-gray-600 text-sm font-medium">Code postal</span>
+						<span class="text-gray-900">{{ formation.postalCode }}</span>
+					</div>
+				</div>
+				<div class="mt-4">
+					<span class="text-gray-600 text-sm font-medium">Description</span>
+					{% for text in formation.description %}
+						<p class="text-gray-900 mt-1">-
+							{{ text }}</p>
+
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
+		<div class="mt-6 flex space-x-4">
+			<a href="{{ path('app_formation_index') }}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
+				Retour à la liste
+			</a>
+			<a href="{{ path('app_formation_edit', {'id': formation.id}) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+				Modifier
+			</a>
+			{{ include('formation/_delete_form.html.twig') }}
+		</div>
+	</div>
+{% endblock %}

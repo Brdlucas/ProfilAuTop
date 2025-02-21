@@ -31,7 +31,7 @@ class Experience
     #[ORM\Column(length: 255)]
     private ?string $organization = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     private array $description = [];
 
     #[ORM\Column(length: 20, nullable: true)]
@@ -44,12 +44,6 @@ class Experience
     private ?string $country = null;
 
     /**
-     * @var Collection<int, Skill>
-     */
-    #[ORM\ManyToMany(targetEntity: Skill::class, inversedBy: 'experiences')]
-    private Collection $skills;
-
-    /**
      * @var Collection<int, Cv>
      */
     #[ORM\ManyToMany(targetEntity: Cv::class, mappedBy: 'experiences')]
@@ -59,18 +53,27 @@ class Experience
     #[ORM\JoinColumn(nullable: false)]
     private ?User $employee = null;
 
+    #[ORM\Column]
+    private bool $is_ai = false;
+
+    /**
+     * @var Collection<int, Skill>
+     */
+    #[ORM\ManyToMany(targetEntity: Skill::class, mappedBy: 'experiences')]
+    private Collection $skills;
+
     public function __construct()
     {
-        $this->skills = new ArrayCollection();
         $this->cvs = new ArrayCollection();
-        $this->ref = uniqid($this->title);
+        $this->ref = uniqid();
+        $this->skills = new ArrayCollection();
     }
 
     public function __tostring()
     {
         return $this->title;
     }
-    
+
     public function getId(): ?int
     {
         return $this->id;
@@ -185,30 +188,6 @@ class Experience
     }
 
     /**
-     * @return Collection<int, Skill>
-     */
-    public function getSkills(): Collection
-    {
-        return $this->skills;
-    }
-
-    public function addSkill(Skill $skill): static
-    {
-        if (!$this->skills->contains($skill)) {
-            $this->skills->add($skill);
-        }
-
-        return $this;
-    }
-
-    public function removeSkill(Skill $skill): static
-    {
-        $this->skills->removeElement($skill);
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Cv>
      */
     public function getCvs(): Collection
@@ -243,6 +222,45 @@ class Experience
     public function setEmployee(?User $employee): static
     {
         $this->employee = $employee;
+
+        return $this;
+    }
+
+    public function isAi(): ?bool
+    {
+        return $this->is_ai;
+    }
+
+    public function setIsAi(bool $is_ai): static
+    {
+        $this->is_ai = $is_ai;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Skill>
+     */
+    public function getSkills(): Collection
+    {
+        return $this->skills;
+    }
+
+    public function addSkill(Skill $skill): static
+    {
+        if (!$this->skills->contains($skill)) {
+            $this->skills->add($skill);
+            $skill->addExperience($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSkill(Skill $skill): static
+    {
+        if ($this->skills->removeElement($skill)) {
+            $skill->removeExperience($this);
+        }
 
         return $this;
     }

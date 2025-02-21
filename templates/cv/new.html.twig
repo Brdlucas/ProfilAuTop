@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer votre Cv
+{% endblock %}
+
+{% block body %}
+	<h1 class="uppercase font-bold text-center text-3xl p-5">Créer votre Cv</h1>
+
+
+	{{ include('cv/_form.html.twig') }}
+
+	<a href="{{ path('app_cv_index') }}">back to list</a>
+{% endblock %}

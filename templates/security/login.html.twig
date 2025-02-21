@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <form method="post">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        {% endif %}
+
+        <div class="min-h-screen bg-gray-100">
+            <div class="min-h-screen flex">
+                <!-- Left Side - Image -->
+                <div class="hidden lg:block lg:w-1/2 bg-cover bg-center" style="background-image: url('https://fastly.picsum.photos/id/7/4728/3168.jpg?hmac=c5B5tfYFM9blHHMhuu4UKmhnbZoJqrzNOP9xjkV4w3o')">
+                    <div class="h-full bg-black bg-opacity-50 flex items-center justify-center">
+                        <div class="text-center text-white px-12">
+                            <h2 class="text-4xl font-bold mb-6">Connectez-vous pour accéder à votre CV optimisé !</h2>
+                            <p class="text-xl">Profil au Top vous aide à maintenir et améliorer votre CV pour maximiser vos chances</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-1/2 flex items-center justify-center p-8">
+                    <div class="w-full max-w-md">
+                        <div class="bg-white rounded-2xl shadow-xl p-8">
+                            <div class="mb-6">
+                                <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                                <div class="relative">
+                                    <input type="email" name="_username" id="username" class="bg-sky-50 border border-sky-300 text-sky-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" placeholder="you@example.com" required autofocus>
+                                </div>
+                            </div>
+
+                            <div class="mb-6">
+                                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Mot de passe</label>
+                                <div class="relative">
+                                    <input type="password" name="_password" id="password" class="bg-sky-50 border border-sky-300 text-sky-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" placeholder="••••••••" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="w-full bg-sky-500 text-white py-3 rounded-lg font-semibold hover:bg-sky-700 focus:ring-4 focus:ring-sky-600 focus:ring-opacity-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                <span>Connexion</span>
+                            </button>
+
+                            <input type="hidden" name="_csrf_token"
+                                   value="{{ csrf_token('authenticate') }}"
+                            >
+
+                            {#
+                            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                            See https://symfony.com/doc/current/security/remember_me.html
+
+                            <div class="checkbox mb-3">
+                                <input type="checkbox" name="_remember_me" id="_remember_me">
+                                <label for="_remember_me">Remember me</label>
+                            </div>
+                            #}
+
+                            <p class="mt-6 text-center text-gray-600">
+                                <span>Vous n'avez pas encore de compte ?</span>
+                                <a href="{{path('app_register') }}" class="ml-1 text-sky-500 hover:text-sky-700 font-semibold focus:outline-none">
+                                    <span>Inscription</span>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

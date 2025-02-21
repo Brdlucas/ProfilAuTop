@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cv {% endblock %}
+
+{% block body %}
+
+<div class="container mx-auto p-8 bg-white dark:bg-gray-800 shadow-lg max-w-4xl mt-8 mb-8 print:w-full print:h-full print:m-0 print:p-10 print:shadow-none">
+
+    <header class="mb-6 print:mb-4">
+        <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-2 print:text-2xl">{{ app.user.firstname }} {{ app.user.lastname }}</h1>
+        <p class="text-xl text-gray-600 dark:text-gray-400 print:text-base">{{ cv.title.title }}</p>
+        <div class="mt-2 text-gray-600 dark:text-gray-400 print:text-sm">
+            <p class="flex gap-2 align-middle"><span class="flex gap-1 items-center">{{ ux_icon('mdi:at', { class: "h-5 w-5"}) }} {{ app.user.email }}</span> | <span class="flex gap-1 items-center">{{ ux_icon('gridicons:phone', { class: 'h-5 w-5'}) }} {{ app.user.phone }}</span> | <span class="flex gap-1 items-center">{{ ux_icon('material-symbols:home-outline', {class: 'h-5 w-5'}) }} {{ app.user.postalCode }}</span></p>
+            <p>Date de naissance : {{ app.user.born|date('Y') }}</p>
+        </div>
+    </header>
+
+    <section class="mb-6 print:mb-4">
+        <p class="text-gray-600 dark:text-gray-400 print:text-sm">{{ cv.introduction.introduction }}</p>
+    </section>
+
+    <section class="mb-6 print:mb-4">
+        <h2 class="text-2xl flex items-center gap-1 font-semibold text-gray-700 dark:text-gray-300 mb-2 print:text-lg">{{ ux_icon('tabler:user-search', { class: 'h-7 w-7' }) }} Expérience Professionnelle</h2>
+        {% for exp in cv.experience %}
+            <div class="mb-4 print:mb-2">
+                <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 print:text-base">{{ exp.title }} - {{ exp.organization }}</h3>
+                <p class="text-gray-600 dark:text-gray-400 italic print:text-xs">{{ exp.date_start|date('m/Y') }} - {{ exp.date_end ? exp.date_end|date('m/Y') : 'Présent' }}</p>
+                <p class="text-gray-600 dark:text-gray-400 mt-1 print:text-sm">{{ exp.description }}</p>
+                <ul class="flex flex-wrap gap-2 mt-1">
+                    {% for skill in exp.skills %}
+                        <li class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-0.5 rounded-full text-sm print:text-xs">{{ skill }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </section>
+
+    <section class="mb-6 print:mb-4">
+        <h2 class="text-2xl flex items-center gap-1 font-semibold text-gray-700 dark:text-gray-300 mb-2 print:text-lg">{{ ux_icon('tabler:user-star', { class: 'h-7 w-7' }) }}Formation</h2>
+        {% for edu in cv.formation %}
+            <div class="mb-4 print:mb-2">
+                <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 print:text-base">{{ edu.title }} - {{ edu.organization }}</h3>
+                <p class="text-gray-600 dark:text-gray-400 italic print:text-xs">{{ edu.date_start|date('m/Y') }} - {{ edu.date_end|date('m/Y') }}</p>
+                <p class="text-gray-600 dark:text-gray-400 mt-1 print:text-sm">{{ edu.description }}</p>
+                <ul class="flex flex-wrap gap-1 mt-1">
+                    {% for skill in edu.skills %}
+                        <li class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-0.5 rounded-full text-sm print:text-xs">{{ skill }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </section>
+
+    <section class="mb-6 print:mb-4">
+        <h2 class="text-2xl flex items-center gap-1 font-semibold text-gray-700 dark:text-gray-300 mb-2 print:text-lg">{{ ux_icon('tabler:settings', {class: "h-7 w-7"}) }}Compétences Techniques</h2>
+        <ul class="flex flex-wrap gap-1">
+            {% for skill in cv.skills %}
+                <li class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-0.5 rounded-full text-sm print:text-xs">{{ skill }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="mb-6 print:mb-4">
+        <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2 print:text-lg">Savoirs être</h2>
+        <ul class="flex flex-wrap gap-1">
+            {% for softskill in cv.softskills %}
+                <li class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-0.5 rounded-full text-sm print:text-xs">{{ softskill }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="mb-6 print:mb-4">
+        <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2 print:text-lg">Langues</h2>
+        <ul class="list-disc list-inside text-gray-600 dark:text-gray-400 print:text-sm">
+            {% for language in app.user.languages %}
+                <li><span class="capitalize">{{ language.name }}</span> - <span class="capitalize">{{ language.level }}</span> </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="mb-6 print:mb-4">
+        <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2 print:text-lg">Permis</h2>
+        <ul class="list-disc list-inside text-gray-600 dark:text-gray-400 print:text-sm">
+            {% for licence in app.user.licences %}
+                <li>{{ licence }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+</div>
+
+<button id="print" class="no-print mx-auto px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition-all duration-300">Imprimer</button>
+
+{% endblock %}

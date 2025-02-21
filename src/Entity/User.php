@@ -7,13 +7,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[ORM\HasLifecycleCallbacks] 
+#[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -36,26 +38,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $ref = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $born = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $phone = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 20, nullable: true)]
     private ?string $postal_code = null;
 
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $city = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $languages = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
@@ -63,7 +68,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $licences = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -71,9 +76,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $portfolio_url = null;
-
-    #[ORM\Column]
-    private bool $is_verified = false;
 
     #[ORM\Column]
     private bool $is_gpdr = false;
@@ -117,6 +119,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Formation::class, mappedBy: 'student', orphanRemoval: true)]
     private Collection $formations;
 
+    #[ORM\Column]
+    private bool $isVerified = false;
+
+    #[ORM\OneToOne(mappedBy: 'client', cascade: ['persist', 'remove'])]
+    private ?Subscription $subscription = null;
+
+    #[ORM\Column]
+    private int $strike = 0;
+
+    #[ORM\Column]
+    private bool $is_updated = false;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updated_name_at = null;
+
+    /**
+     * @var Collection<int, Poi>
+     */
+    #[ORM\ManyToMany(targetEntity: Poi::class, inversedBy: 'users')]
+    private Collection $pois;
+
+    #[ORM\Column]
+    private int $cv_count = 0;
+
     public function __construct()
     {
         $this->loginHistories = new ArrayCollection();
@@ -124,7 +150,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->cvs = new ArrayCollection();
         $this->experiences = new ArrayCollection();
         $this->formations = new ArrayCollection();
-        $this->ref = uniqid($this->firstname . $this->lastname);
+        $this->ref = uniqid($this->firstname . '-' .$this->lastname);
+        $this->pois = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -134,10 +161,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updated_at = new \DateTimeImmutable;
     }
 
-    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function setUpdatedAtValue()
     {
         $this->updated_at = new \DateTimeImmutable;
+    }
+
+    public function isComplete(): bool
+    {
+        if (!empty($this->firstname) && !empty($this->lastname) && !empty($this->born) && !empty($this->phone) && !empty($this->city) && !empty($this->postal_code)) {
+            return true;
+        }
+
+        return false;
+    }
+    public function isComplete2(): bool
+    {
+        if (!empty($this->licences) && !empty($this->languages)) {
+            return true;
+        }
+
+        return false;
     }
 
     public function getId(): ?int
@@ -255,9 +299,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->born;
     }
 
-    public function setBorn(\DateTimeInterface $born): static
+    public function setBorn(?string $born): self
     {
-        $this->born = $born;
+        $this->born = $born ? new \DateTime($born) : null;
 
         return $this;
     }
@@ -294,6 +338,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCity(?string $city): static
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getLanguages(): ?array
+    {
+        return $this->languages;
+    }
+
+    public function setLanguages(?array $languages): static
+    {
+        $this->languages = $languages;
 
         return $this;
     }
@@ -354,18 +410,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPortfolioUrl(?string $portfolio_url): static
     {
         $this->portfolio_url = $portfolio_url;
-
-        return $this;
-    }
-
-    public function isVerified(): ?bool
-    {
-        return $this->is_verified;
-    }
-
-    public function setIsVerified(bool $is_verified): static
-    {
-        $this->is_verified = $is_verified;
 
         return $this;
     }
@@ -564,6 +608,107 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $formation->setStudent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getSubscription(): ?Subscription
+    {
+        return $this->subscription;
+    }
+
+    public function setSubscription(Subscription $subscription): static
+    {
+        // set the owning side of the relation if necessary
+        if ($subscription->getClient() !== $this) {
+            $subscription->setClient($this);
+        }
+
+        $this->subscription = $subscription;
+
+        return $this;
+    }
+
+    public function getStrike(): ?int
+    {
+        return $this->strike;
+    }
+
+    public function setStrike(int $strike): static
+    {
+        $this->strike = $strike;
+
+        return $this;
+    }
+
+    public function isUpdated(): ?bool
+    {
+        return $this->is_updated;
+    }
+
+    public function setIsUpdated(bool $is_updated): static
+    {
+        $this->is_updated = $is_updated;
+
+        return $this;
+    }
+
+    public function getUpdatedNameAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_name_at;
+    }
+
+    public function setUpdatedNameAt(\DateTimeImmutable $updated_name_at): static
+    {
+        $this->updated_name_at = $updated_name_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Poi>
+     */
+    public function getPois(): Collection
+    {
+        return $this->pois;
+    }
+
+    public function addPoi(Poi $poi): static
+    {
+        if (!$this->pois->contains($poi)) {
+            $this->pois->add($poi);
+        }
+
+        return $this;
+    }
+
+    public function removePoi(Poi $poi): static
+    {
+        $this->pois->removeElement($poi);
+
+        return $this;
+    }
+
+    public function getCvCount(): ?int
+    {
+        return $this->cv_count;
+    }
+
+    public function setCvCount(int $cv_count): static
+    {
+        $this->cv_count = $cv_count;
 
         return $this;
     }

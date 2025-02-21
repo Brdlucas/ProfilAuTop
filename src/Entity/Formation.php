@@ -31,7 +31,7 @@ class Formation
     #[ORM\Column(length: 255)]
     private ?string $organization = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     private array $description = [];
 
     #[ORM\Column(length: 20, nullable: true)]
@@ -53,12 +53,6 @@ class Formation
     private ?string $degree = null;
 
     /**
-     * @var Collection<int, Skill>
-     */
-    #[ORM\ManyToMany(targetEntity: Skill::class, inversedBy: 'formations')]
-    private Collection $skills;
-
-    /**
      * @var Collection<int, Cv>
      */
     #[ORM\ManyToMany(targetEntity: Cv::class, mappedBy: 'formations')]
@@ -68,11 +62,20 @@ class Formation
     #[ORM\JoinColumn(nullable: false)]
     private ?User $student = null;
 
+    #[ORM\Column]
+    private bool $is_ai = false;
+
+    /**
+     * @var Collection<int, Skill>
+     */
+    #[ORM\ManyToMany(targetEntity: Skill::class, mappedBy: 'formations')]
+    private Collection $skills;
+
     public function __construct()
     {
-        $this->skills = new ArrayCollection();
         $this->cvs = new ArrayCollection();
-        $this->ref = uniqid($this->title);
+        $this->ref = uniqid();
+        $this->skills = new ArrayCollection();
     }
 
     public function __tostring()
@@ -230,30 +233,6 @@ class Formation
     }
 
     /**
-     * @return Collection<int, Skill>
-     */
-    public function getSkills(): Collection
-    {
-        return $this->skills;
-    }
-
-    public function addSkill(Skill $skill): static
-    {
-        if (!$this->skills->contains($skill)) {
-            $this->skills->add($skill);
-        }
-
-        return $this;
-    }
-
-    public function removeSkill(Skill $skill): static
-    {
-        $this->skills->removeElement($skill);
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Cv>
      */
     public function getCvs(): Collection
@@ -288,6 +267,45 @@ class Formation
     public function setStudent(?User $student): static
     {
         $this->student = $student;
+
+        return $this;
+    }
+
+    public function isAi(): ?bool
+    {
+        return $this->is_ai;
+    }
+
+    public function setIsAi(bool $is_ai): static
+    {
+        $this->is_ai = $is_ai;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Skill>
+     */
+    public function getSkills(): Collection
+    {
+        return $this->skills;
+    }
+
+    public function addSkill(Skill $skill): static
+    {
+        if (!$this->skills->contains($skill)) {
+            $this->skills->add($skill);
+            $skill->addFormation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSkill(Skill $skill): static
+    {
+        if ($this->skills->removeElement($skill)) {
+            $skill->removeFormation($this);
+        }
 
         return $this;
     }

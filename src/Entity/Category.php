@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\SoftSkill;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
@@ -16,6 +18,23 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\Choice(
+        choices: [
+            "Compétences relationnelles",
+            "Gestion et Organisation",
+            "Intelligence émotionnelle",
+            "Pensée critique et créativité",
+            "Apprentissage et adaptabilité",
+            "Ethique et professionnalisme",
+            "Lecture",
+            "Jeux",
+            "Sport",
+            "Culture",
+            "Voyages",
+            "Musique",
+            "Cinéma",
+        ],
+    )]
     private ?string $name = null;
 
     /**
@@ -24,9 +43,19 @@ class Category
     #[ORM\OneToMany(targetEntity: SoftSkill::class, mappedBy: 'category')]
     private Collection $softSkills;
 
+    /**
+     * @var Collection<int, Poi>
+     */
+    #[ORM\OneToMany(targetEntity: Poi::class, mappedBy: 'category')]
+    private Collection $pois;
+
+    #[ORM\Column(length: 100)]
+    private ?string $type = null;
+
     public function __construct()
     {
         $this->softSkills = new ArrayCollection();
+        $this->pois = new ArrayCollection();
     }
 
     public function __tostring()
@@ -77,6 +106,48 @@ class Category
                 $softSkill->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Poi>
+     */
+    public function getPois(): Collection
+    {
+        return $this->pois;
+    }
+
+    public function addPoi(Poi $poi): static
+    {
+        if (!$this->pois->contains($poi)) {
+            $this->pois->add($poi);
+            $poi->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removePoi(Poi $poi): static
+    {
+        if ($this->pois->removeElement($poi)) {
+            // set the owning side to null (unless already changed)
+            if ($poi->getCategory() === $this) {
+                $poi->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }
