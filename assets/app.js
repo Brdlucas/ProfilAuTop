@@ -106,14 +106,14 @@ document.addEventListener("turbo:load", function () {
           if (checkbox && label) {
             checkbox.addEventListener("change", function () {
               if (this.checked) {
-                container.classList.add("bg-blue-50");
+                container.classList.add("bg-sky-500");
               } else {
-                container.classList.remove("bg-blue-50");
+                container.classList.remove("bg-sky-500");
               }
             });
 
             if (checkbox.checked) {
-              container.classList.add("bg-blue-50");
+              container.classList.add("bg-sky-500");
             }
           }
         });
