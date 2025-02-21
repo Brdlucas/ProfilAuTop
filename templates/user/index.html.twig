@@ -3,7 +3,7 @@
 {% block title %}Mon profil - Réglages {% endblock %}
 
 {% block body %}
-    <div class="min-h-screen bg-gray-100 py-8">
+    <div class="min-h-screen bg-gray-100 py-10">
 
         <div class="w-full max-w-1/2 mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 min-h-screen mt-20">
@@ -18,48 +18,48 @@
                                 <li class="flex items-center gap-2">
                                     <div class="text-lg cursor-pointer relative before:absolute before:bg-sky-200 before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500">
                                         <a href={{path('app_offer_index') }} class="flex items-center gap-2 p-1 relative">
-                                            {{ ux_icon('tabler:brand-pagekit', { class: 'h-8 w-8' }) }}
-                                            Mes Offres
+                                        {{ ux_icon('tabler:brand-pagekit', { class: 'h-8 w-8' }) }}
+                                        Mes Offres
                                         </a>
                                     </div>
                                 </li>
                                 <li class="flex items-center gap-2">
                                     <div class="text-lg cursor-pointer relative before:absolute before:bg-sky-200 before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500">
                                         <a href={{path('app_cv_index') }} class="flex items-center gap-2 p-1 relative">
-                                            {{ ux_icon('tabler:file-cv', { class: 'h-8 w-8' }) }}
-                                            <span>Mes CV</span>
+                                        {{ ux_icon('tabler:file-cv', { class: 'h-8 w-8' }) }}
+                                        <span>Mes CV</span>
                                         </a>
                                     </div>
                                 </li>
                                 <li class="flex items-center gap-2">
                                     <div class="text-lg cursor-pointer relative before:absolute before:bg-sky-200 before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500">
                                         <a href={{path('app_experience_index') }} class="flex items-center gap-2 p-1 relative">
-                                            {{ ux_icon('tabler:user-search', { class: 'h-8 w-8' }) }}
-                                            Mes Expériences
+                                        {{ ux_icon('tabler:user-search', { class: 'h-8 w-8' }) }}
+                                        Mes Expériences
                                         </a>
                                     </div>
                                 </li>
                                 <li class="flex items-center gap-2">
                                     <div class="text-lg cursor-pointer relative before:absolute before:bg-sky-200 before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500">
                                         <a href={{path('app_formation_index') }} class="flex items-center gap-2 p-1 relative">
-                                            {{ ux_icon('tabler:user-star', { class: 'h-8 w-8' }) }}
-                                            Mes Formations
+                                        {{ ux_icon('tabler:user-star', { class: 'h-8 w-8' }) }}
+                                        Mes Formations
                                         </a>
                                     </div>
                                 </li>
                                 <li class="flex items-center gap-2">
                                     <div class="text-lg cursor-pointer relative before:absolute before:bg-sky-200 before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500">
                                         <a href={{path('app_user_languages_edit') }} class="flex items-center gap-2 p-1 relative">
-                                            {{ ux_icon('tabler:language', { class: 'h-8 w-8' }) }}
-                                            Mes Langues
+                                        {{ ux_icon('tabler:language', { class: 'h-8 w-8' }) }}
+                                        Mes Langues
                                         </a>
                                     </div>
                                 </li>
                                 <li class="flex items-center gap-2">
                                     <div class="text-lg cursor-pointer relative before:absolute before:bg-sky-200 before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500">
                                         <a href={{path('app_user_poi_edit') }} class="flex items-center gap-2 p-1 relative">
-                                            {{ ux_icon('tabler:books', { class: 'h-8 w-8' }) }}
-                                            Mes Centres d'intérêts
+                                        {{ ux_icon('tabler:books', { class: 'h-8 w-8' }) }}
+                                        Mes Centres d'intérêts
                                         </a>
                                     </div>
                                 </li>
@@ -78,7 +78,51 @@
                         <h2 class="text-xl font-bold text-gray-800 mb-4">À propos de moi</h2>
                         <div class="mb-6">
                             <h3 class="text-lg font-semibold text-gray-700 mb-2">Informations personnelles</h3>
-                            {{ form(userForm) }}
+                            <div>
+                                {{ form_start(userForm) }}
+                                {{ form_errors(userForm) }}
+
+                                <div class="mb-6">
+                                    {{ form_row(userForm.firstname) }}
+                                </div>
+
+                                <div class="mb-6">
+                                    {{ form_row(userForm.lastname) }}
+                                </div>
+
+                                <div class="mb-6">
+                                    {{ form_row(userForm.email) }}
+                                </div>
+
+                                <div class="mb-6">
+                                    {{ form_row(userForm.password) }}
+                                </div>
+
+                                <div class="mb-6">
+                                    {{ form_row(userForm.phone) }}
+                                </div>
+
+                                <div class="mb-6">
+                                    {{ form_row(userForm.postal_code) }}
+                                </div>
+
+                                <div class="mb-6">
+                                    {{ form_row(userForm.licences) }}
+                                </div>
+
+                                <div class="mb-6">
+                                    {{ form_row(userForm.linkedin) }}
+                                </div>
+
+                                <div class="mb-6">
+                                    {{ form_row(userForm.portfolio_url) }}
+                                </div>
+
+                                <div class="flex items-end justify-center">
+                                    {{ form_row(userForm.submit) }}
+                                </div>
+                                {{ form_end(userForm) }}
+                            </div>
                         </div>
                     </div>
 
