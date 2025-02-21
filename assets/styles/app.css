@@ -88,8 +88,11 @@ label {
     left: unset;
 }
 
-#user.grid.grid-cols-2 {
+form #user {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    align-items: end;
 }
 
 @media print {
