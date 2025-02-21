@@ -33,15 +33,15 @@
         
         {{ form_start(form) }}
         <div class="mb-4">
-            {{ form_label(form.name, 'Choisissez vos centres d\'intérêt', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
-            {{ form_widget(form.name, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
-            {{ form_errors(form.name) }}
+            {{ form_label(form.pois, 'Choisissez vos centres d\'intérêt', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+            {{ form_widget(form.pois, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+            {{ form_errors(form.pois) }}
         </div>
 
-        <div class="mb-4">
+        {# <div class="mb-4">
             {{ form_label(form.category, 'Choisissez la catégorie de votre centre d\'intérêt', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
             {{ form_widget(form.category)}}
-        </div>
+        </div> #}
 
         <div class="flex items-center justify-between">
             {{ form_widget(form.submit) }}

@@ -167,46 +167,14 @@ final class UserController extends AbstractController
         ]);
     }
 
-    // #[Route('/editer/centres-d-interets', name: 'poi_edit', methods: ['GET', 'POST'])]
-    // public function poiEdit(Request $request): Response
-    // {
-    //     $user = $this->getUser();
-    //     $form = $this->createForm(UserPoiFormType::class, $user);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $this->em->persist($user);
-    //         $this->em->flush();
-
-    //         $this->addFlash('success', 'Vos centres d\'intérêts ont été mises à jour.');
-    //         return $this->redirectToRoute('app_user_profil', [], Response::HTTP_SEE_OTHER);
-    //     }
-
-    //     return $this->render('user/poi_edit.html.twig', [
-    //         'form' => $form,
-    //     ]);
-    // }
-
     #[Route('/editer/centres-d-interets', name: 'poi_edit', methods: ['GET', 'POST'])]
-    public function poiEdit(Request $request, PoiRepository $pR): Response
+    public function poiEdit(Request $request): Response
     {
         $user = $this->getUser();
-        $poi = new Poi();
-        $form = $this->createForm(PoiFormType::class, $poi);
+        $form = $this->createForm(UserPoiFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $poiExisting = $pR->findOneByName($poi->getName());
-            if ($poiExisting) {
-                $poi = $poiExisting;
-            } else {
-                $this->em->persist($poi);
-            }
-    
-            if (!$user->getPois()->contains($poi)) {
-                $poi->addUser($user);
-                $user->addPoi($poi);
-            }
             $this->em->persist($user);
             $this->em->flush();
 
@@ -218,6 +186,38 @@ final class UserController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    // #[Route('/editer/centres-d-interets', name: 'poi_edit', methods: ['GET', 'POST'])]
+    // public function poiEdit(Request $request, PoiRepository $pR): Response
+    // {
+    //     $user = $this->getUser();
+    //     $poi = new Poi();
+    //     $form = $this->createForm(PoiFormType::class, $poi);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $poiExisting = $pR->findOneByName($poi->getName());
+    //         if ($poiExisting) {
+    //             $poi = $poiExisting;
+    //         } else {
+    //             $this->em->persist($poi);
+    //         }
+    
+    //         if (!$user->getPois()->contains($poi)) {
+    //             $poi->addUser($user);
+    //             $user->addPoi($poi);
+    //         }
+    //         $this->em->persist($user);
+    //         $this->em->flush();
+
+    //         $this->addFlash('success', 'Vos centres d\'intérêts ont été mises à jour.');
+    //         return $this->redirectToRoute('app_user_profil', [], Response::HTTP_SEE_OTHER);
+    //     }
+
+    //     return $this->render('user/poi_edit.html.twig', [
+    //         'form' => $form,
+    //     ]);
+    // }
 
     #[Route('/{ref}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request): Response
