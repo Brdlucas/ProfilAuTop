@@ -96,13 +96,13 @@
 					</div>
 					{{ form_label(skill, null, {
                     'label_attr': {'class': 'text-sm text-gray-700' }}) 
-																																																																																																																													                    }}
+																																																																																																																																		                    }}
 				</div>
 			{% endfor %}
 		</div>
 	</div>
 
-	{% if app.request.headers.get('referer') == 'http://127.0.0.1:8000/profil/cv' %}
+	{% if app.request.headers.get('referer') == 'https://127.0.0.1:8000/profil/cv' %}
 		<div class="flex justify-center">
 			<a class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white" href={{path('app_cv_index')}}>Précédent</a>
 			<button type="submit" name="action" value="create_new" class="btn m-auto p-3 hover:bg-blue-300 bg-blue-500 text-white">{{ button_label|default('enregistrer et créer un nouveau') }}</button>
