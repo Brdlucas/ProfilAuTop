@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Poi;
 use App\Form\UserType;
+use App\Form\PoiFormType;
 use App\Form\LanguagesType;
 use App\Form\UserPoiFormType;
 use App\Service\UploaderService;
-use App\Repository\PoiRepository;
 use App\Form\UserCompleteBeingFormType;
+use App\Repository\PoiRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -165,14 +167,46 @@ final class UserController extends AbstractController
         ]);
     }
 
+    // #[Route('/editer/centres-d-interets', name: 'poi_edit', methods: ['GET', 'POST'])]
+    // public function poiEdit(Request $request): Response
+    // {
+    //     $user = $this->getUser();
+    //     $form = $this->createForm(UserPoiFormType::class, $user);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $this->em->persist($user);
+    //         $this->em->flush();
+
+    //         $this->addFlash('success', 'Vos centres d\'intérêts ont été mises à jour.');
+    //         return $this->redirectToRoute('app_user_profil', [], Response::HTTP_SEE_OTHER);
+    //     }
+
+    //     return $this->render('user/poi_edit.html.twig', [
+    //         'form' => $form,
+    //     ]);
+    // }
+
     #[Route('/editer/centres-d-interets', name: 'poi_edit', methods: ['GET', 'POST'])]
-    public function poiEdit(Request $request): Response
+    public function poiEdit(Request $request, PoiRepository $pR): Response
     {
         $user = $this->getUser();
-        $form = $this->createForm(UserPoiFormType::class, $user);
+        $poi = new Poi();
+        $form = $this->createForm(PoiFormType::class, $poi);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $poiExisting = $pR->findOneByName($poi->getName());
+            if ($poiExisting) {
+                $poi = $poiExisting;
+            } else {
+                $this->em->persist($poi);
+            }
+    
+            if (!$user->getPois()->contains($poi)) {
+                $poi->addUser($user);
+                $user->addPoi($poi);
+            }
             $this->em->persist($user);
             $this->em->flush();
 
@@ -197,4 +231,59 @@ final class UserController extends AbstractController
         $this->addFlash('success', 'Votre compte a bien été supprimé !');
         return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    #[Route('/cv1', name: 'cv1', methods: ['GET'])]
+    public function verify(Request $request): Response
+    {
+        $jsonCv = '{
+            "title": {
+                "title": "Ingénieur DevOps Expérimenté en CI/CD et Test Automation"
+            },
+            "introduction": {
+                "introduction": "Ingénieur DevOps chevronné avec 3 ans d\'expérience dans l\'automatisation des tests, l\'intégration logicielle et la mise en place de pipelines CI/CD GitLab et Jenkins."
+            },
+            "formation": [
+                {
+                    "title": "Master en Informatique",
+                    "organization": "Université de Paris",
+                    "description": "Formation approfondie en développement logiciel et architecture des systèmes.",
+                    "city": "Paris",
+                    "postal_code": "75000",
+                    "country": "France",
+                    "date_start": "2015-09-01",
+                    "date_end": "2017-06-30",
+                    "is_graduated": true,
+                    "level": "Master",
+                    "skills": ["C#", "Python", "Cybersécurité"]
+                }
+            ],
+            "experience": [
+                {
+                    "title": "Ingénieur DevOps",
+                    "organization": "Médiane Système",
+                    "description": "Mise en place de pipelines CI/CD sous GitLab, optimisation des processus de déploiement et gestion des environnements de développement.",
+                    "city": "Paris",
+                    "postal_code": "75000",
+                    "country": "France",
+                    "date_start": "2019-01-01",
+                    "date_end": "2022-06-30",
+                    "skills": ["CI/CD", "Jenkins", "Test Automation"]
+                }
+            ],
+            "skills": ["CI/CD", "Jenkins", "Test Automation"],
+            "softskills": ["Travail en équipe", "Leadership", "Communication efficace"]
+        }';
+
+        // Décoder le JSON en tableau PHP
+        $cv = json_decode($jsonCv, true);
+
+     
+        // Passer le tableau à Twig
+        return $this->render('cv/cv_template.html.twig', [
+            "cv" => $cv,
+           
+        ]);
+    }
+       
 }

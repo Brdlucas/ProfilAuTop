@@ -11,7 +11,7 @@
     {# Section Permis #}
     <div class="bg-white p-6 rounded-lg shadow-md">
         <h2 class="text-xl font-semibold mb-4 text-gray-700">Permis de conduire</h2>
-        
+        {{ form_widget(form.licences)}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
             {% for child in form.licences %}
                 <div class="license-checkbox flex items-center space-x-2 p-2 border rounded-md transition-colors hover:bg-gray-50">
@@ -26,7 +26,6 @@
     {# Section Langues #}
     <div class="bg-white p-6 rounded-lg shadow-md">
         <h2 class="text-xl font-semibold mb-4 text-gray-700">Langues</h2>
-        
         <div id="languages" class="dynamic-container space-y-4" data-prototype="{{ form_widget(form.languages.vars.prototype)|e('html_attr') }}">
             <!-- Les langues seront ajoutées ici dynamiquement -->
         </div>
@@ -41,7 +40,7 @@
     
     {# Bouton de soumission #}
     <div class="flex justify-end">
-        {{ form_widget(form.save, {
+        {{ form_widget(form.submit, {
             'attr': {'class': 'px-6 py-3 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 transition'},
             'label': 'Enregistrer mon profil'
         }) }}

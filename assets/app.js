@@ -106,14 +106,14 @@ document.addEventListener("turbo:load", function () {
           if (checkbox && label) {
             checkbox.addEventListener("change", function () {
               if (this.checked) {
-                container.classList.add("bg-blue-50");
+                container.classList.add("bg-sky-500");
               } else {
-                container.classList.remove("bg-blue-50");
+                container.classList.remove("bg-sky-500");
               }
             });
 
             if (checkbox.checked) {
-              container.classList.add("bg-blue-50");
+              container.classList.add("bg-sky-500");
             }
           }
         });
@@ -197,6 +197,22 @@ document.addEventListener("turbo:load", function () {
 
   // Print cv
   function printPage() {
+    printBtn.style.display = 'none';
     window.print();
+    printBtn.style.display = '';
+  }
+
+  const printBtn = document.getElementById("print");
+
+  if (printBtn) {
+    printBtn.addEventListener("click", printPage);
+
+    pint
+  }
+
+
+  const languagesDivHid = document.getElementById("user_complete_being_form_languages");
+  if (languagesDivHid) {
+    languagesDivHid.parentElement.style.display = "none";
   }
 });

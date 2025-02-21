@@ -1,116 +1,93 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Cv {{cv.ref}} {% endblock %}
+{% block title %}Cv {% endblock %}
 
 {% block body %}
 
-{
-  "title": "Ingénieur DevOps Expérimenté en CI/CD et Test Automation",
-  "introduction": "Ingénieur DevOps chevronné avec 3 ans d'expérience dans l'automatisation des tests, l'intégration logicielle et la mise en place de pipelines CI/CD GitLab et Jenkins. Expert en développement d'outils internes en C# et Python, sensibilité aux enjeux de cybersécurité et passion pour l'optimisation des infrastructures. Cherche à mettre en avant ces compétences pour améliorer l'efficacité de l'équipe logicielle chez Médiane Système.",
-  "formation": [
-      {
-        "title": "Master en Informatique",
-        "organization": "Université de Paris",
-        "description": "Formation approfondie en développement logiciel et architecture des systèmes.",
-        "city": "Paris",
-        "postal_code": "75000",
-        "country": "France",
-        "date_start": "2015-09-01",
-        "date_end": "2017-06-30",
-        "is_graduated": true,
-        "level": "Master",
-        "skills" : [
-          "C#",
-          "Python",
-          "Cybersécurité"
-        ],
-      },
-      {
-        "title": "Licence en Génie Logiciel",
-        "organization": "Université de Lyon",
-        "description": "Formation axée sur la programmation, les bases de données et l’algorithmique.",
-        "city": "Lyon",
-        "postal_code": "69000",
-        "country": "France",
-        "date_start": "2012-09-01",
-        "date_end": "2015-06-30",
-        "is_graduated": true,
-        "level": "Licence",
-        "skills": [
-          'Java',
-          'SQL',
-        ],
-      },
-      {
-        "title": "Formation DevOps",
-        "organization": "OpenClassrooms",
-        "description": "Formation pour apprendre à gérer l’intégration continue et l’automatisation des déploiements.",
-        "city": "Paris",
-        "postal_code": "75000",
-        "country": "France",
-        "date_start": "2018-03-01",
-        "date_end": "2018-09-30",
-        "is_graduated": true,
-        "level": "Certificat",
-        "skills" : [
-          "CI/CD",
-          "Jenkins",
-          "Test Automation"
-        ],
-      },
-    ],
-  "experience": [
-      {
-        "title": "Ingénieur DevOps",
-        "organization": "Médiane Système",
-        "description": "Mise en place de pipelines CI/CD sous GitLab, optimisation des processus de déploiement et gestion des environnements de développement.",
-        "city": "Paris",
-        "postal_code": "75000",
-        "country": "France",
-        "date_start": "2019-01-01",
-        "date_end": "2022-06-30",
-        "skills" : [
-          "CI/CD",
-          "Jenkins",
-          "Test Automation"
-        ],
-      },
-      {
-        "title": "Développeur Full Stack",
-        "organization": "Sopra Steria",
-        "description": "Développement d’applications web en utilisant des technologies telles que React, Node.js et MongoDB.",
-        "city": "Lyon",
-        "postal_code": "69000",
-        "country": "France",
-        "date_start": "2017-03-01",
-        "date_end": "2019-01-01",
-        "skills" : [
-          "CI/CD",
-          "Jenkins",
-          "Test Automation"
-        ],
-      },
-      {
-        "title": "Stagiaire Développeur Web",
-        "organization": "WebSolution",
-        "description": "Assistance dans le développement d’applications web, maintenance et optimisation de sites existants.",
-        "city": "Marseille",
-        "postal_code": "13000",
-        "country": "France",
-        "date_start": "2016-06-01",
-        "date_end": "2016-12-31",
-        "skills" : [
-          "CI/CD",
-          "Jenkins",
-          "Test Automation"
-        ],
-      },
-    ],
-  "softskills": [
-        "Travail en équipe",
-        "Leadership",
-        "Communication efficace"
-      ]
-}
+<div class="container mx-auto p-8 bg-white dark:bg-gray-800 shadow-lg max-w-4xl mt-8 mb-8 print:w-full print:h-full print:m-0 print:p-10 print:shadow-none">
+
+    <header class="mb-6 print:mb-4">
+        <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-2 print:text-2xl">{{ app.user.firstname }} {{ app.user.lastname }}</h1>
+        <p class="text-xl text-gray-600 dark:text-gray-400 print:text-base">{{ cv.title.title }}</p>
+        <div class="mt-2 text-gray-600 dark:text-gray-400 print:text-sm">
+            <p class="flex gap-2 align-middle"><span class="flex gap-1 items-center">{{ ux_icon('mdi:at', { class: "h-5 w-5"}) }} {{ app.user.email }}</span> | <span class="flex gap-1 items-center">{{ ux_icon('gridicons:phone', { class: 'h-5 w-5'}) }} {{ app.user.phone }}</span> | <span class="flex gap-1 items-center">{{ ux_icon('material-symbols:home-outline', {class: 'h-5 w-5'}) }} {{ app.user.postalCode }}</span></p>
+            <p>Date de naissance : {{ app.user.born|date('Y') }}</p>
+        </div>
+    </header>
+
+    <section class="mb-6 print:mb-4">
+        <p class="text-gray-600 dark:text-gray-400 print:text-sm">{{ cv.introduction.introduction }}</p>
+    </section>
+
+    <section class="mb-6 print:mb-4">
+        <h2 class="text-2xl flex items-center gap-1 font-semibold text-gray-700 dark:text-gray-300 mb-2 print:text-lg">{{ ux_icon('tabler:user-search', { class: 'h-7 w-7' }) }} Expérience Professionnelle</h2>
+        {% for exp in cv.experience %}
+            <div class="mb-4 print:mb-2">
+                <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 print:text-base">{{ exp.title }} - {{ exp.organization }}</h3>
+                <p class="text-gray-600 dark:text-gray-400 italic print:text-xs">{{ exp.date_start|date('m/Y') }} - {{ exp.date_end ? exp.date_end|date('m/Y') : 'Présent' }}</p>
+                <p class="text-gray-600 dark:text-gray-400 mt-1 print:text-sm">{{ exp.description }}</p>
+                <ul class="flex flex-wrap gap-2 mt-1">
+                    {% for skill in exp.skills %}
+                        <li class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-0.5 rounded-full text-sm print:text-xs">{{ skill }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </section>
+
+    <section class="mb-6 print:mb-4">
+        <h2 class="text-2xl flex items-center gap-1 font-semibold text-gray-700 dark:text-gray-300 mb-2 print:text-lg">{{ ux_icon('tabler:user-star', { class: 'h-7 w-7' }) }}Formation</h2>
+        {% for edu in cv.formation %}
+            <div class="mb-4 print:mb-2">
+                <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 print:text-base">{{ edu.title }} - {{ edu.organization }}</h3>
+                <p class="text-gray-600 dark:text-gray-400 italic print:text-xs">{{ edu.date_start|date('m/Y') }} - {{ edu.date_end|date('m/Y') }}</p>
+                <p class="text-gray-600 dark:text-gray-400 mt-1 print:text-sm">{{ edu.description }}</p>
+                <ul class="flex flex-wrap gap-1 mt-1">
+                    {% for skill in edu.skills %}
+                        <li class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-0.5 rounded-full text-sm print:text-xs">{{ skill }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </section>
+
+    <section class="mb-6 print:mb-4">
+        <h2 class="text-2xl flex items-center gap-1 font-semibold text-gray-700 dark:text-gray-300 mb-2 print:text-lg">{{ ux_icon('tabler:settings', {class: "h-7 w-7"}) }}Compétences Techniques</h2>
+        <ul class="flex flex-wrap gap-1">
+            {% for skill in cv.skills %}
+                <li class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-0.5 rounded-full text-sm print:text-xs">{{ skill }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="mb-6 print:mb-4">
+        <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2 print:text-lg">Savoirs être</h2>
+        <ul class="flex flex-wrap gap-1">
+            {% for softskill in cv.softskills %}
+                <li class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-0.5 rounded-full text-sm print:text-xs">{{ softskill }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="mb-6 print:mb-4">
+        <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2 print:text-lg">Langues</h2>
+        <ul class="list-disc list-inside text-gray-600 dark:text-gray-400 print:text-sm">
+            {% for language in app.user.languages %}
+                <li><span class="capitalize">{{ language.name }}</span> - <span class="capitalize">{{ language.level }}</span> </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="mb-6 print:mb-4">
+        <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2 print:text-lg">Permis</h2>
+        <ul class="list-disc list-inside text-gray-600 dark:text-gray-400 print:text-sm">
+            {% for licence in app.user.licences %}
+                <li>{{ licence }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+</div>
+
+<button id="print" class="no-print mx-auto px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition-all duration-300">Imprimer</button>
 
 {% endblock %}

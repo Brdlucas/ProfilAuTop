@@ -166,7 +166,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'attr' => ['class' => 'grid grid-cols-2 gap-4 align-baseline'],
+            // 'attr' => ['class' => 'grid grid-cols-2 gap-4 align-baseline'],
         ]);
     }
 }
