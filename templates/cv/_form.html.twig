@@ -50,6 +50,7 @@
 
 	{% endfor %}
 </div>
-<button class="mt-6 m-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-	{{ button_label|default('Créer un nouveau CV') }}</button>
+
+<a href={{path('app_user_cv1')}} class="mt-6 m-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+	{{ button_label|default('Créer un nouveau CV') }}</a>
 {{ form_end(form, {'render_rest': false}) }}
